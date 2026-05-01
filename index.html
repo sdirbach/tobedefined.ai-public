@@ -1348,10 +1348,17 @@
       setNote('Submitting your briefing pass…');
 
       try {
+        // Formspark expects JSON or url-encoded — NOT multipart/form-data.
+        // Convert FormData → plain object → JSON string.
+        const payload = Object.fromEntries(new FormData(form));
+
         const response = await fetch(form.action, {
           method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         });
 
         if (response.ok) {
