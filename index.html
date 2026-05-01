@@ -749,7 +749,43 @@
     text-transform: uppercase;
     margin-top: 12px;
     text-align: center;
+    transition: color 0.2s ease;
   }
+  .signup-note.is-error { color: var(--accent-warm); }
+  .signup-note.is-success { color: var(--accent); }
+
+  .signup-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px 14px;
+    border: 1px solid var(--line-soft);
+    background: rgba(6, 26, 57, 0.4);
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--ink-dim);
+    letter-spacing: 0.02em;
+    text-transform: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    text-align: left;
+  }
+  .signup-consent:hover { border-color: var(--accent); }
+  .signup-consent input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .signup-consent a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+  }
+  .signup-consent a:hover { color: var(--ink); border-bottom-color: var(--ink); }
 
   /* ============ FOOTER ============ */
   footer {
@@ -1210,13 +1246,28 @@
       </div>
 
       <div class="signup-wrap">
-        <div class="section-tag" style="color: var(--ink-dim);">Cleared visitors only</div>
-        <form class="signup" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='Logged ✓'; this.querySelector('button').disabled = true;">
-          <input type="email" placeholder="operator.email@domain" required />
+        <div class="section-tag" style="color: var(--ink-dim);">Cleared visitors only · EU-friendly · single opt-in</div>
+
+        <form class="signup"
+              action="https://submit-form.com/5CMyER7Wm"
+              method="POST"
+              id="briefingForm"
+              novalidate>
+          <input type="email" name="email" placeholder="operator.email@domain" required />
+
+          <!-- Honeypot — invisible to humans, bots fill it. Submissions where this is non-empty are rejected client-side. -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; top:-9999px; width:1px; height:1px;" />
+
           <button type="submit">Request Pass</button>
         </form>
-        <div class="signup-note">
-          Match schedule released 72 hours prior · Off-record team briefings by invitation
+
+        <label class="signup-consent">
+          <input type="checkbox" required form="briefingForm" name="consent" id="briefingConsent" />
+          <span>I consent to ToBeDefined.ai storing my email for the purpose of receiving SDC2026 briefing materials. Data is processed via Formspark (EU-friendly, DPA on file) and can be deleted on request — see <a href="/privacy.html">Privacy Policy</a>.</span>
+        </label>
+
+        <div class="signup-note" id="briefingNote">
+          Single opt-in · Form data processed by Formspark · GDPR compliant
         </div>
       </div>
     </div>
@@ -1252,6 +1303,82 @@
   }
   tick();
   setInterval(tick, 1000);
+
+  // ---------- Briefing-pass form (Formspark + honeypot, single opt-in) ----------
+  (function() {
+    const form = document.getElementById('briefingForm');
+    if (!form) return;
+
+    const button = form.querySelector('button[type="submit"]');
+    const emailInput = form.querySelector('input[name="email"]');
+    const honeypot = form.querySelector('input[name="_gotcha"]');
+    const consentBox = document.getElementById('briefingConsent');
+    const note = document.getElementById('briefingNote');
+
+    const DEFAULT_NOTE = 'Single opt-in · Form data processed by Formspark · GDPR compliant';
+
+    function setNote(text, state) {
+      note.textContent = text;
+      note.classList.remove('is-error', 'is-success');
+      if (state) note.classList.add('is-' + state);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Honeypot — silent fake-success so bots don't learn anything
+      if (honeypot.value !== '') {
+        button.textContent = 'Logged ✓';
+        button.disabled = true;
+        return;
+      }
+
+      if (!consentBox.checked) {
+        setNote('✗ Please tick the consent checkbox to continue.', 'error');
+        return;
+      }
+
+      if (!emailInput.value || !emailInput.checkValidity()) {
+        setNote('✗ Please enter a valid email address.', 'error');
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Transmitting…';
+      setNote('Submitting your briefing pass…');
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form),
+        });
+
+        if (response.ok) {
+          emailInput.value = '';
+          consentBox.checked = false;
+          button.textContent = 'Logged ✓';
+          setNote('✓ Briefing pass logged. We\'ll be in touch before 11.06.2026.', 'success');
+        } else {
+          button.textContent = 'Try again';
+          button.disabled = false;
+          setNote('✗ Submission failed. Please retry in a moment.', 'error');
+        }
+      } catch (err) {
+        button.textContent = 'Try again';
+        button.disabled = false;
+        setNote('✗ Network error. Please retry.', 'error');
+      }
+    });
+
+    // Reset the note when the user starts editing again
+    emailInput.addEventListener('input', () => {
+      if (note.classList.contains('is-error')) setNote(DEFAULT_NOTE);
+    });
+    consentBox.addEventListener('change', () => {
+      if (consentBox.checked && note.classList.contains('is-error')) setNote(DEFAULT_NOTE);
+    });
+  })();
 </script>
 
 </body>
