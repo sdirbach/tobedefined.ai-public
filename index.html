@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ToBeDefined.ai — Autonomous Flight Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Share+Tech+Mono&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Classic cyanotype / blueprint palette */
+    --bg:           #0d2a4f;   /* deep blueprint blue */
+    --bg-2:         #0a2244;
+    --bg-3:         #061a39;
+    --ink:          #f4f1e4;   /* aged paper white */
+    --ink-2:        #e8e3d0;
+    --ink-dim:      #a8c4e8;
+    --ink-faint:    #4a6c96;
+    --line:         #d8e9ff;   /* drawing line color */
+    --line-soft:    rgba(216, 233, 255, 0.45);
+    --line-faint:   rgba(216, 233, 255, 0.18);
+    --line-ghost:   rgba(216, 233, 255, 0.08);
+    --accent:       #ffd84a;   /* warning / annotation amber */
+    --accent-warm:  #ff7a3c;   /* alarm */
+    --hairline:     rgba(244, 241, 228, 0.16);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Blueprint grid — fine + coarse, the classic engineering paper look */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      /* Fine grid */
+      linear-gradient(rgba(216, 233, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(216, 233, 255, 0.06) 1px, transparent 1px),
+      /* Coarse grid */
+      linear-gradient(rgba(216, 233, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(216, 233, 255, 0.12) 1px, transparent 1px);
+    background-size: 16px 16px, 16px 16px, 80px 80px, 80px 80px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle paper grain + vignette */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 120% 100% at 50% 50%, transparent 30%, rgba(0,0,0,0.35) 100%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Title-block stripe at the very top */
+  .topstripe {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 28px;
+    background: var(--bg-3);
+    border-bottom: 1px solid var(--line-soft);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    gap: 32px;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .topstripe .stripe-left,
+  .topstripe .stripe-right {
+    display: flex;
+    gap: 24px;
+  }
+  .topstripe span b {
+    color: var(--ink);
+    font-weight: 500;
+    margin-left: 6px;
+  }
+  .topstripe .stripe-right { margin-left: auto; }
+
+  /* ============ HEADER ============ */
+  header {
+    position: fixed;
+    top: 28px; left: 0; right: 0;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-bottom: 1px solid var(--line-soft);
+    background: rgba(13, 42, 79, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 17px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .logo-mark {
+    width: 24px; height: 24px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .logo-mark::before, .logo-mark::after {
+    content: "";
+    position: absolute;
+    background: var(--ink);
+  }
+  .logo-mark::before {
+    top: 50%; left: -5px; right: -5px; height: 1px;
+    transform: translateY(-50%);
+  }
+  .logo-mark::after {
+    left: 50%; top: -5px; bottom: -5px; width: 1px;
+    transform: translateX(-50%);
+  }
+  .logo .dot { color: var(--accent); }
+
+  .header-meta {
+    display: flex;
+    gap: 28px;
+    color: var(--ink-dim);
+    align-items: center;
+  }
+  .header-meta span b {
+    color: var(--ink);
+    font-weight: 500;
+    margin-left: 6px;
+  }
+  .status-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 6px;
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+  }
+
+  /* ============ MAIN ============ */
+  main { position: relative; z-index: 2; padding-top: 28px; }
+
+  /* Drawing-frame corners */
+  .corner {
+    position: absolute;
+    width: 26px; height: 26px;
+    border-color: var(--ink);
+    border-style: solid;
+    border-width: 0;
+    pointer-events: none;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: calc(100vh - 28px);
+    padding: 130px 32px 80px;
+    position: relative;
+    display: grid;
+    align-content: center;
+  }
+  .hero .corner.tl { top: 96px; left: 32px; border-top-width: 1px; border-left-width: 1px; }
+  .hero .corner.tr { top: 96px; right: 32px; border-top-width: 1px; border-right-width: 1px; }
+  .hero .corner.bl { bottom: 32px; left: 32px; border-bottom-width: 1px; border-left-width: 1px; }
+  .hero .corner.br { bottom: 32px; right: 32px; border-bottom-width: 1px; border-right-width: 1px; }
+
+  /* Drawing frame ruler ticks along edges */
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 96px;
+    left: 58px;
+    right: 58px;
+    height: 8px;
+    background-image: linear-gradient(to right, var(--line-soft) 1px, transparent 1px);
+    background-size: 40px 100%;
+    border-bottom: 1px solid var(--line-soft);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .hero-left { position: relative; }
+
+  .meta-row {
+    display: flex;
+    margin-bottom: 32px;
+    border: 1px solid var(--line-soft);
+    width: fit-content;
+    flex-wrap: wrap;
+    background: rgba(6, 26, 57, 0.5);
+  }
+  .meta-row > div {
+    padding: 8px 14px;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    border-right: 1px solid var(--line-soft);
+    color: var(--ink-dim);
+  }
+  .meta-row > div:last-child { border-right: none; }
+  .meta-row .severe {
+    background: var(--accent);
+    color: var(--bg-3);
+    font-weight: 700;
+  }
+  .meta-row .neutral b { color: var(--ink); margin-left: 4px; }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(40px, 7vw, 92px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  h1 .word {
+    display: block;
+    overflow: hidden;
+  }
+  h1 .word > span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  h1 .word:nth-child(1) > span { animation-delay: 0.1s; }
+  h1 .word:nth-child(2) > span { animation-delay: 0.25s; }
+  h1 .word:nth-child(3) > span { animation-delay: 0.4s; }
+
+  @keyframes rise { to { transform: translateY(0); } }
+
+  h1 em {
+    font-style: italic;
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: 400;
+    color: var(--accent);
+    font-size: 0.65em;
+    letter-spacing: 0;
+  }
+
+  .lede {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--ink-dim);
+    max-width: 460px;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 0.7s;
+  }
+  .lede strong { color: var(--ink); font-weight: 500; }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .cta-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 0.95s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--bg);
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg-3);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .btn .arrow { transition: transform 0.2s ease; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  .btn.ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line-soft);
+  }
+  .btn.ghost:hover {
+    background: transparent;
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 4px 4px 0 transparent;
+  }
+
+  /* ============ BLUEPRINT DRAWING (right side) ============ */
+  .blueprint {
+    position: relative;
+    aspect-ratio: 1 / 1.1;
+    width: 100%;
+    max-width: 580px;
+    justify-self: end;
+    border: 1px solid var(--line-soft);
+    background:
+      radial-gradient(ellipse 80% 80% at 50% 50%, rgba(216, 233, 255, 0.06), transparent 70%),
+      var(--bg-2);
+  }
+
+  /* Title-block on the bottom of the drawing */
+  .titleblock {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid var(--line-soft);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    background: rgba(6, 26, 57, 0.7);
+    z-index: 4;
+  }
+  .tb-cell {
+    padding: 10px 12px;
+    border-right: 1px solid var(--line-soft);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    line-height: 1.3;
+  }
+  .tb-cell:last-child { border-right: none; }
+  .tb-cell .tb-val {
+    color: var(--ink);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+  .tb-cell .tb-val.amber { color: var(--accent); }
+
+  /* Dimension labels around drawing */
+  .dim-label {
+    position: absolute;
+    z-index: 3;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    background: rgba(6, 26, 57, 0.85);
+    padding: 3px 8px;
+    border: 1px solid var(--line-soft);
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+  }
+  .dim-label .v { color: var(--ink); font-weight: 500; }
+  .dim-label .amber { color: var(--accent); }
+  .dim-label.tl { top: 14px; left: 14px; animation-delay: 1.0s; }
+  .dim-label.tr { top: 14px; right: 14px; animation-delay: 1.15s; text-align: right; }
+  .dim-label.ml { top: 50%; left: 14px; transform: translateY(-50%); animation-delay: 1.3s; }
+  .dim-label.mr { top: 50%; right: 14px; transform: translateY(-50%); animation-delay: 1.45s; text-align: right; }
+
+  .blueprint svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    display: block;
+  }
+
+  /* ============ TICKER ============ */
+  .ticker {
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 16px 0;
+    overflow: hidden;
+    background: var(--bg-3);
+    position: relative;
+    z-index: 2;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 56px;
+    white-space: nowrap;
+    animation: scroll 50s linear infinite;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .ticker-track span {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .ticker-track span::before {
+    content: "✦";
+    color: var(--accent);
+    font-size: 10px;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ============ DOSSIER ============ */
+  .dossier {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 32px;
+    position: relative;
+  }
+
+  .dossier-head {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .section-tag {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    padding-top: 12px;
+  }
+  .section-tag::before {
+    content: "§ ";
+    color: var(--ink-dim);
+  }
+
+  .dossier-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 800px;
+  }
+  .dossier-title em {
+    font-family: 'Share Tech Mono', monospace;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line-soft);
+    border: 1px solid var(--line-soft);
+  }
+  .spec {
+    background: var(--bg);
+    padding: 32px 28px;
+    position: relative;
+    transition: background 0.3s ease;
+    min-height: 180px;
+  }
+  .spec:hover { background: var(--bg-2); }
+
+  .spec-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-dim);
+    margin-bottom: 28px;
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+  }
+  .spec-num .stamp {
+    color: var(--accent-warm);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+  }
+
+  .spec-val {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .spec-val .unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--accent);
+    margin-left: 4px;
+    letter-spacing: 0;
+  }
+
+  .spec-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    margin-top: 12px;
+  }
+
+  .spec-redacted .spec-val {
+    color: var(--ink-faint);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: 0.1em;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(244, 241, 228, 0.15),
+      rgba(244, 241, 228, 0.15) 10px,
+      transparent 10px,
+      transparent 14px
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    user-select: none;
+  }
+  .spec-redacted .spec-val::after {
+    content: "[CLASSIFIED]";
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-warm);
+    letter-spacing: 0.2em;
+    margin-top: 6px;
+  }
+
+  /* ============ ILA REVEAL ============ */
+  .reveal {
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(255, 216, 74, 0.08), transparent 60%),
+      var(--bg-3);
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 110px 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .reveal-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .reveal-inner .corner.tl { top: -16px; left: -16px; border-top-width: 1px; border-left-width: 1px; width: 18px; height: 18px; }
+  .reveal-inner .corner.tr { top: -16px; right: -16px; border-top-width: 1px; border-right-width: 1px; width: 18px; height: 18px; }
+  .reveal-inner .corner.bl { bottom: -16px; left: -16px; border-bottom-width: 1px; border-left-width: 1px; width: 18px; height: 18px; }
+  .reveal-inner .corner.br { bottom: -16px; right: -16px; border-bottom-width: 1px; border-right-width: 1px; width: 18px; height: 18px; }
+
+  .reveal-tag {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    padding: 6px 14px;
+    border: 1px solid var(--accent);
+    background: rgba(255, 216, 74, 0.06);
+  }
+  .reveal-tag .blink {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  .reveal h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(36px, 6vw, 80px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin-bottom: 24px;
+  }
+  .reveal h2 em {
+    font-family: 'Share Tech Mono', monospace;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+    font-size: 0.55em;
+    display: block;
+    margin-top: 14px;
+  }
+
+  .reveal-coords {
+    display: flex;
+    justify-content: center;
+    margin: 36px auto 48px;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    flex-wrap: wrap;
+    max-width: 900px;
+  }
+  .coord {
+    flex: 1 1 200px;
+    padding: 22px 16px;
+    border-right: 1px solid var(--line-soft);
+    text-align: left;
+  }
+  .coord:last-child { border-right: none; }
+  .coord-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .coord-val {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 16px;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .coord-val .accent { color: var(--accent); }
+
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .cd-cell {
+    background: var(--bg-3);
+    padding: 26px 16px;
+    text-align: center;
+  }
+  .cd-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .cd-lab {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  .signup-wrap {
+    max-width: 560px;
+    margin: 48px auto 0;
+    text-align: left;
+  }
+  .signup-wrap > .section-tag {
+    margin-bottom: 14px;
+    padding-top: 0;
+    text-align: center;
+  }
+  .signup {
+    display: flex;
+    border: 1px solid var(--line-soft);
+    background: var(--bg);
+    transition: border-color 0.2s ease;
+  }
+  .signup:focus-within { border-color: var(--accent); }
+  .signup input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    outline: none;
+    letter-spacing: 0.05em;
+  }
+  .signup input::placeholder { color: var(--ink-faint); }
+  .signup button {
+    background: var(--accent);
+    color: var(--bg-3);
+    border: none;
+    padding: 0 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-weight: 700;
+  }
+  .signup button:hover { background: var(--ink); }
+  .signup-note {
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 36px 32px 28px;
+    border-top: 1px solid var(--line-soft);
+    position: relative;
+    z-index: 2;
+    background: var(--bg-3);
+  }
+  .foot-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .foot-grid .coords {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--accent);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 920px) {
+    .header-meta { display: none; }
+    .topstripe .stripe-right { display: none; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .blueprint { max-width: 460px; justify-self: center; }
+    .dossier-head { grid-template-columns: 1fr; gap: 20px; }
+    .specs { grid-template-columns: 1fr; }
+    .corner { display: none; }
+    .coord { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--line-soft); }
+    .titleblock { grid-template-columns: 1fr 1fr; }
+    .tb-cell:nth-child(2) { border-right: none; }
+    .tb-cell:nth-child(1), .tb-cell:nth-child(2) { border-bottom: 1px solid var(--line-soft); }
+  }
+
+  @keyframes sweep {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Engineering title-strip -->
+<div class="topstripe">
+  <div class="stripe-left">
+    <span>DRAWING / <b>TBD-2B</b></span>
+    <span>SHEET / <b>1 OF 1</b></span>
+    <span>SCALE / <b>NTS</b></span>
+  </div>
+  <div class="stripe-right">
+    <span>REV / <b>0.9.4</b></span>
+    <span>CLASS / <b>RESTRICTED</b></span>
+    <span>DATE / <b>2026-05-01</b></span>
+  </div>
+</div>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark"></div>
+    <span>ToBeDefined<span class="dot">·</span>ai</span>
+  </div>
+  <div class="header-meta">
+    <span><span class="status-dot"></span>SYS / <b>NOMINAL</b></span>
+    <span>STAGE / <b>PRE-FLIGHT</b></span>
+    <span>BUILD / <b>0.9.4</b></span>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="meta-row">
+          <div class="severe">// CONFIDENTIAL</div>
+          <div class="neutral">DRWG <b>TBD-2B</b></div>
+          <div class="neutral">REVEAL <b>11.06.2026</b></div>
+        </div>
+
+        <h1>
+          <span class="word"><span>Five builders.</span></span>
+          <span class="word"><span>One swarm.</span></span>
+          <span class="word"><span><em>Capture the flag.</em></span></span>
+        </h1>
+
+        <p class="lede">
+          We are <strong>ToBeDefined.ai</strong> — five tech &amp; AI enthusiasts with no aerospace background,
+          competing in the <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong>.
+          12 teams entered. 6 made the final. €50,000 prize pool. An indoor capture-the-flag arena where autonomous swarms
+          must coordinate, communicate, and outmaneuver each other in real time.
+          <br><br>
+          We answered the brief in <strong>weeks, not years</strong> — on off-the-shelf airframes, with no custom sensors
+          and no on-board inference rig. The intelligence lives off the drone, on flight controllers and a
+          Command &amp; Control server. <strong>Final round flies on the Defence Track at ILA Berlin.</strong>
+        </p>
+
+        <div class="cta-row">
+          <a class="btn" href="#reveal">
+            Request Briefing
+            <span class="arrow">→</span>
+          </a>
+          <a class="btn ghost" href="#dossier">
+            View Dossier
+          </a>
+        </div>
+      </div>
+
+      <!-- BLUEPRINT DRAWING -->
+      <div class="blueprint">
+        <span class="dim-label tl">DRWG <span class="v">TBD-2B</span></span>
+        <span class="dim-label tr">VIEW <span class="v">PLAN</span></span>
+        <span class="dim-label ml">DIA <span class="amber">[CLASSIFIED]</span></span>
+        <span class="dim-label mr">ROT <span class="v">4 × ▮▮▮ RPM</span></span>
+
+        <svg viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="bpGlow" cx="50%" cy="48%" r="48%">
+              <stop offset="0%" stop-color="var(--line)" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="var(--line)" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="var(--line)" stop-opacity="0"/>
+              <stop offset="100%" stop-color="var(--line)" stop-opacity="0.35"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Faint glow under drone -->
+          <circle cx="200" cy="210" r="170" fill="url(#bpGlow)"/>
+
+          <!-- Concentric reference rings (drafting style) -->
+          <g fill="none" stroke="var(--line)" stroke-opacity="0.35" stroke-width="0.8">
+            <circle cx="200" cy="210" r="170" stroke-dasharray="4 6"/>
+            <circle cx="200" cy="210" r="135"/>
+            <circle cx="200" cy="210" r="95" stroke-dasharray="2 4"/>
+            <circle cx="200" cy="210" r="55"/>
+          </g>
+
+          <!-- Cross-hairs -->
+          <g stroke="var(--line)" stroke-opacity="0.35" stroke-width="0.8" stroke-dasharray="4 4">
+            <line x1="20" y1="210" x2="380" y2="210"/>
+            <line x1="200" y1="40" x2="200" y2="380"/>
+          </g>
+
+          <!-- Tick marks on outer ring -->
+          <g stroke="var(--line)" stroke-width="1" stroke-opacity="0.6">
+            <line x1="200" y1="34" x2="200" y2="46"/>
+            <line x1="200" y1="374" x2="200" y2="386"/>
+            <line x1="24" y1="210" x2="36" y2="210"/>
+            <line x1="364" y1="210" x2="376" y2="210"/>
+            <!-- 45deg ticks -->
+            <line x1="80" y1="90" x2="88" y2="98" stroke-dasharray="0"/>
+            <line x1="320" y1="90" x2="312" y2="98"/>
+            <line x1="80" y1="330" x2="88" y2="322"/>
+            <line x1="320" y1="330" x2="312" y2="322"/>
+          </g>
+
+          <!-- Compass mark -->
+          <text x="200" y="28" font-family="JetBrains Mono" font-size="10" fill="var(--ink)" text-anchor="middle" letter-spacing="2">N</text>
+          <text x="392" y="214" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" text-anchor="end" letter-spacing="1">E</text>
+          <text x="200" y="402" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" text-anchor="middle" letter-spacing="1">S</text>
+          <text x="8" y="214" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" letter-spacing="1">W</text>
+
+          <!-- Radar sweep -->
+          <g style="transform-origin: 200px 210px; animation: sweep 8s linear infinite;">
+            <path d="M 200,210 L 370,210 A 170,170 0 0,0 320,89 Z" fill="url(#sweepGrad)" opacity="0.7"/>
+          </g>
+
+          <!-- ============ DRONE TOP-DOWN SCHEMATIC ============ -->
+          <g stroke="var(--ink)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+            <!-- Center body -->
+            <rect x="178" y="188" width="44" height="44" rx="4"/>
+            <rect x="184" y="194" width="32" height="32" rx="2" stroke-opacity="0.5" stroke-dasharray="2 2"/>
+
+            <!-- Center axis dot -->
+            <circle cx="200" cy="210" r="7" fill="var(--ink)" fill-opacity="0.15"/>
+            <circle cx="200" cy="210" r="2.5" fill="var(--ink)"/>
+
+            <!-- Front indicator (small triangle pointing up) -->
+            <path d="M 196 184 L 200 176 L 204 184 Z" fill="var(--accent)" stroke="var(--accent)"/>
+
+            <!-- Arms (X-frame, top-down quadcopter) -->
+            <line x1="182" y1="192" x2="146" y2="156"/>
+            <line x1="218" y1="192" x2="254" y2="156"/>
+            <line x1="182" y1="228" x2="146" y2="264"/>
+            <line x1="218" y1="228" x2="254" y2="264"/>
+
+            <!-- Arm dimension lines (drafting style, dashed) -->
+            <g stroke-opacity="0.5" stroke-dasharray="2 3">
+              <line x1="146" y1="156" x2="146" y2="130"/>
+              <line x1="254" y1="156" x2="254" y2="130"/>
+              <line x1="146" y1="130" x2="254" y2="130"/>
+            </g>
+
+            <!-- Rotor guards (outer dashed) -->
+            <circle cx="146" cy="156" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
+            <circle cx="254" cy="156" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
+            <circle cx="146" cy="264" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
+            <circle cx="254" cy="264" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
+
+            <!-- Rotor hubs (solid inner) -->
+            <circle cx="146" cy="156" r="16"/>
+            <circle cx="254" cy="156" r="16"/>
+            <circle cx="146" cy="264" r="16"/>
+            <circle cx="254" cy="264" r="16"/>
+
+            <!-- Rotor center dots -->
+            <circle cx="146" cy="156" r="2.5" fill="var(--ink)"/>
+            <circle cx="254" cy="156" r="2.5" fill="var(--ink)"/>
+            <circle cx="146" cy="264" r="2.5" fill="var(--ink)"/>
+            <circle cx="254" cy="264" r="2.5" fill="var(--ink)"/>
+
+            <!-- Spinning rotor blades -->
+            <g style="transform-origin: 146px 156px; animation: spin 0.45s linear infinite;">
+              <line x1="130" y1="156" x2="162" y2="156"/>
+              <line x1="146" y1="140" x2="146" y2="172"/>
+            </g>
+            <g style="transform-origin: 254px 156px; animation: spin 0.45s linear infinite reverse;">
+              <line x1="238" y1="156" x2="270" y2="156"/>
+              <line x1="254" y1="140" x2="254" y2="172"/>
+            </g>
+            <g style="transform-origin: 146px 264px; animation: spin 0.45s linear infinite reverse;">
+              <line x1="130" y1="264" x2="162" y2="264"/>
+              <line x1="146" y1="248" x2="146" y2="280"/>
+            </g>
+            <g style="transform-origin: 254px 264px; animation: spin 0.45s linear infinite;">
+              <line x1="238" y1="264" x2="270" y2="264"/>
+              <line x1="254" y1="248" x2="254" y2="280"/>
+            </g>
+
+            <!-- Sensor pods (front + back) -->
+            <circle cx="200" cy="180" r="3.5" fill="var(--accent)" stroke="var(--accent)"/>
+            <circle cx="200" cy="240" r="3" stroke-opacity="0.7"/>
+
+            <!-- Landing legs hint (small ticks under body) -->
+            <line x1="184" y1="232" x2="184" y2="240" stroke-opacity="0.6"/>
+            <line x1="216" y1="232" x2="216" y2="240" stroke-opacity="0.6"/>
+          </g>
+
+          <!-- Annotation callouts -->
+          <g font-family="JetBrains Mono" font-size="8" fill="var(--ink-dim)" letter-spacing="1">
+            <!-- Rotor 1 callout -->
+            <line x1="120" y1="156" x2="98" y2="120" stroke="var(--line-soft)" stroke-width="0.8"/>
+            <circle cx="98" cy="120" r="2" fill="var(--accent)"/>
+            <text x="92" y="112" text-anchor="end">M-01</text>
+
+            <!-- Rotor 2 callout -->
+            <line x1="280" y1="156" x2="302" y2="120" stroke="var(--line-soft)" stroke-width="0.8"/>
+            <circle cx="302" cy="120" r="2" fill="var(--accent)"/>
+            <text x="308" y="112">M-02</text>
+
+            <!-- Body callout -->
+            <line x1="222" y1="210" x2="350" y2="210" stroke="var(--line-soft)" stroke-width="0.8"/>
+            <circle cx="350" cy="210" r="2" fill="var(--accent)"/>
+            <text x="356" y="213">CORE</text>
+
+            <!-- Sensor pod callout -->
+            <line x1="200" y1="180" x2="200" y2="60" stroke="var(--line-soft)" stroke-width="0.8" stroke-dasharray="2 2"/>
+            <circle cx="200" cy="60" r="2" fill="var(--accent)"/>
+            <text x="206" y="62">SENSOR ARRAY</text>
+
+            <!-- Bottom callout -->
+            <line x1="200" y1="240" x2="60" y2="350" stroke="var(--line-soft)" stroke-width="0.8" stroke-dasharray="2 2"/>
+            <circle cx="60" cy="350" r="2" fill="var(--accent)"/>
+            <text x="66" y="353">PAYLOAD BAY</text>
+          </g>
+
+        </svg>
+
+        <!-- Title block at bottom of drawing -->
+        <div class="titleblock">
+          <div class="tb-cell">
+            ToBeDefined.ai
+            <div class="tb-val">TBD-2B · AUTONOMOUS PLATFORM</div>
+          </div>
+          <div class="tb-cell">
+            Sheet
+            <div class="tb-val">1 / 1</div>
+          </div>
+          <div class="tb-cell">
+            Scale
+            <div class="tb-val">NTS</div>
+          </div>
+          <div class="tb-cell">
+            Status
+            <div class="tb-val amber">EMBARGO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>Swarm Drone Challenge 2026</span>
+      <span>Capture the Flag</span>
+      <span>6 Finalists · From 12 Teams</span>
+      <span>€50,000 Prize Pool</span>
+      <span>Off-the-Shelf Airframes</span>
+      <span>Off-Board Compute · C2 Server</span>
+      <span>Weeks · Not Years</span>
+      <span>Defence Track · ILA Berlin</span>
+      <span>Swarm Drone Challenge 2026</span>
+      <span>Capture the Flag</span>
+      <span>6 Finalists · From 12 Teams</span>
+      <span>€50,000 Prize Pool</span>
+      <span>Off-the-Shelf Airframes</span>
+      <span>Off-Board Compute · C2 Server</span>
+      <span>Weeks · Not Years</span>
+      <span>Defence Track · ILA Berlin</span>
+    </div>
+  </div>
+
+  <!-- DOSSIER -->
+  <section class="dossier" id="dossier">
+    <div class="dossier-head">
+      <div class="section-tag">01 / Challenge Briefing</div>
+      <h2 class="dossier-title">
+        Swarm Drone Challenge 2026. <em>Capture the flag, fully autonomous.</em>
+      </h2>
+    </div>
+
+    <div class="specs">
+      <div class="spec">
+        <div class="spec-num">/ 001 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val" style="font-size:22px; line-height:1.15;">MBDA <span class="unit" style="font-size:14px;">×</span> brigkAIR</div>
+        <div class="spec-label">Sponsors · Defence + Innovation</div>
+      </div>
+      <div class="spec">
+        <div class="spec-num">/ 002 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val">€50k<span class="unit">prize</span></div>
+        <div class="spec-label">Total Prize Pool</div>
+      </div>
+      <div class="spec">
+        <div class="spec-num">/ 003 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val">6<span class="unit">/ 12</span></div>
+        <div class="spec-label">Finalists · From 12 Entrants (India → Canada)</div>
+      </div>
+      <div class="spec">
+        <div class="spec-num">/ 004 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val" style="font-size:24px;">CTF</div>
+        <div class="spec-label">Indoor Capture-the-Flag · Swarm vs Swarm</div>
+      </div>
+      <div class="spec">
+        <div class="spec-num">/ 005 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val" style="font-size:20px;">SWARM · COMMS · AI</div>
+        <div class="spec-label">Judging Criteria</div>
+      </div>
+      <div class="spec">
+        <div class="spec-num">/ 006 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val" style="font-size:24px; line-height:1.2;">11.06.2026<br><span style="color:var(--accent); font-size:14px; font-family: 'Share Tech Mono', monospace;">ILA · Drone Pavilion</span></div>
+        <div class="spec-label">Final Round · Defence Area</div>
+      </div>
+    </div>
+
+    <div class="dossier-head" style="margin-top: 80px;">
+      <div class="section-tag">02 / Our Approach</div>
+      <h2 class="dossier-title">
+        No drone background. No custom hardware. <em>A revolutionary approach, supported by AI.</em>
+      </h2>
+    </div>
+
+    <div class="specs">
+      <div class="spec">
+        <div class="spec-num">/ 007 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val">5<span class="unit">builders</span></div>
+        <div class="spec-label">Tech &amp; AI Enthusiasts · No Aerospace BG</div>
+      </div>
+      <div class="spec">
+        <div class="spec-num">/ 008 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val">~6<span class="unit">weeks</span></div>
+        <div class="spec-label">Concept to Autonomous Flight</div>
+      </div>
+      <div class="spec">
+        <div class="spec-num">/ 009 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val">0<span class="unit">mods</span></div>
+        <div class="spec-label">Off-the-Shelf Airframes · No Custom Sensors</div>
+      </div>
+      <div class="spec">
+        <div class="spec-num">/ 010 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
+        <div class="spec-val">100<span class="unit">% off-board</span></div>
+        <div class="spec-label">Compute on Flight Controllers + C2 Server</div>
+      </div>
+      <div class="spec spec-redacted">
+        <div class="spec-num">/ 011 <span class="stamp">SEALED</span></div>
+        <div class="spec-val">TACTIC-X</div>
+        <div class="spec-label">Swarm Tactics · Match Strategy</div>
+      </div>
+      <div class="spec spec-redacted">
+        <div class="spec-num">/ 012 <span class="stamp">SEALED</span></div>
+        <div class="spec-val">STACK-X</div>
+        <div class="spec-label">Autonomy Stack · Architecture</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ILA REVEAL -->
+  <section class="reveal" id="reveal">
+    <div class="reveal-inner">
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+
+      <div class="reveal-tag">
+        <span class="blink"></span>
+        Embargo lifts at T-zero
+      </div>
+
+      <h2>
+        SDC 2026 // Final Round
+        <em>ila berlin · 11 · 06 · 2026</em>
+      </h2>
+
+      <div class="reveal-coords">
+        <div class="coord">
+          <div class="coord-label">Venue</div>
+          <div class="coord-val">Berlin <span class="accent">ExpoCenter</span> Airport</div>
+        </div>
+        <div class="coord">
+          <div class="coord-label">Coordinates</div>
+          <div class="coord-val">52.36° N <span class="accent">/</span> 13.50° E</div>
+        </div>
+        <div class="coord">
+          <div class="coord-label">Arena</div>
+          <div class="coord-val">Drone <span class="accent">Pavilion</span> · Defence</div>
+        </div>
+        <div class="coord">
+          <div class="coord-label">Show Window</div>
+          <div class="coord-val">10 — 14 <span class="accent">Jun</span></div>
+        </div>
+      </div>
+
+      <div class="countdown" id="countdown" aria-label="Countdown to reveal">
+        <div class="cd-cell"><div class="cd-num" id="cd-d">00</div><div class="cd-lab">Days</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-h">00</div><div class="cd-lab">Hours</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-m">00</div><div class="cd-lab">Minutes</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-s">00</div><div class="cd-lab">Seconds</div></div>
+      </div>
+
+      <div class="signup-wrap">
+        <div class="section-tag" style="color: var(--ink-dim);">Cleared visitors only</div>
+        <form class="signup" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='Logged ✓'; this.querySelector('button').disabled = true;">
+          <input type="email" placeholder="operator.email@domain" required />
+          <button type="submit">Request Pass</button>
+        </form>
+        <div class="signup-note">
+          Match schedule released 72 hours prior · Off-record team briefings by invitation
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-grid">
+    <div>© ToBeDefined.ai — All Systems Reserved</div>
+    <div class="coords">52.36° N / 13.50° E · ILA · 11.06.2026</div>
+    <div>TBD-2B // EMBARGOED</div>
+  </div>
+</footer>
+
+<script>
+  // Reveal target: 11 June 2026, 10:00 Berlin local time (CEST = UTC+2)
+  const target = new Date('2026-06-11T10:00:00+02:00');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    const now = new Date();
+    let diff = Math.max(0, target - now);
+    const d = Math.floor(diff / 86400000); diff %= 86400000;
+    const h = Math.floor(diff / 3600000);  diff %= 3600000;
+    const m = Math.floor(diff / 60000);    diff %= 60000;
+    const s = Math.floor(diff / 1000);
+    document.getElementById('cd-d').textContent = pad(d);
+    document.getElementById('cd-h').textContent = pad(h);
+    document.getElementById('cd-m').textContent = pad(m);
+    document.getElementById('cd-s').textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>
