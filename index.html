@@ -3,1393 +3,661 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ToBeDefined.ai — Autonomous Flight Systems</title>
+<title>ToBeDefined.ai — Fast Software. Any Domain.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Share+Tech+Mono&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Classic cyanotype / blueprint palette */
-    --bg:           #0d2a4f;   /* deep blueprint blue */
-    --bg-2:         #0a2244;
-    --bg-3:         #061a39;
-    --ink:          #f4f1e4;   /* aged paper white */
-    --ink-2:        #e8e3d0;
-    --ink-dim:      #a8c4e8;
-    --ink-faint:    #4a6c96;
-    --line:         #d8e9ff;   /* drawing line color */
-    --line-soft:    rgba(216, 233, 255, 0.45);
-    --line-faint:   rgba(216, 233, 255, 0.18);
-    --line-ghost:   rgba(216, 233, 255, 0.08);
-    --accent:       #ffd84a;   /* warning / annotation amber */
-    --accent-warm:  #ff7a3c;   /* alarm */
-    --hairline:     rgba(244, 241, 228, 0.16);
+    --bg:          #0d2a4f;
+    --bg-2:        #0a2244;
+    --bg-3:        #061a39;
+    --ink:         #f4f1e4;
+    --ink-dim:     #a8c4e8;
+    --ink-faint:   #4a6c96;
+    --line:        #d8e9ff;
+    --line-soft:   rgba(216,233,255,0.45);
+    --line-faint:  rgba(216,233,255,0.18);
+    --accent:      #ffd84a;
+    --accent-warm: #ff7a3c;
+    --green:       #4ade80;
+    --green-dim:   rgba(74,222,128,0.10);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:var(--bg);color:var(--ink);
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;line-height:1.5;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased;
   }
 
-  /* Blueprint grid — fine + coarse, the classic engineering paper look */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+  body::before{
+    content:"";position:fixed;inset:0;
     background-image:
-      /* Fine grid */
-      linear-gradient(rgba(216, 233, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(216, 233, 255, 0.06) 1px, transparent 1px),
-      /* Coarse grid */
-      linear-gradient(rgba(216, 233, 255, 0.12) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(216, 233, 255, 0.12) 1px, transparent 1px);
-    background-size: 16px 16px, 16px 16px, 80px 80px, 80px 80px;
-    pointer-events: none;
-    z-index: 0;
+      linear-gradient(rgba(216,233,255,0.06) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(216,233,255,0.06) 1px,transparent 1px),
+      linear-gradient(rgba(216,233,255,0.12) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(216,233,255,0.12) 1px,transparent 1px);
+    background-size:16px 16px,16px 16px,80px 80px,80px 80px;
+    pointer-events:none;z-index:0;
   }
-
-  /* Subtle paper grain + vignette */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
+  body::after{
+    content:"";position:fixed;inset:0;
     background:
-      radial-gradient(ellipse 120% 100% at 50% 50%, transparent 30%, rgba(0,0,0,0.35) 100%),
+      radial-gradient(ellipse 120% 100% at 50% 50%,transparent 30%,rgba(0,0,0,0.35) 100%),
       url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    pointer-events: none;
-    z-index: 1;
+    pointer-events:none;z-index:1;
   }
 
-  /* Title-block stripe at the very top */
-  .topstripe {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 28px;
-    background: var(--bg-3);
-    border-bottom: 1px solid var(--line-soft);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    padding: 0 32px;
-    gap: 32px;
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
+  .topstripe{
+    position:fixed;top:0;left:0;right:0;height:28px;
+    background:var(--bg-3);border-bottom:1px solid var(--line-soft);
+    z-index:200;display:flex;align-items:center;padding:0 32px;
+    font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink-dim);
   }
-  .topstripe .stripe-left,
-  .topstripe .stripe-right {
-    display: flex;
-    gap: 24px;
-  }
-  .topstripe span b {
-    color: var(--ink);
-    font-weight: 500;
-    margin-left: 6px;
-  }
-  .topstripe .stripe-right { margin-left: auto; }
+  .ts-item{padding:0 16px;height:28px;display:flex;align-items:center;border-right:1px solid var(--line-faint);white-space:nowrap}
+  .ts-item:first-child{padding-left:0}
+  .ts-item:last-child{border-right:none;margin-left:auto}
+  .ts-item b{color:var(--ink);font-weight:500;margin-left:5px}
+  .ts-item .g{color:var(--green)}
 
-  /* ============ HEADER ============ */
-  header {
-    position: fixed;
-    top: 28px; left: 0; right: 0;
-    padding: 16px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-    border-bottom: 1px solid var(--line-soft);
-    background: rgba(13, 42, 79, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  header{
+    position:fixed;top:28px;left:0;right:0;padding:0 32px;height:52px;
+    display:flex;justify-content:space-between;align-items:center;
+    z-index:100;border-bottom:1px solid var(--line-soft);
+    background:rgba(13,42,79,0.88);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   }
+  .logo{display:flex;align-items:center;gap:12px;font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+  .logo-mark{width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;position:relative;flex-shrink:0}
+  .logo-mark::before,.logo-mark::after{content:"";position:absolute;background:var(--ink)}
+  .logo-mark::before{top:50%;left:-4px;right:-4px;height:1px;transform:translateY(-50%)}
+  .logo-mark::after{left:50%;top:-4px;bottom:-4px;width:1px;transform:translateX(-50%)}
+  .logo .dot{color:var(--accent)}
+  .header-nav{display:flex;align-items:center;gap:28px;font-size:10px;letter-spacing:0.16em;text-transform:uppercase}
+  .header-nav a{color:var(--ink-dim);text-decoration:none;transition:color 0.2s}
+  .header-nav a:hover{color:var(--ink)}
+  .header-cta{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;color:var(--bg-3);background:var(--accent);border:1px solid var(--accent);transition:background 0.2s;white-space:nowrap}
+  .header-cta:hover{background:var(--ink);border-color:var(--ink)}
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 17px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink);
-  }
-  .logo-mark {
-    width: 24px; height: 24px;
-    border: 1.5px solid var(--ink);
-    border-radius: 50%;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .logo-mark::before, .logo-mark::after {
-    content: "";
-    position: absolute;
-    background: var(--ink);
-  }
-  .logo-mark::before {
-    top: 50%; left: -5px; right: -5px; height: 1px;
-    transform: translateY(-50%);
-  }
-  .logo-mark::after {
-    left: 50%; top: -5px; bottom: -5px; width: 1px;
-    transform: translateX(-50%);
-  }
-  .logo .dot { color: var(--accent); }
+  main{position:relative;z-index:2;padding-top:28px}
 
-  .header-meta {
-    display: flex;
-    gap: 28px;
-    color: var(--ink-dim);
-    align-items: center;
-  }
-  .header-meta span b {
-    color: var(--ink);
-    font-weight: 500;
-    margin-left: 6px;
-  }
-  .status-dot {
-    display: inline-block;
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-right: 6px;
-    box-shadow: 0 0 10px var(--accent);
-    animation: pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%      { opacity: 0.35; }
-  }
+  .corner{position:absolute;width:22px;height:22px;border-color:var(--ink);border-style:solid;border-width:0;pointer-events:none}
 
-  /* ============ MAIN ============ */
-  main { position: relative; z-index: 2; padding-top: 28px; }
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.2s ease;border:1px solid var(--ink)}
+  .btn-primary{background:var(--accent);border-color:var(--accent);color:var(--bg-3);font-weight:700}
+  .btn-primary:hover{background:var(--ink);border-color:var(--ink);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--accent)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-soft)}
+  .btn-ghost:hover{color:var(--accent);border-color:var(--accent)}
+  .btn .arrow{transition:transform 0.2s}
+  .btn:hover .arrow{transform:translateX(3px)}
 
-  /* Drawing-frame corners */
-  .corner {
-    position: absolute;
-    width: 26px; height: 26px;
-    border-color: var(--ink);
-    border-style: solid;
-    border-width: 0;
-    pointer-events: none;
-  }
+  @keyframes fadeIn{to{opacity:1}}
+  @keyframes rise{to{transform:translateY(0)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 
-  /* ============ HERO ============ */
-  .hero {
-    min-height: calc(100vh - 28px);
-    padding: 130px 32px 80px;
-    position: relative;
-    display: grid;
-    align-content: center;
-  }
-  .hero .corner.tl { top: 96px; left: 32px; border-top-width: 1px; border-left-width: 1px; }
-  .hero .corner.tr { top: 96px; right: 32px; border-top-width: 1px; border-right-width: 1px; }
-  .hero .corner.bl { bottom: 32px; left: 32px; border-bottom-width: 1px; border-left-width: 1px; }
-  .hero .corner.br { bottom: 32px; right: 32px; border-bottom-width: 1px; border-right-width: 1px; }
+  /* Hero */
+  .hero{min-height:100dvh;padding:120px 48px 72px;position:relative;display:flex;align-items:center}
+  .hero .corner.tl{top:80px;left:32px;border-top-width:1px;border-left-width:1px}
+  .hero .corner.tr{top:80px;right:32px;border-top-width:1px;border-right-width:1px}
+  .hero .corner.bl{bottom:32px;left:32px;border-bottom-width:1px;border-left-width:1px}
+  .hero .corner.br{bottom:32px;right:32px;border-bottom-width:1px;border-right-width:1px}
+  .hero::before{content:"";position:absolute;top:80px;left:54px;right:54px;height:8px;background-image:linear-gradient(to right,var(--line-soft) 1px,transparent 1px);background-size:40px 100%;border-bottom:1px solid var(--line-soft);pointer-events:none}
+  .hero-grid{width:100%;max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .hero-stamp{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--green);border:1px solid rgba(74,222,128,0.35);background:var(--green-dim);padding:7px 14px;margin-bottom:32px;opacity:0;animation:fadeIn 0.6s ease forwards 0.1s}
+  .hero-stamp .blink{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:blink 1.4s ease-in-out infinite}
+  .hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(48px,5.5vw,80px);line-height:0.96;letter-spacing:-0.025em;color:var(--ink);margin-bottom:32px}
+  .hero h1 .word{display:block;overflow:hidden}
+  .hero h1 .word > span{display:inline-block;transform:translateY(110%);animation:rise 0.85s cubic-bezier(0.2,0.8,0.2,1) forwards}
+  .hero h1 .word:nth-child(1)>span{animation-delay:0.15s}
+  .hero h1 .word:nth-child(2)>span{animation-delay:0.28s}
+  .hero h1 .word:nth-child(3)>span{animation-delay:0.41s}
+  .hero h1 em{font-style:italic;font-family:'Share Tech Mono',monospace;font-weight:400;color:var(--accent);font-size:0.6em;letter-spacing:0}
+  .hero-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--line-soft),transparent 70%);margin-bottom:28px;opacity:0;animation:fadeIn 0.8s ease forwards 0.7s}
+  .hero-lede{font-size:13px;line-height:1.85;color:var(--ink-dim);max-width:520px;margin-bottom:36px;opacity:0;animation:fadeIn 0.8s ease forwards 0.8s}
+  .hero-lede strong{color:var(--ink);font-weight:500}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeIn 0.8s ease forwards 1.0s}
 
-  /* Drawing frame ruler ticks along edges */
-  .hero::before {
-    content: "";
-    position: absolute;
-    top: 96px;
-    left: 58px;
-    right: 58px;
-    height: 8px;
-    background-image: linear-gradient(to right, var(--line-soft) 1px, transparent 1px);
-    background-size: 40px 100%;
-    border-bottom: 1px solid var(--line-soft);
-    pointer-events: none;
-  }
+  /* Blueprint */
+  .blueprint{position:relative;aspect-ratio:1/1.1;width:100%;max-width:580px;justify-self:end;border:1px solid var(--line-soft);background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(216,233,255,0.06),transparent 70%),var(--bg-2);opacity:0;animation:fadeIn 1s ease forwards 0.5s}
+  .titleblock{position:absolute;bottom:0;left:0;right:0;border-top:1px solid var(--line-soft);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;background:rgba(6,26,57,0.7);z-index:4}
+  .tb-cell{padding:10px 12px;border-right:1px solid var(--line-soft);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);line-height:1.3}
+  .tb-cell:last-child{border-right:none}
+  .tb-cell .tb-val{color:var(--ink);font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:4px;letter-spacing:0.05em}
+  .tb-cell .tb-val.amber{color:var(--accent)}
+  .dim-label{position:absolute;z-index:3;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-dim);background:rgba(6,26,57,0.85);padding:3px 8px;border:1px solid var(--line-soft);opacity:0;animation:fadeIn 1s ease forwards}
+  .dim-label .v{color:var(--ink);font-weight:500}
+  .dim-label .amber{color:var(--accent)}
+  .dim-label.tl{top:14px;left:14px;animation-delay:1.0s}
+  .dim-label.tr{top:14px;right:14px;animation-delay:1.15s;text-align:right}
+  .dim-label.ml{top:50%;left:14px;transform:translateY(-50%);animation-delay:1.3s}
+  .dim-label.mr{top:50%;right:14px;transform:translateY(-50%);animation-delay:1.45s;text-align:right}
+  .blueprint svg{width:100%;height:100%;overflow:visible;display:block}
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-  }
+  /* Sections */
+  .section{position:relative;z-index:2;padding:96px 48px}
+  .section.dark{background:var(--bg-3);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+  .section.mid{background:var(--bg-2);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+  .section-inner{max-width:1200px;margin:0 auto}
+  .section-head{display:grid;grid-template-columns:180px 1fr;gap:48px;align-items:start;margin-bottom:56px;padding-bottom:28px;border-bottom:1px solid var(--line-faint)}
+  .sec-tag{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);padding-top:10px}
+  .sec-tag::before{content:"§ ";color:var(--ink-faint)}
+  .sec-h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(26px,3.5vw,44px);line-height:1.1;letter-spacing:-0.02em}
+  .sec-h2 em{font-family:'Share Tech Mono',monospace;font-style:italic;color:var(--accent);font-weight:400}
 
-  .hero-left { position: relative; }
+  /* Story */
+  .stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:56px}
+  .stat-cell{background:var(--bg);padding:24px 28px}
+  .stat-val{font-family:'Syne',sans-serif;font-weight:700;font-size:32px;color:var(--accent);line-height:1;letter-spacing:-0.02em}
+  .stat-val .unit{font-family:'JetBrains Mono',monospace;font-weight:400;font-size:13px;color:var(--ink-faint);margin-left:3px;letter-spacing:0}
+  .stat-lbl{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px}
+  .story-prose{max-width:760px;font-size:13px;line-height:1.9;color:var(--ink-dim)}
+  .story-prose p{margin-bottom:20px}
+  .story-prose p:last-child{margin-bottom:0}
+  .story-quote{margin:48px 0 0;padding:28px 36px;border-left:3px solid var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(18px,2.5vw,28px);line-height:1.25;letter-spacing:-0.01em;color:var(--ink)}
 
-  .meta-row {
-    display: flex;
-    margin-bottom: 32px;
-    border: 1px solid var(--line-soft);
-    width: fit-content;
-    flex-wrap: wrap;
-    background: rgba(6, 26, 57, 0.5);
-  }
-  .meta-row > div {
-    padding: 8px 14px;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    border-right: 1px solid var(--line-soft);
-    color: var(--ink-dim);
-  }
-  .meta-row > div:last-child { border-right: none; }
-  .meta-row .severe {
-    background: var(--accent);
-    color: var(--bg-3);
-    font-weight: 700;
-  }
-  .meta-row .neutral b { color: var(--ink); margin-left: 4px; }
+  /* Offer */
+  .offer-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+  .offer-card{background:var(--bg);padding:36px 32px}
+  .offer-card.primary{border-top:3px solid var(--accent)}
+  .offer-card.secondary{border-top:3px solid var(--line-faint)}
+  .offer-label{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;margin-bottom:18px}
+  .offer-label.p{color:var(--accent)}
+  .offer-label.s{color:var(--ink-faint)}
+  .offer-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(18px,2vw,26px);line-height:1.1;letter-spacing:-0.01em;color:var(--ink);margin-bottom:18px}
+  .offer-body{font-size:13px;line-height:1.8;color:var(--ink-dim)}
+  .offer-body strong{color:var(--ink);font-weight:500}
+  .offer-body p{margin-bottom:14px}
+  .offer-body p:last-child{margin-bottom:0}
+  .offer-targets{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-faint);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);line-height:1.9}
+  .offer-targets span{color:var(--ink-dim)}
+  .offer-cta{margin-top:28px}
 
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(40px, 7vw, 92px);
-    line-height: 0.95;
-    letter-spacing: -0.025em;
-    color: var(--ink);
-    margin-bottom: 28px;
-  }
-  h1 .word {
-    display: block;
-    overflow: hidden;
-  }
-  h1 .word > span {
-    display: inline-block;
-    transform: translateY(110%);
-    animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  h1 .word:nth-child(1) > span { animation-delay: 0.1s; }
-  h1 .word:nth-child(2) > span { animation-delay: 0.25s; }
-  h1 .word:nth-child(3) > span { animation-delay: 0.4s; }
+  /* Capabilities */
+  .cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+  .cap{background:var(--bg);padding:28px 26px;transition:background 0.3s}
+  .cap:hover{background:var(--bg-2)}
+  .cap-id{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:0.1em;margin-bottom:18px;display:flex;justify-content:space-between}
+  .cap-id .dep{font-size:9px;letter-spacing:0.2em;color:var(--green)}
+  .cap-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;line-height:1.15;color:var(--ink);margin-bottom:12px}
+  .cap-body{font-size:12px;line-height:1.7;color:var(--ink-dim)}
+  .cap-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+  .cap-tag{font-size:10px;letter-spacing:0.08em;color:var(--ink-faint);border:1px solid var(--line-faint);padding:3px 9px}
 
-  @keyframes rise { to { transform: translateY(0); } }
+  /* Team */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:48px}
+  .team-card{background:var(--bg);padding:28px 24px;transition:background 0.3s;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;text-decoration:none;color:inherit}
+  .team-card:hover{background:var(--bg-2)}
+  .team-card-info{flex:1}
+  .team-photo{width:180px;height:220px;object-fit:cover;object-position:top;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(216,233,255,0.15))}
+  .team-id{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--ink-faint);letter-spacing:0.12em;margin-bottom:20px}
+  .team-name{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;line-height:1.1;color:var(--ink);margin-bottom:6px}
+  .team-callsign{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);font-style:italic;margin-bottom:8px;display:block}
+  .team-role{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-faint)}
+  .next-mission{position:relative;padding:40px 48px;border:1px solid var(--line-soft);text-align:center}
+  .next-mission .corner.tl{top:-1px;left:-1px;border-top-width:2px;border-left-width:2px;border-color:var(--accent)}
+  .next-mission .corner.tr{top:-1px;right:-1px;border-top-width:2px;border-right-width:2px;border-color:var(--accent)}
+  .next-mission .corner.bl{bottom:-1px;left:-1px;border-bottom-width:2px;border-left-width:2px;border-color:var(--accent)}
+  .next-mission .corner.br{bottom:-1px;right:-1px;border-bottom-width:2px;border-right-width:2px;border-color:var(--accent)}
+  .next-mission-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(18px,2.5vw,28px);color:var(--ink);margin-bottom:16px}
+  .next-mission-title em{color:var(--accent);font-style:normal;font-family:'Share Tech Mono',monospace}
+  .next-mission-body{font-size:13px;line-height:1.8;color:var(--ink-dim);max-width:560px;margin:0 auto 28px}
 
-  h1 em {
-    font-style: italic;
-    font-family: 'Share Tech Mono', monospace;
-    font-weight: 400;
-    color: var(--accent);
-    font-size: 0.65em;
-    letter-spacing: 0;
+  /* Contact */
+  .contact-section{position:relative;z-index:2;background:radial-gradient(ellipse 70% 90% at 50% 0%,rgba(255,216,74,0.07),transparent 60%),var(--bg-3);border-top:1px solid var(--line-soft);padding:110px 48px 96px;text-align:center}
+  .contact-inner{position:relative;max-width:700px;margin:0 auto}
+  .contact-inner .corner.tl{top:-16px;left:-16px;border-top-width:1px;border-left-width:1px;width:18px;height:18px}
+  .contact-inner .corner.tr{top:-16px;right:-16px;border-top-width:1px;border-right-width:1px;width:18px;height:18px}
+  .contact-inner .corner.bl{bottom:-16px;left:-16px;border-bottom-width:1px;border-left-width:1px;width:18px;height:18px}
+  .contact-inner .corner.br{bottom:-16px;right:-16px;border-bottom-width:1px;border-right-width:1px;width:18px;height:18px}
+  .contact-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);border:1px solid rgba(74,222,128,0.35);background:var(--green-dim);padding:6px 16px;margin-bottom:32px}
+  .contact-tag .blink{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.2s ease-in-out infinite}
+  .contact-h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,6vw,72px);line-height:0.95;letter-spacing:-0.025em;margin-bottom:20px}
+  .contact-h2 em{font-family:'Share Tech Mono',monospace;font-style:italic;color:var(--accent);font-weight:400;font-size:0.55em;display:block;margin-top:12px}
+  .contact-desc{font-size:13px;line-height:1.85;color:var(--ink-dim);max-width:480px;margin:0 auto 52px}
+  .contact-desc strong{color:var(--ink);font-weight:500}
+  .contact-email{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:clamp(16px,3.5vw,28px);letter-spacing:0.04em;color:var(--accent);text-decoration:none;padding:20px 40px;border:1px solid var(--accent);background:rgba(255,216,74,0.06);margin-bottom:32px;transition:background 0.2s,color 0.2s;word-break:break-all}
+  .contact-email:hover{background:var(--accent);color:var(--bg-3)}
+  .contact-sub{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint)}
+
+  /* Footer */
+  footer{padding:28px 32px;border-top:1px solid var(--line-soft);background:var(--bg-3);position:relative;z-index:2}
+  .foot-inner{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint)}
+  .foot-inner .coords{font-family:'Share Tech Mono',monospace;color:var(--accent)}
+  .foot-inner a{color:var(--ink-dim);text-decoration:none;transition:color 0.2s}
+  .foot-inner a:hover{color:var(--accent)}
+
+  /* Mobile */
+  @media(max-width:860px){
+    .topstripe .ts-item:nth-child(n+4){display:none}
+    .header-nav{display:none}
+    .corner{display:none}
+    .hero{padding:108px 20px 56px;align-items:flex-start}
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .blueprint{max-width:100%;justify-self:center}
+    .hero h1{font-size:clamp(30px,9vw,48px);line-height:1.05}
+    .hero h1 .word{overflow:visible}
+    .hero h1 .word > span{transform:none;animation:none}
+    .section{padding:72px 20px}
+    .section-head{grid-template-columns:1fr;gap:14px}
+    .stats-strip{grid-template-columns:repeat(2,1fr)}
+    .offer-cards,.cap-grid,.team-grid{grid-template-columns:1fr}
+    .team-photo{width:120px;height:150px}
+    .next-mission{padding:28px 20px}
+    .contact-section{padding:80px 20px 72px}
+    .contact-email{padding:16px 24px}
+    footer{padding:20px}
+    .foot-inner{flex-direction:column;gap:10px}
   }
 
-  .lede {
-    font-size: 13px;
-    line-height: 1.8;
-    color: var(--ink-dim);
-    max-width: 460px;
-    margin-bottom: 36px;
-    opacity: 0;
-    animation: fadeIn 1s ease forwards 0.7s;
-  }
-  .lede strong { color: var(--ink); font-weight: 500; }
-
-  @keyframes fadeIn { to { opacity: 1; } }
-
-  .cta-row {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeIn 1s ease forwards 0.95s;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 22px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: var(--bg);
-    background: var(--ink);
-    border: 1px solid var(--ink);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--bg-3);
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0 var(--ink);
-  }
-  .btn .arrow { transition: transform 0.2s ease; }
-  .btn:hover .arrow { transform: translateX(3px); }
-
-  .btn.ghost {
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--line-soft);
-  }
-  .btn.ghost:hover {
-    background: transparent;
-    color: var(--accent);
-    border-color: var(--accent);
-    box-shadow: 4px 4px 0 transparent;
-  }
-
-  /* ============ BLUEPRINT DRAWING (right side) ============ */
-  .blueprint {
-    position: relative;
-    aspect-ratio: 1 / 1.1;
-    width: 100%;
-    max-width: 580px;
-    justify-self: end;
-    border: 1px solid var(--line-soft);
-    background:
-      radial-gradient(ellipse 80% 80% at 50% 50%, rgba(216, 233, 255, 0.06), transparent 70%),
-      var(--bg-2);
-  }
-
-  /* Title-block on the bottom of the drawing */
-  .titleblock {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: 1px solid var(--line-soft);
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    background: rgba(6, 26, 57, 0.7);
-    z-index: 4;
-  }
-  .tb-cell {
-    padding: 10px 12px;
-    border-right: 1px solid var(--line-soft);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-    line-height: 1.3;
-  }
-  .tb-cell:last-child { border-right: none; }
-  .tb-cell .tb-val {
-    color: var(--ink);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    margin-top: 4px;
-    letter-spacing: 0.05em;
-  }
-  .tb-cell .tb-val.amber { color: var(--accent); }
-
-  /* Dimension labels around drawing */
-  .dim-label {
-    position: absolute;
-    z-index: 3;
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-    background: rgba(6, 26, 57, 0.85);
-    padding: 3px 8px;
-    border: 1px solid var(--line-soft);
-    opacity: 0;
-    animation: fadeIn 1s ease forwards;
-  }
-  .dim-label .v { color: var(--ink); font-weight: 500; }
-  .dim-label .amber { color: var(--accent); }
-  .dim-label.tl { top: 14px; left: 14px; animation-delay: 1.0s; }
-  .dim-label.tr { top: 14px; right: 14px; animation-delay: 1.15s; text-align: right; }
-  .dim-label.ml { top: 50%; left: 14px; transform: translateY(-50%); animation-delay: 1.3s; }
-  .dim-label.mr { top: 50%; right: 14px; transform: translateY(-50%); animation-delay: 1.45s; text-align: right; }
-
-  .blueprint svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    display: block;
-  }
-
-  /* ============ TICKER ============ */
-  .ticker {
-    border-top: 1px solid var(--line-soft);
-    border-bottom: 1px solid var(--line-soft);
-    padding: 16px 0;
-    overflow: hidden;
-    background: var(--bg-3);
-    position: relative;
-    z-index: 2;
-  }
-  .ticker-track {
-    display: flex;
-    gap: 56px;
-    white-space: nowrap;
-    animation: scroll 50s linear infinite;
-    font-size: 11px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-  }
-  .ticker-track span {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .ticker-track span::before {
-    content: "✦";
-    color: var(--accent);
-    font-size: 10px;
-  }
-  @keyframes scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
-  /* ============ DOSSIER ============ */
-  .dossier {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 120px 32px;
-    position: relative;
-  }
-
-  .dossier-head {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 60px;
-    align-items: start;
-    margin-bottom: 64px;
-    padding-bottom: 32px;
-    border-bottom: 1px solid var(--line-soft);
-  }
-
-  .section-tag {
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-    text-transform: uppercase;
-    padding-top: 12px;
-  }
-  .section-tag::before {
-    content: "§ ";
-    color: var(--ink-dim);
-  }
-
-  .dossier-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: clamp(28px, 4vw, 48px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    max-width: 800px;
-  }
-  .dossier-title em {
-    font-family: 'Share Tech Mono', monospace;
-    font-style: italic;
-    color: var(--accent);
-    font-weight: 400;
-  }
-
-  .specs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line-soft);
-    border: 1px solid var(--line-soft);
-  }
-  .spec {
-    background: var(--bg);
-    padding: 32px 28px;
-    position: relative;
-    transition: background 0.3s ease;
-    min-height: 180px;
-  }
-  .spec:hover { background: var(--bg-2); }
-
-  .spec-num {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--ink-dim);
-    margin-bottom: 28px;
-    letter-spacing: 0.1em;
-    display: flex;
-    justify-content: space-between;
-  }
-  .spec-num .stamp {
-    color: var(--accent-warm);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-  }
-
-  .spec-val {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
-    color: var(--ink);
-    margin-bottom: 8px;
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
-  .spec-val .unit {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--accent);
-    margin-left: 4px;
-    letter-spacing: 0;
-  }
-
-  .spec-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--ink-dim);
-    margin-top: 12px;
-  }
-
-  .spec-redacted .spec-val {
-    color: var(--ink-faint);
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 400;
-    font-size: 24px;
-    letter-spacing: 0.1em;
-    background: repeating-linear-gradient(
-      90deg,
-      rgba(244, 241, 228, 0.15),
-      rgba(244, 241, 228, 0.15) 10px,
-      transparent 10px,
-      transparent 14px
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    user-select: none;
-  }
-  .spec-redacted .spec-val::after {
-    content: "[CLASSIFIED]";
-    display: block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--accent-warm);
-    letter-spacing: 0.2em;
-    margin-top: 6px;
-  }
-
-  /* ============ ILA REVEAL ============ */
-  .reveal {
-    background:
-      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(255, 216, 74, 0.08), transparent 60%),
-      var(--bg-3);
-    border-top: 1px solid var(--line-soft);
-    border-bottom: 1px solid var(--line-soft);
-    padding: 110px 32px;
-    position: relative;
-    z-index: 2;
-  }
-  .reveal-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-    position: relative;
-  }
-
-  .reveal-inner .corner.tl { top: -16px; left: -16px; border-top-width: 1px; border-left-width: 1px; width: 18px; height: 18px; }
-  .reveal-inner .corner.tr { top: -16px; right: -16px; border-top-width: 1px; border-right-width: 1px; width: 18px; height: 18px; }
-  .reveal-inner .corner.bl { bottom: -16px; left: -16px; border-bottom-width: 1px; border-left-width: 1px; width: 18px; height: 18px; }
-  .reveal-inner .corner.br { bottom: -16px; right: -16px; border-bottom-width: 1px; border-right-width: 1px; width: 18px; height: 18px; }
-
-  .reveal-tag {
-    display: inline-flex;
-    gap: 10px;
-    align-items: center;
-    font-size: 10px;
-    letter-spacing: 0.35em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 28px;
-    padding: 6px 14px;
-    border: 1px solid var(--accent);
-    background: rgba(255, 216, 74, 0.06);
-  }
-  .reveal-tag .blink {
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-
-  .reveal h2 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(36px, 6vw, 80px);
-    line-height: 0.95;
-    letter-spacing: -0.025em;
-    margin-bottom: 24px;
-  }
-  .reveal h2 em {
-    font-family: 'Share Tech Mono', monospace;
-    font-style: italic;
-    color: var(--accent);
-    font-weight: 400;
-    font-size: 0.55em;
-    display: block;
-    margin-top: 14px;
-  }
-
-  .reveal-coords {
-    display: flex;
-    justify-content: center;
-    margin: 36px auto 48px;
-    border-top: 1px solid var(--line-soft);
-    border-bottom: 1px solid var(--line-soft);
-    flex-wrap: wrap;
-    max-width: 900px;
-  }
-  .coord {
-    flex: 1 1 200px;
-    padding: 22px 16px;
-    border-right: 1px solid var(--line-soft);
-    text-align: left;
-  }
-  .coord:last-child { border-right: none; }
-  .coord-label {
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    color: var(--ink-dim);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .coord-val {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 16px;
-    color: var(--ink);
-    letter-spacing: 0.05em;
-  }
-  .coord-val .accent { color: var(--accent); }
-
-  .countdown {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--accent);
-    border: 1px solid var(--accent);
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .cd-cell {
-    background: var(--bg-3);
-    padding: 26px 16px;
-    text-align: center;
-  }
-  .cd-num {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: clamp(36px, 5vw, 56px);
-    line-height: 1;
-    color: var(--accent);
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
-  }
-  .cd-lab {
-    font-size: 9px;
-    letter-spacing: 0.28em;
-    color: var(--ink-dim);
-    text-transform: uppercase;
-    margin-top: 12px;
-  }
-
-  .signup-wrap {
-    max-width: 560px;
-    margin: 48px auto 0;
-    text-align: left;
-  }
-  .signup-wrap > .section-tag {
-    margin-bottom: 14px;
-    padding-top: 0;
-    text-align: center;
-  }
-  .signup {
-    display: flex;
-    border: 1px solid var(--line-soft);
-    background: var(--bg);
-    transition: border-color 0.2s ease;
-  }
-  .signup:focus-within { border-color: var(--accent); }
-  .signup input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: var(--ink);
-    padding: 14px 18px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    outline: none;
-    letter-spacing: 0.05em;
-  }
-  .signup input::placeholder { color: var(--ink-faint); }
-  .signup button {
-    background: var(--accent);
-    color: var(--bg-3);
-    border: none;
-    padding: 0 24px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    font-weight: 700;
-  }
-  .signup button:hover { background: var(--ink); }
-  .signup-note {
-    font-size: 10px;
-    color: var(--ink-dim);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 12px;
-    text-align: center;
-    transition: color 0.2s ease;
-  }
-  .signup-note.is-error { color: var(--accent-warm); }
-  .signup-note.is-success { color: var(--accent); }
-
-  .signup-consent {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-top: 16px;
-    padding: 12px 14px;
-    border: 1px solid var(--line-soft);
-    background: rgba(6, 26, 57, 0.4);
-    font-size: 11px;
-    line-height: 1.55;
-    color: var(--ink-dim);
-    letter-spacing: 0.02em;
-    text-transform: none;
-    cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease;
-    text-align: left;
-  }
-  .signup-consent:hover { border-color: var(--accent); }
-  .signup-consent input[type="checkbox"] {
-    flex-shrink: 0;
-    width: 14px;
-    height: 14px;
-    margin-top: 2px;
-    accent-color: var(--accent);
-    cursor: pointer;
-  }
-  .signup-consent a {
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px dotted var(--accent);
-  }
-  .signup-consent a:hover { color: var(--ink); border-bottom-color: var(--ink); }
-
-  /* ============ FOOTER ============ */
-  footer {
-    padding: 36px 32px 28px;
-    border-top: 1px solid var(--line-soft);
-    position: relative;
-    z-index: 2;
-    background: var(--bg-3);
-  }
-  .foot-grid {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-  }
-  .foot-grid .coords {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--accent);
-  }
-
-  /* ============ RESPONSIVE ============ */
-  @media (max-width: 920px) {
-    .header-meta { display: none; }
-    .topstripe .stripe-right { display: none; }
-    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-    .blueprint { max-width: 460px; justify-self: center; }
-    .dossier-head { grid-template-columns: 1fr; gap: 20px; }
-    .specs { grid-template-columns: 1fr; }
-    .corner { display: none; }
-    .coord { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--line-soft); }
-    .titleblock { grid-template-columns: 1fr 1fr; }
-    .tb-cell:nth-child(2) { border-right: none; }
-    .tb-cell:nth-child(1), .tb-cell:nth-child(2) { border-bottom: 1px solid var(--line-soft); }
-  }
-
-  @keyframes sweep {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
+  @keyframes sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 </style>
-
-<!-- Privacy-friendly analytics (self-hosted Umami, cookieless, no PII) -->
 <script defer src="https://umami.dev.endless-webservices.de/script.js" data-website-id="83fc2907-1942-452e-b4ad-04eb1e57eb73"></script>
 </head>
 <body>
 
-<!-- Engineering title-strip -->
 <div class="topstripe">
-  <div class="stripe-left">
-    <span>DRAWING / <b>TBD-2B</b></span>
-    <span>SHEET / <b>1 OF 1</b></span>
-    <span>SCALE / <b>NTS</b></span>
-  </div>
-  <div class="stripe-right">
-    <span>REV / <b>0.9.4</b></span>
-    <span>CLASS / <b>RESTRICTED</b></span>
-    <span>DATE / <b>2026-05-01</b></span>
-  </div>
+  <div class="ts-item">DRAWING / <b>TBD-2B</b></div>
+  <div class="ts-item">REV / <b>1.0.0</b></div>
+  <div class="ts-item">CLASS / <b class="g">DECLASSIFIED</b></div>
+  <div class="ts-item">SDC26 ILA BERLIN</div>
+  <div class="ts-item">STAGE / <b class="g">DEPLOYED</b></div>
 </div>
 
 <header>
-  <div class="logo">
+  <a class="logo" href="#">
     <div class="logo-mark"></div>
-    <span>ToBeDefined<span class="dot">·</span>ai</span>
-  </div>
-  <div class="header-meta">
-    <span><span class="status-dot"></span>SYS / <b>NOMINAL</b></span>
-    <span>STAGE / <b>PRE-FLIGHT</b></span>
-    <span>BUILD / <b>0.9.4</b></span>
-  </div>
+    ToBeDefined<span class="dot">&middot;</span>ai
+  </a>
+  <nav class="header-nav">
+    <a href="#story">The Story</a>
+    <a href="#offer">What We Do</a>
+    <a href="#team">The Team</a>
+  </nav>
+  <a class="header-cta" href="#contact">Let&rsquo;s Talk &rarr;</a>
 </header>
 
 <main>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="corner tl"></div>
-    <div class="corner tr"></div>
-    <div class="corner bl"></div>
-    <div class="corner br"></div>
+<section class="hero">
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+  <div class="hero-grid">
 
-    <div class="hero-grid">
-      <div class="hero-left">
-        <div class="meta-row">
-          <div class="severe">// CONFIDENTIAL</div>
-          <div class="neutral">DRWG <b>TBD-2B</b></div>
-          <div class="neutral">REVEAL <b>11.06.2026</b></div>
-        </div>
-
-        <h1>
-          <span class="word"><span>Five builders.</span></span>
-          <span class="word"><span>One swarm.</span></span>
-          <span class="word"><span><em>Capture the flag.</em></span></span>
-        </h1>
-
-        <p class="lede">
-          We are <strong>ToBeDefined.ai</strong> — five tech &amp; AI enthusiasts with no aerospace background,
-          competing in the <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong>.
-          12 teams entered. 6 made the final. €50,000 prize pool. An indoor capture-the-flag arena where autonomous swarms
-          must coordinate, communicate, and outmaneuver each other in real time.
-          <br><br>
-          We answered the brief in <strong>weeks, not years</strong> — on off-the-shelf airframes, with no custom sensors
-          and no on-board inference rig. The intelligence lives off the drone, on flight controllers and a
-          Command &amp; Control server. <strong>Final round flies on the Defence Track at ILA Berlin.</strong>
-        </p>
-
-        <div class="cta-row">
-          <a class="btn" href="#reveal">
-            Request Briefing
-            <span class="arrow">→</span>
-          </a>
-          <a class="btn ghost" href="#dossier">
-            View Dossier
-          </a>
-        </div>
+    <div>
+      <div class="hero-stamp">
+        <span class="blink"></span>
+        SDC26 Finalist &middot; ILA Berlin 2026
       </div>
-
-      <!-- BLUEPRINT DRAWING -->
-      <div class="blueprint">
-        <span class="dim-label tl">DRWG <span class="v">TBD-2B</span></span>
-        <span class="dim-label tr">VIEW <span class="v">PLAN</span></span>
-        <span class="dim-label ml">DIA <span class="amber">[CLASSIFIED]</span></span>
-        <span class="dim-label mr">ROT <span class="v">4 × ▮▮▮ RPM</span></span>
-
-        <svg viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <defs>
-            <radialGradient id="bpGlow" cx="50%" cy="48%" r="48%">
-              <stop offset="0%" stop-color="var(--line)" stop-opacity="0.12"/>
-              <stop offset="100%" stop-color="var(--line)" stop-opacity="0"/>
-            </radialGradient>
-            <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="var(--line)" stop-opacity="0"/>
-              <stop offset="100%" stop-color="var(--line)" stop-opacity="0.35"/>
-            </linearGradient>
-          </defs>
-
-          <!-- Faint glow under drone -->
-          <circle cx="200" cy="210" r="170" fill="url(#bpGlow)"/>
-
-          <!-- Concentric reference rings (drafting style) -->
-          <g fill="none" stroke="var(--line)" stroke-opacity="0.35" stroke-width="0.8">
-            <circle cx="200" cy="210" r="170" stroke-dasharray="4 6"/>
-            <circle cx="200" cy="210" r="135"/>
-            <circle cx="200" cy="210" r="95" stroke-dasharray="2 4"/>
-            <circle cx="200" cy="210" r="55"/>
-          </g>
-
-          <!-- Cross-hairs -->
-          <g stroke="var(--line)" stroke-opacity="0.35" stroke-width="0.8" stroke-dasharray="4 4">
-            <line x1="20" y1="210" x2="380" y2="210"/>
-            <line x1="200" y1="40" x2="200" y2="380"/>
-          </g>
-
-          <!-- Tick marks on outer ring -->
-          <g stroke="var(--line)" stroke-width="1" stroke-opacity="0.6">
-            <line x1="200" y1="34" x2="200" y2="46"/>
-            <line x1="200" y1="374" x2="200" y2="386"/>
-            <line x1="24" y1="210" x2="36" y2="210"/>
-            <line x1="364" y1="210" x2="376" y2="210"/>
-            <!-- 45deg ticks -->
-            <line x1="80" y1="90" x2="88" y2="98" stroke-dasharray="0"/>
-            <line x1="320" y1="90" x2="312" y2="98"/>
-            <line x1="80" y1="330" x2="88" y2="322"/>
-            <line x1="320" y1="330" x2="312" y2="322"/>
-          </g>
-
-          <!-- Compass mark -->
-          <text x="200" y="28" font-family="JetBrains Mono" font-size="10" fill="var(--ink)" text-anchor="middle" letter-spacing="2">N</text>
-          <text x="392" y="214" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" text-anchor="end" letter-spacing="1">E</text>
-          <text x="200" y="402" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" text-anchor="middle" letter-spacing="1">S</text>
-          <text x="8" y="214" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" letter-spacing="1">W</text>
-
-          <!-- Radar sweep -->
-          <g style="transform-origin: 200px 210px; animation: sweep 8s linear infinite;">
-            <path d="M 200,210 L 370,210 A 170,170 0 0,0 320,89 Z" fill="url(#sweepGrad)" opacity="0.7"/>
-          </g>
-
-          <!-- ============ DRONE TOP-DOWN SCHEMATIC ============ -->
-          <g stroke="var(--ink)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-
-            <!-- Center body -->
-            <rect x="178" y="188" width="44" height="44" rx="4"/>
-            <rect x="184" y="194" width="32" height="32" rx="2" stroke-opacity="0.5" stroke-dasharray="2 2"/>
-
-            <!-- Center axis dot -->
-            <circle cx="200" cy="210" r="7" fill="var(--ink)" fill-opacity="0.15"/>
-            <circle cx="200" cy="210" r="2.5" fill="var(--ink)"/>
-
-            <!-- Front indicator (small triangle pointing up) -->
-            <path d="M 196 184 L 200 176 L 204 184 Z" fill="var(--accent)" stroke="var(--accent)"/>
-
-            <!-- Arms (X-frame, top-down quadcopter) -->
-            <line x1="182" y1="192" x2="146" y2="156"/>
-            <line x1="218" y1="192" x2="254" y2="156"/>
-            <line x1="182" y1="228" x2="146" y2="264"/>
-            <line x1="218" y1="228" x2="254" y2="264"/>
-
-            <!-- Arm dimension lines (drafting style, dashed) -->
-            <g stroke-opacity="0.5" stroke-dasharray="2 3">
-              <line x1="146" y1="156" x2="146" y2="130"/>
-              <line x1="254" y1="156" x2="254" y2="130"/>
-              <line x1="146" y1="130" x2="254" y2="130"/>
-            </g>
-
-            <!-- Rotor guards (outer dashed) -->
-            <circle cx="146" cy="156" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
-            <circle cx="254" cy="156" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
-            <circle cx="146" cy="264" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
-            <circle cx="254" cy="264" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
-
-            <!-- Rotor hubs (solid inner) -->
-            <circle cx="146" cy="156" r="16"/>
-            <circle cx="254" cy="156" r="16"/>
-            <circle cx="146" cy="264" r="16"/>
-            <circle cx="254" cy="264" r="16"/>
-
-            <!-- Rotor center dots -->
-            <circle cx="146" cy="156" r="2.5" fill="var(--ink)"/>
-            <circle cx="254" cy="156" r="2.5" fill="var(--ink)"/>
-            <circle cx="146" cy="264" r="2.5" fill="var(--ink)"/>
-            <circle cx="254" cy="264" r="2.5" fill="var(--ink)"/>
-
-            <!-- Spinning rotor blades -->
-            <g style="transform-origin: 146px 156px; animation: spin 0.45s linear infinite;">
-              <line x1="130" y1="156" x2="162" y2="156"/>
-              <line x1="146" y1="140" x2="146" y2="172"/>
-            </g>
-            <g style="transform-origin: 254px 156px; animation: spin 0.45s linear infinite reverse;">
-              <line x1="238" y1="156" x2="270" y2="156"/>
-              <line x1="254" y1="140" x2="254" y2="172"/>
-            </g>
-            <g style="transform-origin: 146px 264px; animation: spin 0.45s linear infinite reverse;">
-              <line x1="130" y1="264" x2="162" y2="264"/>
-              <line x1="146" y1="248" x2="146" y2="280"/>
-            </g>
-            <g style="transform-origin: 254px 264px; animation: spin 0.45s linear infinite;">
-              <line x1="238" y1="264" x2="270" y2="264"/>
-              <line x1="254" y1="248" x2="254" y2="280"/>
-            </g>
-
-            <!-- Sensor pods (front + back) -->
-            <circle cx="200" cy="180" r="3.5" fill="var(--accent)" stroke="var(--accent)"/>
-            <circle cx="200" cy="240" r="3" stroke-opacity="0.7"/>
-
-            <!-- Landing legs hint (small ticks under body) -->
-            <line x1="184" y1="232" x2="184" y2="240" stroke-opacity="0.6"/>
-            <line x1="216" y1="232" x2="216" y2="240" stroke-opacity="0.6"/>
-          </g>
-
-          <!-- Annotation callouts -->
-          <g font-family="JetBrains Mono" font-size="8" fill="var(--ink-dim)" letter-spacing="1">
-            <!-- Rotor 1 callout -->
-            <line x1="120" y1="156" x2="98" y2="120" stroke="var(--line-soft)" stroke-width="0.8"/>
-            <circle cx="98" cy="120" r="2" fill="var(--accent)"/>
-            <text x="92" y="112" text-anchor="end">M-01</text>
-
-            <!-- Rotor 2 callout -->
-            <line x1="280" y1="156" x2="302" y2="120" stroke="var(--line-soft)" stroke-width="0.8"/>
-            <circle cx="302" cy="120" r="2" fill="var(--accent)"/>
-            <text x="308" y="112">M-02</text>
-
-            <!-- Body callout -->
-            <line x1="222" y1="210" x2="350" y2="210" stroke="var(--line-soft)" stroke-width="0.8"/>
-            <circle cx="350" cy="210" r="2" fill="var(--accent)"/>
-            <text x="356" y="213">CORE</text>
-
-            <!-- Sensor pod callout -->
-            <line x1="200" y1="180" x2="200" y2="60" stroke="var(--line-soft)" stroke-width="0.8" stroke-dasharray="2 2"/>
-            <circle cx="200" cy="60" r="2" fill="var(--accent)"/>
-            <text x="206" y="62">SENSOR ARRAY</text>
-
-            <!-- Bottom callout -->
-            <line x1="200" y1="240" x2="60" y2="350" stroke="var(--line-soft)" stroke-width="0.8" stroke-dasharray="2 2"/>
-            <circle cx="60" cy="350" r="2" fill="var(--accent)"/>
-            <text x="66" y="353">PAYLOAD BAY</text>
-          </g>
-
-        </svg>
-
-        <!-- Title block at bottom of drawing -->
-        <div class="titleblock">
-          <div class="tb-cell">
-            ToBeDefined.ai
-            <div class="tb-val">TBD-2B · AUTONOMOUS PLATFORM</div>
-          </div>
-          <div class="tb-cell">
-            Sheet
-            <div class="tb-val">1 / 1</div>
-          </div>
-          <div class="tb-cell">
-            Scale
-            <div class="tb-val">NTS</div>
-          </div>
-          <div class="tb-cell">
-            Status
-            <div class="tb-val amber">EMBARGO</div>
-          </div>
-        </div>
+      <h1>
+        <span class="word"><span>AI changes</span></span>
+        <span class="word"><span>everything.</span></span>
+        <span class="word"><span><em>We have the proof.</em></span></span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-lede">
+        We are ToBeDefined.ai &mdash; five tech &amp; AI enthusiasts
+        with no aerospace background. <strong>Zero drone experience.</strong>
+        14 weeks part-time. <strong>International finalist.</strong>
+        Flying autonomous swarms on the Defence Track at ILA Berlin.<br><br>
+        We build <strong>fast software solutions for complex technical problems.</strong>
+        Any domain. Proven.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#contact">Let&rsquo;s Talk <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-ghost" href="#story">The Story <span class="arrow">&darr;</span></a>
       </div>
     </div>
-  </section>
 
-  <!-- TICKER -->
-  <div class="ticker">
-    <div class="ticker-track">
-      <span>Swarm Drone Challenge 2026</span>
-      <span>Capture the Flag</span>
-      <span>6 Finalists · From 12 Teams</span>
-      <span>€50,000 Prize Pool</span>
-      <span>Off-the-Shelf Airframes</span>
-      <span>Off-Board Compute · C2 Server</span>
-      <span>Weeks · Not Years</span>
-      <span>Defence Track · ILA Berlin</span>
-      <span>Swarm Drone Challenge 2026</span>
-      <span>Capture the Flag</span>
-      <span>6 Finalists · From 12 Teams</span>
-      <span>€50,000 Prize Pool</span>
-      <span>Off-the-Shelf Airframes</span>
-      <span>Off-Board Compute · C2 Server</span>
-      <span>Weeks · Not Years</span>
-      <span>Defence Track · ILA Berlin</span>
+    <div class="blueprint">
+      <span class="dim-label tl">DRWG <span class="v">TBD-2B</span></span>
+      <span class="dim-label tr">VIEW <span class="v">PLAN</span></span>
+      <span class="dim-label ml">DIA <span class="amber">[CLASSIFIED]</span></span>
+      <span class="dim-label mr">SENSOR ARRAY</span>
+      <svg viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="bpGlow" cx="50%" cy="48%" r="48%">
+            <stop offset="0%" stop-color="var(--line)" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="var(--line)" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--line)" stop-opacity="0"/>
+            <stop offset="100%" stop-color="var(--line)" stop-opacity="0.35"/>
+          </linearGradient>
+        </defs>
+        <circle cx="200" cy="210" r="170" fill="url(#bpGlow)"/>
+        <g fill="none" stroke="var(--line)" stroke-opacity="0.35" stroke-width="0.8">
+          <circle cx="200" cy="210" r="170" stroke-dasharray="4 6"/>
+          <circle cx="200" cy="210" r="135"/>
+          <circle cx="200" cy="210" r="95" stroke-dasharray="2 4"/>
+          <circle cx="200" cy="210" r="55"/>
+        </g>
+        <g stroke="var(--line)" stroke-opacity="0.35" stroke-width="0.8" stroke-dasharray="4 4">
+          <line x1="20" y1="210" x2="380" y2="210"/>
+          <line x1="200" y1="40" x2="200" y2="380"/>
+        </g>
+        <g stroke="var(--line)" stroke-width="1" stroke-opacity="0.6">
+          <line x1="200" y1="34" x2="200" y2="46"/>
+          <line x1="200" y1="374" x2="200" y2="386"/>
+          <line x1="24" y1="210" x2="36" y2="210"/>
+          <line x1="364" y1="210" x2="376" y2="210"/>
+          <line x1="80" y1="90" x2="88" y2="98"/>
+          <line x1="320" y1="90" x2="312" y2="98"/>
+          <line x1="80" y1="330" x2="88" y2="322"/>
+          <line x1="320" y1="330" x2="312" y2="322"/>
+        </g>
+        <text x="200" y="28" font-family="JetBrains Mono" font-size="10" fill="var(--ink)" text-anchor="middle" letter-spacing="2">N</text>
+        <text x="392" y="214" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" text-anchor="end" letter-spacing="1">E</text>
+        <text x="200" y="402" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" text-anchor="middle" letter-spacing="1">S</text>
+        <text x="8" y="214" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" letter-spacing="1">W</text>
+        <g style="transform-origin: 200px 210px; animation: sweep 8s linear infinite;">
+          <path d="M 200,210 L 370,210 A 170,170 0 0,0 320,89 Z" fill="url(#sweepGrad)" opacity="0.7"/>
+        </g>
+        <g stroke="var(--ink)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="178" y="188" width="44" height="44" rx="4"/>
+          <rect x="184" y="194" width="32" height="32" rx="2" stroke-opacity="0.5" stroke-dasharray="2 2"/>
+          <circle cx="200" cy="210" r="7" fill="var(--ink)" fill-opacity="0.15"/>
+          <circle cx="200" cy="210" r="2.5" fill="var(--ink)"/>
+          <path d="M 196 184 L 200 176 L 204 184 Z" fill="var(--accent)" stroke="var(--accent)"/>
+          <line x1="182" y1="192" x2="146" y2="156"/>
+          <line x1="218" y1="192" x2="254" y2="156"/>
+          <line x1="182" y1="228" x2="146" y2="264"/>
+          <line x1="218" y1="228" x2="254" y2="264"/>
+          <g stroke-opacity="0.5" stroke-dasharray="2 3">
+            <line x1="146" y1="156" x2="146" y2="130"/>
+            <line x1="254" y1="156" x2="254" y2="130"/>
+            <line x1="146" y1="130" x2="254" y2="130"/>
+          </g>
+          <circle cx="146" cy="156" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
+          <circle cx="254" cy="156" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
+          <circle cx="146" cy="264" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
+          <circle cx="254" cy="264" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
+          <circle cx="146" cy="156" r="16"/>
+          <circle cx="254" cy="156" r="16"/>
+          <circle cx="146" cy="264" r="16"/>
+          <circle cx="254" cy="264" r="16"/>
+          <circle cx="146" cy="156" r="2.5" fill="var(--ink)"/>
+          <circle cx="254" cy="156" r="2.5" fill="var(--ink)"/>
+          <circle cx="146" cy="264" r="2.5" fill="var(--ink)"/>
+          <circle cx="254" cy="264" r="2.5" fill="var(--ink)"/>
+          <g style="transform-origin: 146px 156px; animation: spin 0.45s linear infinite;">
+            <line x1="130" y1="156" x2="162" y2="156"/>
+            <line x1="146" y1="140" x2="146" y2="172"/>
+          </g>
+          <g style="transform-origin: 254px 156px; animation: spin 0.45s linear infinite reverse;">
+            <line x1="238" y1="156" x2="270" y2="156"/>
+            <line x1="254" y1="140" x2="254" y2="172"/>
+          </g>
+          <g style="transform-origin: 146px 264px; animation: spin 0.45s linear infinite reverse;">
+            <line x1="130" y1="264" x2="162" y2="264"/>
+            <line x1="146" y1="248" x2="146" y2="280"/>
+          </g>
+          <g style="transform-origin: 254px 264px; animation: spin 0.45s linear infinite;">
+            <line x1="238" y1="264" x2="270" y2="264"/>
+            <line x1="254" y1="248" x2="254" y2="280"/>
+          </g>
+          <circle cx="200" cy="180" r="3.5" fill="var(--accent)" stroke="var(--accent)"/>
+          <circle cx="200" cy="240" r="3" stroke-opacity="0.7"/>
+          <line x1="184" y1="232" x2="184" y2="240" stroke-opacity="0.6"/>
+          <line x1="216" y1="232" x2="216" y2="240" stroke-opacity="0.6"/>
+        </g>
+        <g font-family="JetBrains Mono" font-size="8" fill="var(--ink-dim)" letter-spacing="1">
+          <line x1="120" y1="156" x2="98" y2="120" stroke="var(--line-soft)" stroke-width="0.8"/>
+          <circle cx="98" cy="120" r="2" fill="var(--accent)"/>
+          <text x="92" y="112" text-anchor="end">M-01</text>
+          <line x1="280" y1="156" x2="302" y2="120" stroke="var(--line-soft)" stroke-width="0.8"/>
+          <circle cx="302" cy="120" r="2" fill="var(--accent)"/>
+          <text x="308" y="112">M-02</text>
+          <line x1="222" y1="210" x2="350" y2="210" stroke="var(--line-soft)" stroke-width="0.8"/>
+          <circle cx="350" cy="210" r="2" fill="var(--accent)"/>
+          <text x="356" y="213">CORE</text>
+          <line x1="200" y1="180" x2="200" y2="60" stroke="var(--line-soft)" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <circle cx="200" cy="60" r="2" fill="var(--accent)"/>
+          <text x="206" y="62">SENSOR ARRAY</text>
+          <line x1="200" y1="240" x2="60" y2="350" stroke="var(--line-soft)" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <circle cx="60" cy="350" r="2" fill="var(--accent)"/>
+          <text x="66" y="353">PAYLOAD BAY</text>
+        </g>
+      </svg>
+      <div class="titleblock">
+        <div class="tb-cell">ToBeDefined.ai<div class="tb-val">TBD-2B &middot; AUTONOMOUS PLATFORM</div></div>
+        <div class="tb-cell">Sheet<div class="tb-val">1 / 1</div></div>
+        <div class="tb-cell">Scale<div class="tb-val">NTS</div></div>
+        <div class="tb-cell">Status<div class="tb-val amber">EMBARGO</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section dark" id="story">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="sec-tag">02 / The Story</div>
+      <h2 class="sec-h2">Eight weeks. Zero experience.<br><em>One question: how far can we get with AI?</em></h2>
+    </div>
+    <div class="stats-strip">
+      <div class="stat-cell">
+        <div class="stat-val">Top 6</div>
+        <div class="stat-lbl">International Finalist</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">8<span class="unit">wk</span></div>
+        <div class="stat-lbl">To Qualification</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">0<span class="unit">mods</span></div>
+        <div class="stat-lbl">Hardware Changes</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">3.6k<span class="unit">lines</span></div>
+        <div class="stat-lbl">Python &middot; End-to-End</div>
+      </div>
+    </div>
+    <div class="story-prose">
+      <p>Vicki signed up for the challenge before she had a team. Then she looked around her coworking space.</p>
+      <p>Four people said yes. None of them had ever flown a drone. All of them knew how to build software &mdash; each from a completely different corner of the industry. Electronics, dev, IT, AI, project management. Not a team by design. A Swiss army knife by accident.</p>
+      <p>The real question was never whether we&rsquo;d win. It was simpler: how far can we get, together with AI?</p>
+      <p>Eight weeks to qualification. A complex autonomous system built from scratch. Experienced startups in the same field. Real experience collected. Real answers found.</p>
+      <p>Top 6. ILA Berlin. Defence Track.</p>
+    </div>
+    <blockquote class="story-quote">
+      &ldquo;We didn&rsquo;t want the theory.<br>
+      We wanted to know what&rsquo;s actually possible.&rdquo;
+    </blockquote>
+  </div>
+</section>
+
+<section class="section" id="offer">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="sec-tag">03 / What We Offer</div>
+      <h2 class="sec-h2">Your problem. <em>Our next mission.</em></h2>
+    </div>
+    <div class="offer-cards">
+      <div class="offer-card primary">
+        <div class="offer-label p">Primary &mdash; What We Do</div>
+        <div class="offer-title">Fast Software Solutions for Complex Technical Problems</div>
+        <div class="offer-body">
+          <p>You have a hard technical problem. Tight timeline. A domain that feels too complex to outsource.</p>
+          <p>We&rsquo;ve been there &mdash; in a field none of us knew, with weeks on the clock. We built anyway. That&rsquo;s not a case study. That&rsquo;s a public competition with experienced teams watching.</p>
+          <p><strong>We take on your challenge and deliver working software. Fast.</strong></p>
+        </div>
+        <div class="offer-targets">
+          Relevant for<br>
+          <span>Defence &amp; Aerospace Contractors</span><br>
+          <span>Corporate R&amp;D &amp; Innovation Labs</span><br>
+          <span>Deep-Tech Startups</span>
+        </div>
+        <div class="offer-cta">
+          <a class="btn btn-primary" href="#contact">Let&rsquo;s Talk <span class="arrow">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="offer-card secondary">
+        <div class="offer-label s">Secondary &mdash; What We Can Show</div>
+        <div class="offer-title">AI-Augmented Development Consulting</div>
+        <div class="offer-body">
+          <p>We don&rsquo;t just use AI to build faster &mdash; we&rsquo;ve stress-tested what that actually means in practice.</p>
+          <p>We show your team how AI-augmented development works when the problem is real and the deadline isn&rsquo;t.</p>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- DOSSIER -->
-  <section class="dossier" id="dossier">
-    <div class="dossier-head">
-      <div class="section-tag">01 / Challenge Briefing</div>
-      <h2 class="dossier-title">
-        Swarm Drone Challenge 2026. <em>Capture the flag, fully autonomous.</em>
-      </h2>
+<section class="section mid" id="capabilities">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="sec-tag">04 / Capabilities</div>
+      <h2 class="sec-h2">What we actually built. <em>From scratch.</em></h2>
     </div>
-
-    <div class="specs">
-      <div class="spec">
-        <div class="spec-num">/ 001 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val" style="font-size:22px; line-height:1.15;">MBDA <span class="unit" style="font-size:14px;">×</span> brigkAIR</div>
-        <div class="spec-label">Sponsors · Defence + Innovation</div>
+    <div class="cap-grid">
+      <div class="cap">
+        <div class="cap-id">/ C-01 <span class="dep">DEPLOYED</span></div>
+        <div class="cap-title">Autonomous Systems &amp; Swarm AI</div>
+        <div class="cap-body">Multi-agent coordination, role-based Game AI (Scout, Attacker, Defender, Returner), rule-based strategy engine, collision avoidance, fully autonomous mission execution.</div>
+        <div class="cap-tags">
+          <span class="cap-tag">FastAPI</span><span class="cap-tag">Game AI</span><span class="cap-tag">Multi-Agent</span><span class="cap-tag">UDP Relay</span>
+        </div>
       </div>
-      <div class="spec">
-        <div class="spec-num">/ 002 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val">€50k<span class="unit">prize</span></div>
-        <div class="spec-label">Total Prize Pool</div>
+      <div class="cap">
+        <div class="cap-id">/ C-02 <span class="dep">DEPLOYED</span></div>
+        <div class="cap-title">Computer Vision &amp; Positioning</div>
+        <div class="cap-body">ArUco marker detection via OpenCV 4.13, solvePnP 3D localisation, Kalman filter state estimation at ~10 Hz. YOLO11n real-time drone detection at 15 FPS. No additional sensors or hardware.</div>
+        <div class="cap-tags">
+          <span class="cap-tag">OpenCV</span><span class="cap-tag">YOLO11n</span><span class="cap-tag">Kalman Filter</span><span class="cap-tag">solvePnP</span>
+        </div>
       </div>
-      <div class="spec">
-        <div class="spec-num">/ 003 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val">6<span class="unit">/ 12</span></div>
-        <div class="spec-label">Finalists · From 12 Entrants (India → Canada)</div>
+      <div class="cap">
+        <div class="cap-id">/ C-03 <span class="dep">DEPLOYED</span></div>
+        <div class="cap-title">Distributed C2 Architecture</div>
+        <div class="cap-body">Decoupled flight controllers per drone. Central C2 server with clean separation: Tactics layer (Port 8080) and Strategy / Game AI layer (Port 9090). Low latency, scalable.</div>
+        <div class="cap-tags">
+          <span class="cap-tag">C2 Design</span><span class="cap-tag">WebSocket</span><span class="cap-tag">MJPEG</span><span class="cap-tag">REST API</span>
+        </div>
       </div>
-      <div class="spec">
-        <div class="spec-num">/ 004 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val" style="font-size:24px;">CTF</div>
-        <div class="spec-label">Indoor Capture-the-Flag · Swarm vs Swarm</div>
-      </div>
-      <div class="spec">
-        <div class="spec-num">/ 005 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val" style="font-size:20px;">SWARM · COMMS · AI</div>
-        <div class="spec-label">Judging Criteria</div>
-      </div>
-      <div class="spec">
-        <div class="spec-num">/ 006 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val" style="font-size:24px; line-height:1.2;">11.06.2026<br><span style="color:var(--accent); font-size:14px; font-family: 'Share Tech Mono', monospace;">ILA · Drone Pavilion</span></div>
-        <div class="spec-label">Final Round · Defence Area</div>
-      </div>
-    </div>
-
-    <div class="dossier-head" style="margin-top: 80px;">
-      <div class="section-tag">02 / Our Approach</div>
-      <h2 class="dossier-title">
-        No drone background. No custom hardware. <em>A revolutionary approach, supported by AI.</em>
-      </h2>
-    </div>
-
-    <div class="specs">
-      <div class="spec">
-        <div class="spec-num">/ 007 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val">5<span class="unit">builders</span></div>
-        <div class="spec-label">Tech &amp; AI Enthusiasts · No Aerospace BG</div>
-      </div>
-      <div class="spec">
-        <div class="spec-num">/ 008 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val">~6<span class="unit">weeks</span></div>
-        <div class="spec-label">Concept to Autonomous Flight</div>
-      </div>
-      <div class="spec">
-        <div class="spec-num">/ 009 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val">0<span class="unit">mods</span></div>
-        <div class="spec-label">Off-the-Shelf Airframes · No Custom Sensors</div>
-      </div>
-      <div class="spec">
-        <div class="spec-num">/ 010 <span class="stamp" style="color:var(--accent)">PUBLIC</span></div>
-        <div class="spec-val">100<span class="unit">% off-board</span></div>
-        <div class="spec-label">Compute on Flight Controllers + C2 Server</div>
-      </div>
-      <div class="spec spec-redacted">
-        <div class="spec-num">/ 011 <span class="stamp">SEALED</span></div>
-        <div class="spec-val">TACTIC-X</div>
-        <div class="spec-label">Swarm Tactics · Match Strategy</div>
-      </div>
-      <div class="spec spec-redacted">
-        <div class="spec-num">/ 012 <span class="stamp">SEALED</span></div>
-        <div class="spec-val">STACK-X</div>
-        <div class="spec-label">Autonomy Stack · Architecture</div>
+      <div class="cap">
+        <div class="cap-id">/ C-04 <span class="dep">DEPLOYED</span></div>
+        <div class="cap-title">Full-Stack Python &amp; AI Development</div>
+        <div class="cap-body">One language, one coherent architecture &mdash; from drone WiFi SDK to strategy AI to real-time web dashboard. Hardware-agnostic, vendor-agnostic, MAVlink-ready. 3,600+ lines built with Claude Code.</div>
+        <div class="cap-tags">
+          <span class="cap-tag">Python 3.11+</span><span class="cap-tag">Claude Code</span><span class="cap-tag">Flask</span><span class="cap-tag">MAVlink</span>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ILA REVEAL -->
-  <section class="reveal" id="reveal">
-    <div class="reveal-inner">
+<section class="section dark" id="team">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="sec-tag">05 / The Team</div>
+      <h2 class="sec-h2">Five engineers. <em>One swarm.</em></h2>
+    </div>
+    <div class="team-grid">
+      <a class="team-card" href="#" target="_blank" rel="noopener">
+        <div class="team-card-info">
+          <div class="team-id">/ T-01 &middot; BAVARIA, DE</div>
+          <div class="team-name">Ren&eacute; Melzer</div>
+          <span class="team-callsign">Supertyp Ren&eacute;</span>
+          <div class="team-role">Electronics Engineer</div>
+        </div>
+        <img class="team-photo" src="/rene.png" alt="René Melzer">
+      </a>
+      <a class="team-card" href="https://www.linkedin.com/company/teamware/posts/?feedView=all" target="_blank" rel="noopener">
+        <div class="team-card-info">
+          <div class="team-id">/ T-02 &middot; BAVARIA, DE</div>
+          <div class="team-name">Thomas Letze</div>
+          <span class="team-callsign">Bruchpilot Thomas</span>
+          <div class="team-role">Software Developer</div>
+        </div>
+        <img class="team-photo" src="/thomas.png" alt="Thomas Letze">
+      </a>
+      <a class="team-card" href="https://www.linkedin.com/in/sdirbach/" target="_blank" rel="noopener">
+        <div class="team-card-info">
+          <div class="team-id">/ T-03 &middot; BAVARIA, DE</div>
+          <div class="team-name">Sascha Dirbach</div>
+          <span class="team-callsign">Drone Whisperer Sascha</span>
+          <div class="team-role">IT Expert</div>
+        </div>
+        <img class="team-photo" src="/sascha.png" alt="Sascha Dirbach">
+      </a>
+      <a class="team-card" href="https://www.linkedin.com/in/oliver-tiedemann/" target="_blank" rel="noopener">
+        <div class="team-card-info">
+          <div class="team-id">/ T-04 &middot; BAVARIA, DE</div>
+          <div class="team-name">Oliver Tiedemann</div>
+          <span class="team-callsign">Hive Commander Olli</span>
+          <div class="team-role">AI Enthusiast</div>
+        </div>
+        <img class="team-photo" src="/oliver.png" alt="Oliver Tiedemann">
+      </a>
+      <a class="team-card" href="https://www.linkedin.com/in/vicki-lichtenegger-195032226/" target="_blank" rel="noopener">
+        <div class="team-card-info">
+          <div class="team-id">/ T-05 &middot; BAVARIA, DE</div>
+          <div class="team-name">Vicki Lichtenegger</div>
+          <span class="team-callsign">Drone Queen Vicki</span>
+          <div class="team-role">Project Management &amp; Networking</div>
+        </div>
+        <img class="team-photo" src="/vicki.png" alt="Vicki Lichtenegger">
+      </a>
+    </div>
+    <div class="next-mission">
       <div class="corner tl"></div>
       <div class="corner tr"></div>
       <div class="corner bl"></div>
       <div class="corner br"></div>
-
-      <div class="reveal-tag">
-        <span class="blink"></span>
-        Embargo lifts at T-zero
-      </div>
-
-      <h2>
-        SDC 2026 // Final Round
-        <em>ila berlin · 11 · 06 · 2026</em>
-      </h2>
-
-      <div class="reveal-coords">
-        <div class="coord">
-          <div class="coord-label">Venue</div>
-          <div class="coord-val">Berlin <span class="accent">ExpoCenter</span> Airport</div>
-        </div>
-        <div class="coord">
-          <div class="coord-label">Coordinates</div>
-          <div class="coord-val">52.36° N <span class="accent">/</span> 13.50° E</div>
-        </div>
-        <div class="coord">
-          <div class="coord-label">Arena</div>
-          <div class="coord-val">Drone <span class="accent">Pavilion</span> · Defence</div>
-        </div>
-        <div class="coord">
-          <div class="coord-label">Show Window</div>
-          <div class="coord-val">10 — 14 <span class="accent">Jun</span></div>
-        </div>
-      </div>
-
-      <div class="countdown" id="countdown" aria-label="Countdown to reveal">
-        <div class="cd-cell"><div class="cd-num" id="cd-d">00</div><div class="cd-lab">Days</div></div>
-        <div class="cd-cell"><div class="cd-num" id="cd-h">00</div><div class="cd-lab">Hours</div></div>
-        <div class="cd-cell"><div class="cd-num" id="cd-m">00</div><div class="cd-lab">Minutes</div></div>
-        <div class="cd-cell"><div class="cd-num" id="cd-s">00</div><div class="cd-lab">Seconds</div></div>
-      </div>
-
-      <div class="signup-wrap">
-        <div class="section-tag" style="color: var(--ink-dim);">Cleared visitors only · EU-friendly · single opt-in</div>
-
-        <form class="signup"
-              action="https://submit-form.com/5CMyER7Wm"
-              method="POST"
-              id="briefingForm"
-              novalidate>
-          <input type="email" name="email" placeholder="operator.email@domain" required />
-
-          <!-- Honeypot — invisible to humans, bots fill it. Submissions where this is non-empty are rejected client-side. -->
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; top:-9999px; width:1px; height:1px;" />
-
-          <button type="submit">Request Pass</button>
-        </form>
-
-        <label class="signup-consent">
-          <input type="checkbox" required form="briefingForm" name="consent" id="briefingConsent" />
-          <span>I consent to ToBeDefined.ai storing my email for the purpose of receiving SDC2026 briefing materials. Data is processed via Formspark (EU-friendly, DPA on file) and can be deleted on request — see <a href="/privacy.html">Privacy Policy</a>.</span>
-        </label>
-
-        <div class="signup-note" id="briefingNote">
-          Single opt-in · Form data processed by Formspark · GDPR compliant
-        </div>
-      </div>
+      <div class="next-mission-title">Next mission: <em>undefined.</em></div>
+      <p class="next-mission-body">
+        We&rsquo;re available for new projects &mdash;
+        fast software solutions for complex technical challenges,
+        and consulting on AI-augmented development.
+      </p>
+      <a class="btn btn-primary" href="#contact">Let&rsquo;s Talk <span class="arrow">&rarr;</span></a>
     </div>
-  </section>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+    <div class="contact-tag">
+      <span class="blink"></span>
+      Next Mission: Undefined
+    </div>
+    <h2 class="contact-h2">
+      Got a hard problem?
+      <em>Let&rsquo;s talk.</em>
+    </h2>
+    <p class="contact-desc">
+      We are available for new projects &mdash;
+      <strong>fast software solutions for complex technical challenges</strong>,
+      and consulting on AI-augmented development.
+      No slides. No long onboarding. We dive in.
+    </p>
+    <a class="contact-email" href="mailto:hello@tobedefined.ai">
+      hello@tobedefined.ai
+    </a>
+    <div class="contact-sub">Bavaria, Germany &middot; Available remote &amp; on-site</div>
+  </div>
+</section>
 
 </main>
 
 <footer>
-  <div class="foot-grid">
-    <div>© ToBeDefined.ai — All Systems Reserved</div>
-    <div class="coords">52.36° N / 13.50° E · ILA · 11.06.2026</div>
-    <div>TBD-2B // EMBARGOED</div>
+  <div class="foot-inner">
+    <div>&copy; ToBeDefined.ai &mdash; All Systems Reserved</div>
+    <div class="coords">52.36&deg; N / 13.50&deg; E &middot; ILA &middot; 11.06.2026</div>
+    <div>TBD-2B // DEPLOYED</div>
+    <div><a href="/ila2026.html">ILA 2026 &nearr;</a></div>
   </div>
 </footer>
-
-<script>
-  // Reveal target: 11 June 2026, 10:00 Berlin local time (CEST = UTC+2)
-  const target = new Date('2026-06-11T10:00:00+02:00');
-
-  function pad(n) { return String(n).padStart(2, '0'); }
-
-  function tick() {
-    const now = new Date();
-    let diff = Math.max(0, target - now);
-    const d = Math.floor(diff / 86400000); diff %= 86400000;
-    const h = Math.floor(diff / 3600000);  diff %= 3600000;
-    const m = Math.floor(diff / 60000);    diff %= 60000;
-    const s = Math.floor(diff / 1000);
-    document.getElementById('cd-d').textContent = pad(d);
-    document.getElementById('cd-h').textContent = pad(h);
-    document.getElementById('cd-m').textContent = pad(m);
-    document.getElementById('cd-s').textContent = pad(s);
-  }
-  tick();
-  setInterval(tick, 1000);
-
-  // ---------- Briefing-pass form (Formspark + honeypot, single opt-in) ----------
-  (function() {
-    const form = document.getElementById('briefingForm');
-    if (!form) return;
-
-    const button = form.querySelector('button[type="submit"]');
-    const emailInput = form.querySelector('input[name="email"]');
-    const honeypot = form.querySelector('input[name="_gotcha"]');
-    const consentBox = document.getElementById('briefingConsent');
-    const note = document.getElementById('briefingNote');
-
-    const DEFAULT_NOTE = 'Single opt-in · Form data processed by Formspark · GDPR compliant';
-
-    function setNote(text, state) {
-      note.textContent = text;
-      note.classList.remove('is-error', 'is-success');
-      if (state) note.classList.add('is-' + state);
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Honeypot — silent fake-success so bots don't learn anything
-      if (honeypot.value !== '') {
-        button.textContent = 'Logged ✓';
-        button.disabled = true;
-        return;
-      }
-
-      if (!consentBox.checked) {
-        setNote('✗ Please tick the consent checkbox to continue.', 'error');
-        return;
-      }
-
-      if (!emailInput.value || !emailInput.checkValidity()) {
-        setNote('✗ Please enter a valid email address.', 'error');
-        return;
-      }
-
-      button.disabled = true;
-      button.textContent = 'Transmitting…';
-      setNote('Submitting your briefing pass…');
-
-      try {
-        // Formspark expects JSON or url-encoded — NOT multipart/form-data.
-        // Convert FormData → plain object → JSON string.
-        const payload = Object.fromEntries(new FormData(form));
-
-        const response = await fetch(form.action, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (response.ok) {
-          emailInput.value = '';
-          consentBox.checked = false;
-          button.textContent = 'Logged ✓';
-          setNote('✓ Briefing pass logged. We\'ll be in touch before 11.06.2026.', 'success');
-        } else {
-          button.textContent = 'Try again';
-          button.disabled = false;
-          setNote('✗ Submission failed. Please retry in a moment.', 'error');
-        }
-      } catch (err) {
-        button.textContent = 'Try again';
-        button.disabled = false;
-        setNote('✗ Network error. Please retry.', 'error');
-      }
-    });
-
-    // Reset the note when the user starts editing again
-    emailInput.addEventListener('input', () => {
-      if (note.classList.contains('is-error')) setNote(DEFAULT_NOTE);
-    });
-    consentBox.addEventListener('change', () => {
-      if (consentBox.checked && note.classList.contains('is-error')) setNote(DEFAULT_NOTE);
-    });
-  })();
-</script>
 
 </body>
 </html>
