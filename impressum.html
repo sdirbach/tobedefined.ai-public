@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Impressum — ToBeDefined.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Share+Tech+Mono&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0d2a4f;--bg-2:#0a2244;--bg-3:#061a39;
+    --ink:#f4f1e4;--ink-dim:#a8c4e8;--ink-faint:#4a6c96;
+    --line-soft:rgba(216,233,255,0.45);--line-faint:rgba(216,233,255,0.18);
+    --accent:#ffd84a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(216,233,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(216,233,255,0.06) 1px,transparent 1px),linear-gradient(rgba(216,233,255,0.12) 1px,transparent 1px),linear-gradient(90deg,rgba(216,233,255,0.12) 1px,transparent 1px);background-size:16px 16px,16px 16px,80px 80px,80px 80px;pointer-events:none;z-index:0;}
+  body::after{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 120% 100% at 50% 50%,transparent 30%,rgba(0,0,0,0.35) 100%);pointer-events:none;z-index:1;}
+  .topstripe{position:fixed;top:0;left:0;right:0;height:28px;background:var(--bg-3);border-bottom:1px solid var(--line-soft);z-index:200;display:flex;align-items:center;padding:0 32px;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink-dim);}
+  .ts-item{padding:0 16px;height:28px;display:flex;align-items:center;border-right:1px solid var(--line-faint);white-space:nowrap;}
+  .ts-item:last-child{border-right:none;margin-left:auto;}
+  .ts-item b{color:var(--ink);font-weight:500;margin-left:5px;}
+  header{position:fixed;top:28px;left:0;right:0;padding:0 32px;height:52px;display:flex;justify-content:space-between;align-items:center;z-index:100;border-bottom:1px solid var(--line-soft);background:rgba(13,42,79,0.88);backdrop-filter:blur(8px);}
+  .logo{display:flex;align-items:center;gap:12px;font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;}
+  .logo-mark{width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;position:relative;flex-shrink:0;}
+  .logo-mark::before,.logo-mark::after{content:"";position:absolute;background:var(--ink);}
+  .logo-mark::before{top:50%;left:-4px;right:-4px;height:1px;transform:translateY(-50%);}
+  .logo-mark::after{left:50%;top:-4px;bottom:-4px;width:1px;transform:translateX(-50%);}
+  .logo .dot{color:var(--accent);}
+  .back-link{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);text-decoration:none;transition:color 0.2s;}
+  .back-link:hover{color:var(--accent);}
+  main{position:relative;z-index:2;padding:120px 32px 96px;max-width:800px;margin:0 auto;}
+  .page-tag{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+  .page-tag::before{content:"§ ";color:var(--ink-dim);}
+  .page-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(28px,4vw,48px);line-height:1.05;letter-spacing:-0.02em;margin-bottom:48px;padding-bottom:28px;border-bottom:1px solid var(--line-soft);}
+  .impr-block{margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--line-faint);}
+  .impr-block:last-child{border-bottom:none;}
+  .impr-label{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+  .impr-block p{font-size:13px;line-height:1.8;color:var(--ink-dim);margin-bottom:6px;}
+  .impr-block p strong{color:var(--ink);font-weight:500;}
+  .impr-block a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);}
+  .impr-block a:hover{color:var(--ink);border-bottom-color:var(--ink);}
+  .impr-block p.small{font-size:11px;color:var(--ink-faint);line-height:1.7;}
+  footer{position:relative;z-index:2;padding:28px 32px;border-top:1px solid var(--line-soft);background:var(--bg-3);}
+  .foot-inner{max-width:800px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint);}
+  .foot-inner a{color:var(--ink-dim);text-decoration:none;}
+  .foot-inner a:hover{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="topstripe">
+  <div class="ts-item">DRAWING / <b>TBD-2B</b></div>
+  <div class="ts-item">REV / <b>1.0.0</b></div>
+  <div class="ts-item">CLASS / <b>DECLASSIFIED</b></div>
+  <div class="ts-item"><a href="/" class="back-link">&larr; tobedefined.ai</a></div>
+</div>
+
+<header>
+  <a class="logo" href="/">
+    <div class="logo-mark"></div>
+    ToBeDefined<span class="dot">&middot;</span>ai
+  </a>
+  <a class="back-link" href="/">&larr; Zur&uuml;ck</a>
+</header>
+
+<main>
+  <div class="page-tag">Legal / Impressum</div>
+  <h1 class="page-title">Impressum</h1>
+
+  <div class="impr-block">
+    <div class="impr-label">Angaben gem&auml;&szlig; &sect; 5 TMG</div>
+    <p><strong>ToBe work&amp;care GmbH</strong></p>
+    <p>Altstra&szlig;e 2<br>85049 Ingolstadt</p>
+  </div>
+
+  <div class="impr-block">
+    <div class="impr-label">Handelsregister</div>
+    <p>HRB-10806</p>
+    <p>Registergericht: Amtsgericht Ingolstadt</p>
+  </div>
+
+  <div class="impr-block">
+    <div class="impr-label">Vertreten durch</div>
+    <p><strong>Vicki Lichtenegger</strong></p>
+  </div>
+
+  <div class="impr-block">
+    <div class="impr-label">Kontakt</div>
+    <p>Telefon: <a href="tel:+4915732444268">0157 32444268</a></p>
+    <p>E-Mail: <a href="mailto:info@tobe-workandcare.de">info@tobe-workandcare.de</a></p>
+  </div>
+
+  <div class="impr-block">
+    <div class="impr-label">Redaktionell verantwortlich</div>
+    <p><strong>Vicki Lichtenegger</strong></p>
+  </div>
+
+  <div class="impr-block">
+    <div class="impr-label">EU-Streitschlichtung</div>
+    <p>Die Europ&auml;ische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:</p>
+    <p><a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr/</a></p>
+    <p>Unsere E-Mail-Adresse finden Sie oben im Impressum.</p>
+  </div>
+
+  <div class="impr-block">
+    <div class="impr-label">Verbraucherstreitbeilegung / Universalschlichtungsstelle</div>
+    <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+    <p class="small">Quelle: <a href="https://www.e-recht24.de/" target="_blank" rel="noopener">eRecht24</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div>&copy; ToBeDefined.ai &mdash; All Systems Reserved</div>
+    <div><a href="/">&larr; tobedefined.ai</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
