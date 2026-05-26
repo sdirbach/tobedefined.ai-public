@@ -3,89 +3,87 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ToBeDefined.ai — Fast Software. Any Domain.</title>
+<title>ToBeDefined.ai &mdash; Fast Software. Any Domain.</title>
+<meta name="description" content="Complex technical problems solved fast. Seasoned engineers, AI-powered, no bureaucracy. Proven: 14 weeks, ILA Berlin Defence Track." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Share+Tech+Mono&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:          #0d2a4f;
-    --bg-2:        #0a2244;
-    --bg-3:        #061a39;
-    --ink:         #f4f1e4;
-    --ink-dim:     #a8c4e8;
-    --ink-faint:   #4a6c96;
-    --line:        #d8e9ff;
-    --line-soft:   rgba(216,233,255,0.45);
-    --line-faint:  rgba(216,233,255,0.18);
-    --accent:      #ffd84a;
-    --accent-warm: #ff7a3c;
-    --green:       #4ade80;
-    --green-dim:   rgba(74,222,128,0.10);
+    --bg:#0d2a4f;--bg-2:#0a2244;--bg-3:#061a39;
+    --ink:#f4f1e4;--ink-dim:#a8c4e8;--ink-faint:#4a6c96;
+    --line-soft:rgba(216,233,255,0.45);--line-faint:rgba(216,233,255,0.18);
+    --accent:#ffd84a;--green:#4ade80;--green-dim:rgba(74,222,128,0.10);
   }
-
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{
-    background:var(--bg);color:var(--ink);
-    font-family:'JetBrains Mono',monospace;
-    font-size:14px;line-height:1.5;
-    overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  }
+  html,body{background:var(--bg);color:var(--ink);font-family:"JetBrains Mono",monospace;font-size:14px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(216,233,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(216,233,255,0.06) 1px,transparent 1px),linear-gradient(rgba(216,233,255,0.12) 1px,transparent 1px),linear-gradient(90deg,rgba(216,233,255,0.12) 1px,transparent 1px);background-size:16px 16px,16px 16px,80px 80px,80px 80px;pointer-events:none;z-index:0;}
+  body::after{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 120% 100% at 50% 50%,transparent 30%,rgba(0,0,0,0.35) 100%);pointer-events:none;z-index:1;}
 
-  body::before{
-    content:"";position:fixed;inset:0;
-    background-image:
-      linear-gradient(rgba(216,233,255,0.06) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(216,233,255,0.06) 1px,transparent 1px),
-      linear-gradient(rgba(216,233,255,0.12) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(216,233,255,0.12) 1px,transparent 1px);
-    background-size:16px 16px,16px 16px,80px 80px,80px 80px;
-    pointer-events:none;z-index:0;
-  }
-  body::after{
-    content:"";position:fixed;inset:0;
-    background:
-      radial-gradient(ellipse 120% 100% at 50% 50%,transparent 30%,rgba(0,0,0,0.35) 100%),
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    pointer-events:none;z-index:1;
-  }
+  /* LANGUAGE SYSTEM */
+  .lang-de{display:none}
+  body.de .lang-en{display:none}
+  body.de .lang-de{display:inline}
+  body.de div.lang-de,body.de p.lang-de,body.de ul.lang-de,body.de blockquote.lang-de{display:block}
 
-  .topstripe{
-    position:fixed;top:0;left:0;right:0;height:28px;
-    background:var(--bg-3);border-bottom:1px solid var(--line-soft);
-    z-index:200;display:flex;align-items:center;padding:0 32px;
-    font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink-dim);
-  }
-  .ts-item{padding:0 16px;height:28px;display:flex;align-items:center;border-right:1px solid var(--line-faint);white-space:nowrap}
-  .ts-item:first-child{padding-left:0}
+  /* LANG TOGGLE */
+  .lang-toggle{display:flex;gap:2px;align-items:center;}
+  .lang-btn{background:transparent;border:1px solid var(--line-soft);color:var(--ink-dim);font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.15em;padding:5px 10px;cursor:pointer;transition:all 0.2s;}
+  .lang-btn.active{background:var(--accent);border-color:var(--accent);color:var(--bg-3);font-weight:700;}
+  .lang-btn:hover:not(.active){color:var(--ink);border-color:var(--ink-dim);}
+
+  /* TOPSTRIPE */
+  .topstripe{position:fixed;top:0;left:0;right:0;height:28px;background:var(--bg-3);border-bottom:1px solid var(--line-soft);z-index:200;display:flex;align-items:center;padding:0 32px;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink-dim);}
+  .ts-item{padding:0 16px;height:28px;display:flex;align-items:center;border-right:1px solid var(--line-faint);white-space:nowrap;}
   .ts-item:last-child{border-right:none;margin-left:auto}
   .ts-item b{color:var(--ink);font-weight:500;margin-left:5px}
   .ts-item .g{color:var(--green)}
 
-  header{
-    position:fixed;top:28px;left:0;right:0;padding:0 32px;height:52px;
-    display:flex;justify-content:space-between;align-items:center;
-    z-index:100;border-bottom:1px solid var(--line-soft);
-    background:rgba(13,42,79,0.88);
-    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  }
-  .logo{display:flex;align-items:center;gap:12px;font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);text-decoration:none}
-  .logo-mark{width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;position:relative;flex-shrink:0}
+  /* HEADER */
+  header{position:fixed;top:28px;left:0;right:0;padding:0 24px;height:52px;display:flex;justify-content:space-between;align-items:center;gap:16px;z-index:100;border-bottom:1px solid var(--line-soft);background:rgba(13,42,79,0.88);backdrop-filter:blur(8px);}
+  .logo{display:flex;align-items:center;gap:12px;font-family:"Share Tech Mono",monospace;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;flex-shrink:0;}
+  .logo-mark{width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;position:relative;flex-shrink:0;}
   .logo-mark::before,.logo-mark::after{content:"";position:absolute;background:var(--ink)}
   .logo-mark::before{top:50%;left:-4px;right:-4px;height:1px;transform:translateY(-50%)}
   .logo-mark::after{left:50%;top:-4px;bottom:-4px;width:1px;transform:translateX(-50%)}
   .logo .dot{color:var(--accent)}
-  .header-nav{display:flex;align-items:center;gap:28px;font-size:10px;letter-spacing:0.16em;text-transform:uppercase}
-  .header-nav a{color:var(--ink-dim);text-decoration:none;transition:color 0.2s}
+  .header-nav{display:flex;align-items:center;gap:24px;}
+  .header-nav a{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);text-decoration:none;transition:color 0.2s;}
   .header-nav a:hover{color:var(--ink)}
-  .header-cta{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;color:var(--bg-3);background:var(--accent);border:1px solid var(--accent);transition:background 0.2s;white-space:nowrap}
+  .header-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+  .header-cta{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;color:var(--bg-3);background:var(--accent);border:1px solid var(--accent);transition:background 0.2s;white-space:nowrap;}
   .header-cta:hover{background:var(--ink);border-color:var(--ink)}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 
   main{position:relative;z-index:2;padding-top:28px}
+  .corner{position:absolute;width:22px;height:22px;border-color:var(--ink);border-style:solid;border-width:0;pointer-events:none;}
 
-  .corner{position:absolute;width:22px;height:22px;border-color:var(--ink);border-style:solid;border-width:0;pointer-events:none}
+  /* HERO */
+  .hero{min-height:calc(100vh - 28px);padding:100px 32px 72px;position:relative;display:flex;align-items:center;}
+  .hero .corner.tl{top:80px;left:32px;border-top-width:1px;border-left-width:1px}
+  .hero .corner.tr{top:80px;right:32px;border-top-width:1px;border-right-width:1px}
+  .hero .corner.bl{bottom:32px;left:32px;border-bottom-width:1px;border-left-width:1px}
+  .hero .corner.br{bottom:32px;right:32px;border-bottom-width:1px;border-right-width:1px}
+  .hero::before{content:"";position:absolute;top:80px;left:54px;right:54px;height:8px;background-image:linear-gradient(to right,var(--line-soft) 1px,transparent 1px);background-size:40px 100%;border-bottom:1px solid var(--line-soft);pointer-events:none;}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1400px;margin:0 auto;width:100%;}
+  .hero-stamp{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--green);border:1px solid rgba(74,222,128,0.35);background:var(--green-dim);padding:7px 14px;margin-bottom:32px;opacity:0;animation:fadeIn 0.6s ease forwards 0.1s;}
+  .hero-stamp .blink{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:blink 1.4s ease-in-out infinite;}
+  .hero h1{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(48px,6vw,80px);line-height:0.96;letter-spacing:-0.025em;color:var(--ink);margin-bottom:32px;}
+  .hero h1 .word{display:block;overflow:hidden}
+  .hero h1 .word > span{display:inline-block;transform:translateY(110%);animation:rise 0.85s cubic-bezier(0.2,0.8,0.2,1) forwards;}
+  .hero h1 .word:nth-child(1)>span{animation-delay:0.15s}
+  .hero h1 .word:nth-child(2)>span{animation-delay:0.28s}
+  .hero h1 .word:nth-child(3)>span{animation-delay:0.41s}
+  @keyframes rise{to{transform:translateY(0)}}
+  .hero h1 em{font-style:italic;font-family:"Share Tech Mono",monospace;font-weight:400;color:var(--accent);font-size:0.6em;letter-spacing:0;}
+  .hero-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--line-soft),transparent 70%);margin-bottom:28px;opacity:0;animation:fadeIn 0.8s ease forwards 0.7s;}
+  .hero-lede{font-size:13px;line-height:1.85;color:var(--ink-dim);max-width:520px;margin-bottom:36px;opacity:0;animation:fadeIn 0.8s ease forwards 0.8s;}
+  .hero-lede strong{color:var(--ink);font-weight:500}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeIn 0.8s ease forwards 1.0s;}
+  @keyframes fadeIn{to{opacity:1}}
 
-  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.2s ease;border:1px solid var(--ink)}
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.2s ease;border:1px solid var(--ink);}
   .btn-primary{background:var(--accent);border-color:var(--accent);color:var(--bg-3);font-weight:700}
   .btn-primary:hover{background:var(--ink);border-color:var(--ink);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--accent)}
   .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-soft)}
@@ -93,167 +91,172 @@
   .btn .arrow{transition:transform 0.2s}
   .btn:hover .arrow{transform:translateX(3px)}
 
-  @keyframes fadeIn{to{opacity:1}}
-  @keyframes rise{to{transform:translateY(0)}}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-
-  /* Hero */
-  .hero{min-height:100dvh;padding:120px 48px 72px;position:relative;display:flex;align-items:center}
-  .hero .corner.tl{top:80px;left:32px;border-top-width:1px;border-left-width:1px}
-  .hero .corner.tr{top:80px;right:32px;border-top-width:1px;border-right-width:1px}
-  .hero .corner.bl{bottom:32px;left:32px;border-bottom-width:1px;border-left-width:1px}
-  .hero .corner.br{bottom:32px;right:32px;border-bottom-width:1px;border-right-width:1px}
-  .hero::before{content:"";position:absolute;top:80px;left:54px;right:54px;height:8px;background-image:linear-gradient(to right,var(--line-soft) 1px,transparent 1px);background-size:40px 100%;border-bottom:1px solid var(--line-soft);pointer-events:none}
-  .hero-grid{width:100%;max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-  .hero-stamp{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--green);border:1px solid rgba(74,222,128,0.35);background:var(--green-dim);padding:7px 14px;margin-bottom:32px;opacity:0;animation:fadeIn 0.6s ease forwards 0.1s}
-  .hero-stamp .blink{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:blink 1.4s ease-in-out infinite}
-  .hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(48px,5.5vw,80px);line-height:0.96;letter-spacing:-0.025em;color:var(--ink);margin-bottom:32px}
-  .hero h1 .word{display:block;overflow:hidden}
-  .hero h1 .word > span{display:inline-block;transform:translateY(110%);animation:rise 0.85s cubic-bezier(0.2,0.8,0.2,1) forwards}
-  .hero h1 .word:nth-child(1)>span{animation-delay:0.15s}
-  .hero h1 .word:nth-child(2)>span{animation-delay:0.28s}
-  .hero h1 .word:nth-child(3)>span{animation-delay:0.41s}
-  .hero h1 em{font-style:italic;font-family:'Share Tech Mono',monospace;font-weight:400;color:var(--accent);font-size:0.6em;letter-spacing:0}
-  .hero-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--line-soft),transparent 70%);margin-bottom:28px;opacity:0;animation:fadeIn 0.8s ease forwards 0.7s}
-  .hero-lede{font-size:13px;line-height:1.85;color:var(--ink-dim);max-width:520px;margin-bottom:36px;opacity:0;animation:fadeIn 0.8s ease forwards 0.8s}
-  .hero-lede strong{color:var(--ink);font-weight:500}
-  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeIn 0.8s ease forwards 1.0s}
-
-  /* Blueprint */
-  .blueprint{position:relative;aspect-ratio:1/1.1;width:100%;max-width:580px;justify-self:end;border:1px solid var(--line-soft);background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(216,233,255,0.06),transparent 70%),var(--bg-2);opacity:0;animation:fadeIn 1s ease forwards 0.5s}
-  .titleblock{position:absolute;bottom:0;left:0;right:0;border-top:1px solid var(--line-soft);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;background:rgba(6,26,57,0.7);z-index:4}
-  .tb-cell{padding:10px 12px;border-right:1px solid var(--line-soft);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);line-height:1.3}
+  /* BLUEPRINT */
+  .blueprint{position:relative;aspect-ratio:1/1.1;width:100%;max-width:580px;justify-self:end;border:1px solid var(--line-soft);background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(216,233,255,0.06),transparent 70%),var(--bg-2);}
+  .titleblock{position:absolute;bottom:0;left:0;right:0;border-top:1px solid var(--line-soft);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;background:rgba(6,26,57,0.7);z-index:4;}
+  .tb-cell{padding:10px 12px;border-right:1px solid var(--line-soft);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);line-height:1.3;}
   .tb-cell:last-child{border-right:none}
-  .tb-cell .tb-val{color:var(--ink);font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:4px;letter-spacing:0.05em}
+  .tb-cell .tb-val{color:var(--ink);font-family:"Share Tech Mono",monospace;font-size:11px;margin-top:4px;letter-spacing:0.05em;}
   .tb-cell .tb-val.amber{color:var(--accent)}
-  .dim-label{position:absolute;z-index:3;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-dim);background:rgba(6,26,57,0.85);padding:3px 8px;border:1px solid var(--line-soft);opacity:0;animation:fadeIn 1s ease forwards}
+  .dim-label{position:absolute;z-index:3;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-dim);background:rgba(6,26,57,0.85);padding:3px 8px;border:1px solid var(--line-soft);opacity:0;animation:fadeIn 1s ease forwards;}
   .dim-label .v{color:var(--ink);font-weight:500}
   .dim-label .amber{color:var(--accent)}
   .dim-label.tl{top:14px;left:14px;animation-delay:1.0s}
   .dim-label.tr{top:14px;right:14px;animation-delay:1.15s;text-align:right}
   .dim-label.ml{top:50%;left:14px;transform:translateY(-50%);animation-delay:1.3s}
   .dim-label.mr{top:50%;right:14px;transform:translateY(-50%);animation-delay:1.45s;text-align:right}
-  .blueprint svg{width:100%;height:100%;overflow:visible;display:block}
+  .blueprint svg{width:100%;height:100%;overflow:visible;display:block;}
+  @keyframes sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
-  /* Sections */
-  .section{position:relative;z-index:2;padding:96px 48px}
+  /* TICKER */
+  .ticker{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);padding:14px 0;overflow:hidden;background:var(--bg-3);position:relative;z-index:2;}
+  .ticker-track{display:flex;gap:56px;white-space:nowrap;animation:scroll 40s linear infinite;font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--ink-dim);}
+  .ticker-track span{display:inline-flex;align-items:center;gap:14px}
+  .ticker-track span::before{content:"\2726";color:var(--accent);font-size:10px}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* SECTIONS */
+  .section{position:relative;z-index:2;padding:96px 32px}
   .section.dark{background:var(--bg-3);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
   .section.mid{background:var(--bg-2);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
   .section-inner{max-width:1200px;margin:0 auto}
-  .section-head{display:grid;grid-template-columns:180px 1fr;gap:48px;align-items:start;margin-bottom:56px;padding-bottom:28px;border-bottom:1px solid var(--line-faint)}
-  .sec-tag{font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);padding-top:10px}
-  .sec-tag::before{content:"§ ";color:var(--ink-faint)}
-  .sec-h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(26px,3.5vw,44px);line-height:1.1;letter-spacing:-0.02em}
-  .sec-h2 em{font-family:'Share Tech Mono',monospace;font-style:italic;color:var(--accent);font-weight:400}
+  .section-head{display:grid;grid-template-columns:180px 1fr;gap:48px;align-items:start;margin-bottom:56px;padding-bottom:28px;border-bottom:1px solid var(--line-faint);}
+  .sec-tag{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);padding-top:10px}
+  .sec-tag::before{content:"\00a7 ";color:var(--ink-dim)}
+  .sec-tag.green{color:var(--green)}
+  .sec-h2{font-family:"Syne",sans-serif;font-weight:700;font-size:clamp(26px,3.5vw,44px);line-height:1.05;letter-spacing:-0.02em;}
+  .sec-h2 em{font-family:"Share Tech Mono",monospace;font-style:italic;color:var(--accent);font-weight:400}
 
-  /* Story */
-  .stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:56px}
-  .stat-cell{background:var(--bg);padding:24px 28px}
-  .stat-val{font-family:'Syne',sans-serif;font-weight:700;font-size:32px;color:var(--accent);line-height:1;letter-spacing:-0.02em}
-  .stat-val .unit{font-family:'JetBrains Mono',monospace;font-weight:400;font-size:13px;color:var(--ink-faint);margin-left:3px;letter-spacing:0}
-  .stat-lbl{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px}
-  .story-prose{max-width:760px;font-size:13px;line-height:1.9;color:var(--ink-dim)}
-  .story-prose p{margin-bottom:20px}
-  .story-prose p:last-child{margin-bottom:0}
-  .story-quote{margin:48px 0 0;padding:28px 36px;border-left:3px solid var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(18px,2.5vw,28px);line-height:1.25;letter-spacing:-0.01em;color:var(--ink)}
-  .story-group-photo { width: 100%; max-width: 560px; height: auto; display: block; margin: 32px auto; border: 1px solid var(--line-soft); filter: drop-shadow(0 0 24px rgba(216,233,255,0.10)); }
+  /* PROBLEM */
+  .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);}
+  .problem-col{background:var(--bg);padding:40px 36px;}
+  .problem-col.right{background:var(--bg-2);}
+  .problem-label{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;margin-bottom:20px;}
+  .problem-label.red{color:#ff6b6b}
+  .problem-label.grn{color:var(--green)}
+  .problem-title{font-family:"Syne",sans-serif;font-weight:700;font-size:clamp(18px,2vw,26px);line-height:1.1;color:var(--ink);margin-bottom:16px;}
+  .problem-body{font-size:13px;line-height:1.85;color:var(--ink-dim);}
+  .problem-body strong{color:var(--ink);font-weight:500}
+  .problem-list,.solution-list{list-style:none;margin-top:16px;}
+  .problem-list li,.solution-list li{font-size:13px;line-height:1.7;color:var(--ink-dim);padding:10px 0;border-bottom:1px solid var(--line-faint);display:flex;align-items:flex-start;gap:12px;}
+  .problem-list li:last-child,.solution-list li:last-child{border-bottom:none}
+  .problem-list li::before{content:"\2014";color:#ff6b6b;flex-shrink:0;margin-top:1px;}
+  .solution-list li::before{content:"\2713";color:var(--green);flex-shrink:0;margin-top:1px;}
+  .solution-list li strong{color:var(--ink);font-weight:500}
 
-  /* Offer */
+  /* USP */
+  .usp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-top:1px;}
+  .usp{background:var(--bg);padding:24px 22px;transition:background 0.3s;}
+  .usp:hover{background:var(--bg-2)}
+  .usp-icon{font-size:20px;margin-bottom:14px;}
+  .usp-title{font-family:"Syne",sans-serif;font-weight:700;font-size:14px;color:var(--ink);margin-bottom:8px;line-height:1.2;}
+  .usp-body{font-size:11px;line-height:1.7;color:var(--ink-dim);}
+
+  /* OFFER */
   .offer-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
-  .offer-card{background:var(--bg);padding:36px 32px}
+  .offer-card{background:var(--bg);padding:36px 32px;position:relative}
   .offer-card.primary{border-top:3px solid var(--accent)}
   .offer-card.secondary{border-top:3px solid var(--line-faint)}
   .offer-label{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;margin-bottom:18px}
   .offer-label.p{color:var(--accent)}
-  .offer-label.s{color:var(--ink-faint)}
-  .offer-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(18px,2vw,26px);line-height:1.1;letter-spacing:-0.01em;color:var(--ink);margin-bottom:18px}
-  .offer-body{font-size:13px;line-height:1.8;color:var(--ink-dim)}
+  .offer-label.s{color:var(--ink-dim)}
+  .offer-title{font-family:"Syne",sans-serif;font-weight:700;font-size:clamp(18px,2.2vw,26px);line-height:1.1;color:var(--ink);margin-bottom:18px}
+  .offer-body{font-size:13px;line-height:1.85;color:var(--ink-dim)}
   .offer-body strong{color:var(--ink);font-weight:500}
-  .offer-body p{margin-bottom:14px}
-  .offer-body p:last-child{margin-bottom:0}
-  .offer-targets{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-faint);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);line-height:1.9}
-  .offer-targets span{color:var(--ink-dim)}
+  .offer-targets{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-faint);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-dim);line-height:1.9}
   .offer-cta{margin-top:28px}
 
-  /* Capabilities */
+  /* STORY */
+  .stats-strip{display:flex;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:48px;flex-wrap:wrap;}
+  .stat-cell{flex:1;min-width:140px;background:var(--bg);padding:20px 24px;}
+  .stat-cell-val{font-family:"Syne",sans-serif;font-weight:700;font-size:28px;color:var(--accent);line-height:1}
+  .stat-cell-val span{font-family:"JetBrains Mono",monospace;font-weight:400;font-size:13px;color:var(--ink-dim);margin-left:3px}
+  .stat-cell-label{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-dim);margin-top:6px}
+  .story-prose p{font-size:14px;line-height:1.9;color:var(--ink-dim);margin-bottom:20px;max-width:760px;}
+  .story-prose p strong{color:var(--ink);font-weight:500}
+  .story-prose p:last-child{margin-bottom:0}
+  .story-group-photo{width:100%;max-width:560px;height:auto;display:block;margin:32px auto;border:1px solid var(--line-soft);filter:drop-shadow(0 0 24px rgba(216,233,255,0.10));}
+  .story-quote{margin:48px 0 0;padding:28px 32px;border-left:3px solid var(--accent);background:rgba(255,216,74,0.04);font-family:"Syne",sans-serif;font-style:italic;font-size:clamp(16px,2vw,22px);color:var(--ink);line-height:1.4;max-width:680px;}
+
+  /* CAPABILITIES */
   .cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
   .cap{background:var(--bg);padding:28px 26px;transition:background 0.3s}
   .cap:hover{background:var(--bg-2)}
-  .cap-id{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:0.1em;margin-bottom:18px;display:flex;justify-content:space-between}
+  .cap-id{font-family:"Share Tech Mono",monospace;font-size:10px;color:var(--ink-dim);letter-spacing:0.1em;margin-bottom:18px;display:flex;justify-content:space-between}
   .cap-id .dep{font-size:9px;letter-spacing:0.2em;color:var(--green)}
-  .cap-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;line-height:1.15;color:var(--ink);margin-bottom:12px}
-  .cap-body{font-size:12px;line-height:1.7;color:var(--ink-dim)}
+  .cap-title{font-family:"Syne",sans-serif;font-weight:700;font-size:18px;line-height:1.15;color:var(--ink);margin-bottom:12px}
+  .cap-body{font-size:12px;line-height:1.75;color:var(--ink-dim)}
   .cap-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-  .cap-tag{font-size:10px;letter-spacing:0.08em;color:var(--ink-faint);border:1px solid var(--line-faint);padding:3px 9px}
+  .cap-tag{font-size:10px;letter-spacing:0.08em;color:var(--ink-dim);border:1px solid var(--line-faint);padding:3px 9px}
 
-  /* Team */
-  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:48px}
-  .team-card{background:var(--bg);padding:28px 24px;transition:background 0.3s;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;text-decoration:none;color:inherit}
+  /* TEAM */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+  .team-card{background:var(--bg);padding:28px 24px;transition:background 0.3s;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;text-decoration:none;color:inherit;}
   .team-card:hover{background:var(--bg-2)}
   .team-card-info{flex:1}
-  .team-photo{width:180px;height:220px;object-fit:cover;object-position:top;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(216,233,255,0.15))}
-  .team-id{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--ink-faint);letter-spacing:0.12em;margin-bottom:20px}
-  .team-name{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;line-height:1.1;color:var(--ink);margin-bottom:6px}
-  .team-callsign{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);font-style:italic;margin-bottom:8px;display:block}
-  .team-role{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-faint)}
-  .next-mission{position:relative;padding:40px 48px;border:1px solid var(--line-soft);text-align:center}
-  .next-mission .corner.tl{top:-1px;left:-1px;border-top-width:2px;border-left-width:2px;border-color:var(--accent)}
-  .next-mission .corner.tr{top:-1px;right:-1px;border-top-width:2px;border-right-width:2px;border-color:var(--accent)}
-  .next-mission .corner.bl{bottom:-1px;left:-1px;border-bottom-width:2px;border-left-width:2px;border-color:var(--accent)}
-  .next-mission .corner.br{bottom:-1px;right:-1px;border-bottom-width:2px;border-right-width:2px;border-color:var(--accent)}
-  .next-mission-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(18px,2.5vw,28px);color:var(--ink);margin-bottom:16px}
-  .next-mission-title em{color:var(--accent);font-style:normal;font-family:'Share Tech Mono',monospace}
-  .next-mission-body{font-size:13px;line-height:1.8;color:var(--ink-dim);max-width:560px;margin:0 auto 28px}
+  .team-photo{width:180px;height:220px;object-fit:cover;object-position:top;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(216,233,255,0.15));}
+  .team-id{font-family:"Share Tech Mono",monospace;font-size:9px;color:var(--ink-dim);letter-spacing:0.12em;margin-bottom:20px}
+  .team-name{font-family:"Syne",sans-serif;font-weight:700;font-size:18px;line-height:1.1;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  .team-callsign{font-family:"Share Tech Mono",monospace;font-size:12px;color:var(--accent);font-style:italic;margin-bottom:8px;display:block}
+  .team-role{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-dim)}
+  .linkedin-icon{color:var(--accent);flex-shrink:0;opacity:0.7;transition:opacity 0.2s;}
+  .team-card:hover .linkedin-icon{opacity:1}
+  .next-mission{margin-top:48px;padding:40px;border:1px solid var(--line-soft);position:relative;text-align:center;}
+  .next-mission .corner.tl{top:-1px;left:-1px;border-top-width:1px;border-left-width:1px;width:16px;height:16px}
+  .next-mission .corner.tr{top:-1px;right:-1px;border-top-width:1px;border-right-width:1px;width:16px;height:16px}
+  .next-mission .corner.bl{bottom:-1px;left:-1px;border-bottom-width:1px;border-left-width:1px;width:16px;height:16px}
+  .next-mission .corner.br{bottom:-1px;right:-1px;border-bottom-width:1px;border-right-width:1px;width:16px;height:16px}
+  .next-mission h3{font-family:"Syne",sans-serif;font-weight:700;font-size:22px;color:var(--ink);margin-bottom:14px}
+  .next-mission p{font-size:13px;color:var(--ink-dim);line-height:1.8;margin-bottom:24px;max-width:560px;margin-left:auto;margin-right:auto}
 
-  /* Contact */
-  .contact-section{position:relative;z-index:2;background:radial-gradient(ellipse 70% 90% at 50% 0%,rgba(255,216,74,0.07),transparent 60%),var(--bg-3);border-top:1px solid var(--line-soft);padding:110px 48px 96px;text-align:center}
+  /* CONTACT */
+  .contact-section{position:relative;z-index:2;background:radial-gradient(ellipse 70% 90% at 50% 0%,rgba(255,216,74,0.07),transparent 60%),var(--bg-3);border-top:1px solid var(--line-soft);padding:110px 32px 96px;text-align:center;}
   .contact-inner{position:relative;max-width:700px;margin:0 auto}
   .contact-inner .corner.tl{top:-16px;left:-16px;border-top-width:1px;border-left-width:1px;width:18px;height:18px}
   .contact-inner .corner.tr{top:-16px;right:-16px;border-top-width:1px;border-right-width:1px;width:18px;height:18px}
   .contact-inner .corner.bl{bottom:-16px;left:-16px;border-bottom-width:1px;border-left-width:1px;width:18px;height:18px}
   .contact-inner .corner.br{bottom:-16px;right:-16px;border-bottom-width:1px;border-right-width:1px;width:18px;height:18px}
-  .contact-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);border:1px solid rgba(74,222,128,0.35);background:var(--green-dim);padding:6px 16px;margin-bottom:32px}
+  .contact-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);border:1px solid rgba(74,222,128,0.35);background:var(--green-dim);padding:6px 16px;margin-bottom:32px;}
   .contact-tag .blink{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.2s ease-in-out infinite}
-  .contact-h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,6vw,72px);line-height:0.95;letter-spacing:-0.025em;margin-bottom:20px}
-  .contact-h2 em{font-family:'Share Tech Mono',monospace;font-style:italic;color:var(--accent);font-weight:400;font-size:0.55em;display:block;margin-top:12px}
+  .contact-h2{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(32px,6vw,72px);line-height:0.95;letter-spacing:-0.025em;margin-bottom:20px}
+  .contact-h2 em{font-family:"Share Tech Mono",monospace;font-style:italic;color:var(--accent);font-weight:400;font-size:0.55em;display:block;margin-top:12px}
   .contact-desc{font-size:13px;line-height:1.85;color:var(--ink-dim);max-width:480px;margin:0 auto 52px}
   .contact-desc strong{color:var(--ink);font-weight:500}
-  .contact-email{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:clamp(16px,3.5vw,28px);letter-spacing:0.04em;color:var(--accent);text-decoration:none;padding:20px 40px;border:1px solid var(--accent);background:rgba(255,216,74,0.06);margin-bottom:32px;transition:background 0.2s,color 0.2s;word-break:break-all}
+  .contact-email{display:inline-block;font-family:"Share Tech Mono",monospace;font-size:clamp(16px,3.5vw,28px);letter-spacing:0.04em;color:var(--accent);text-decoration:none;padding:20px 40px;border:1px solid var(--accent);background:rgba(255,216,74,0.06);margin-bottom:32px;transition:background 0.2s,color 0.2s;word-break:break-all;}
   .contact-email:hover{background:var(--accent);color:var(--bg-3)}
-  .contact-sub{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint)}
+  .contact-sub{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim)}
 
-  /* Footer */
+  /* FOOTER */
   footer{padding:28px 32px;border-top:1px solid var(--line-soft);background:var(--bg-3);position:relative;z-index:2}
   .foot-inner{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint)}
-  .foot-inner .coords{font-family:'Share Tech Mono',monospace;color:var(--accent)}
-  .foot-inner a{color:var(--ink-dim);text-decoration:none;transition:color 0.2s}
+  .foot-inner a{color:var(--ink-faint);text-decoration:none;transition:color 0.2s}
   .foot-inner a:hover{color:var(--accent)}
+  .foot-inner .coord{font-family:"Share Tech Mono",monospace;color:var(--accent)}
+  .foot-links{display:flex;gap:20px}
 
-  /* Mobile */
+  /* MOBILE */
   @media(max-width:860px){
     .topstripe .ts-item:nth-child(n+4){display:none}
     .header-nav{display:none}
-    .corner{display:none}
-    .hero{padding:108px 20px 56px;align-items:flex-start}
+    .hero{padding:108px 20px 56px}
     .hero-grid{grid-template-columns:1fr;gap:40px}
     .blueprint{max-width:100%;justify-self:center}
-    .hero h1{font-size:clamp(30px,9vw,48px);line-height:1.05}
-    .hero h1 .word{overflow:visible}
-    .hero h1 .word > span{transform:none;animation:none}
     .section{padding:72px 20px}
     .section-head{grid-template-columns:1fr;gap:14px}
-    .stats-strip{grid-template-columns:repeat(2,1fr)}
-    .offer-cards,.cap-grid,.team-grid{grid-template-columns:1fr}
-    .team-photo{width:120px;height:150px}
-    .next-mission{padding:28px 20px}
+    .problem-grid,.offer-cards,.cap-grid,.team-grid{grid-template-columns:1fr}
+    .usp-grid{grid-template-columns:1fr 1fr}
+    .corner{display:none}
     .contact-section{padding:80px 20px 72px}
     .contact-email{padding:16px 24px}
     footer{padding:20px}
-    .foot-inner{flex-direction:column;gap:10px}
+    .hero h1{font-size:clamp(30px,9vw,48px);line-height:1.05}
+    .hero h1 .word{overflow:visible}
+    .hero h1 .word > span{transform:none;animation:none}
+    .team-photo{width:120px;height:160px}
+    .stats-strip{flex-direction:column;gap:1px}
+    .lang-toggle{display:none}
   }
-
-  @keyframes sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 </style>
 <script defer src="https://umami.dev.endless-webservices.de/script.js" data-website-id="83fc2907-1942-452e-b4ad-04eb1e57eb73"></script>
 </head>
@@ -263,7 +266,7 @@
   <div class="ts-item">DRAWING / <b>TBD-2B</b></div>
   <div class="ts-item">REV / <b>1.0.0</b></div>
   <div class="ts-item">CLASS / <b class="g">DECLASSIFIED</b></div>
-  <div class="ts-item">SDC26 ILA BERLIN</div>
+  <div class="ts-item">SDC26 / <b>ILA BERLIN</b></div>
   <div class="ts-item">STAGE / <b class="g">DEPLOYED</b></div>
 </div>
 
@@ -273,407 +276,536 @@
     ToBeDefined<span class="dot">&middot;</span>ai
   </a>
   <nav class="header-nav">
-    <a href="#story">The Story</a>
-    <a href="#offer">What We Do</a>
-    <a href="#team">The Team</a>
+    <a href="#problem"><span class="lang-en">The Problem</span><span class="lang-de">Das Problem</span></a>
+    <a href="#offer"><span class="lang-en">What We Do</span><span class="lang-de">Was wir tun</span></a>
+    <a href="#story"><span class="lang-en">Our Story</span><span class="lang-de">Unsere Story</span></a>
+    <a href="#team"><span class="lang-en">The Team</span><span class="lang-de">Das Team</span></a>
   </nav>
-  <a class="header-cta" href="#contact">Let&rsquo;s Talk &rarr;</a>
+  <div class="header-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-de" onclick="setLang('de')">DE</button>
+    </div>
+    <a class="header-cta" href="#contact"><span class="lang-en">Let&rsquo;s Talk</span><span class="lang-de">Jetzt sprechen</span> &rarr;</a>
+  </div>
 </header>
 
 <main>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="corner tl"></div>
-  <div class="corner tr"></div>
-  <div class="corner bl"></div>
-  <div class="corner br"></div>
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
   <div class="hero-grid">
-
     <div>
-      <div class="hero-stamp">
-        <span class="blink"></span>
-        SwarmDroneChallange26 Finalist &middot; ILA Berlin 2026
-      </div>
+      <div class="hero-stamp"><span class="blink"></span>SDC26 Finalist &middot; ILA Berlin 2026</div>
       <h1>
-        <span class="word"><span>AI changes</span></span>
-        <span class="word"><span>everything.</span></span>
-        <span class="word"><span><em>We have the proof.</em></span></span>
+        <span class="word"><span><span class="lang-en">Complex problems.</span><span class="lang-de">Komplexe Probleme.</span></span></span>
+        <span class="word"><span><span class="lang-en">Fast solutions.</span><span class="lang-de">Schnelle L&ouml;sungen.</span></span></span>
+        <span class="word"><span><em><span class="lang-en">Proven.</span><span class="lang-de">Bewiesen.</span></em></span></span>
       </h1>
       <div class="hero-divider"></div>
-      <p class="hero-lede">
-        We are ToBeDefined.ai &mdash; five tech &amp; AI enthusiasts
-        with no aerospace background. <strong>Zero drone experience.</strong>
-        14 weeks part-time. <strong>International finalist.</strong>
-        Flying autonomous swarms on the Defence Track at ILA Berlin.<br><br>
-        We build <strong>fast software solutions for complex technical problems.</strong>
-        Any domain. Proven.
+      <p class="hero-lede lang-en">
+        Your most complex technical challenge is stuck &mdash; in meetings, in roadmaps, in organizational friction.
+        <strong>We come in and build.</strong> Fast, lean, AI-powered.
+        No bureaucracy. No slide decks. No months of onboarding.<br><br>
+        Five seasoned engineers. <strong>Working software in weeks.</strong>
+        Proven in 14 weeks on the ILA Berlin Defence Track.
+      </p>
+      <p class="hero-lede lang-de">
+        Ihre komplexeste technische Herausforderung steckt fest &mdash; in Meetings, in Roadmaps, in organisatorischer Reibung.
+        <strong>Wir kommen rein und bauen.</strong> Schnell, schlank, KI-gest&uuml;tzt.
+        Keine B&uuml;rokratie. Keine Slide Decks. Kein monatelanges Onboarding.<br><br>
+        F&uuml;nf erfahrene Engineers. <strong>Funktionierende Software in Wochen.</strong>
+        Bewiesen in 14 Wochen auf dem ILA Berlin Defence Track.
       </p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#contact">Let&rsquo;s Talk <span class="arrow">&rarr;</span></a>
-        <a class="btn btn-ghost" href="#story">The Story <span class="arrow">&darr;</span></a>
+        <a class="btn btn-primary" href="#contact"><span class="lang-en">Let&rsquo;s Talk</span><span class="lang-de">Jetzt sprechen</span> <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-ghost" href="#problem"><span class="lang-en">See How</span><span class="lang-de">Mehr erfahren</span> <span class="arrow">&darr;</span></a>
       </div>
     </div>
 
+    <!-- DRONE BLUEPRINT SVG -->
     <div class="blueprint">
       <span class="dim-label tl">DRWG <span class="v">TBD-2B</span></span>
       <span class="dim-label tr">VIEW <span class="v">PLAN</span></span>
       <span class="dim-label ml">DIA <span class="amber">[CLASSIFIED]</span></span>
-      <span class="dim-label mr">SENSOR ARRAY</span>
+      <span class="dim-label mr">ROT <span class="v">4 &times; &#9646;&#9646;&#9646; RPM</span></span>
       <svg viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <radialGradient id="bpGlow" cx="50%" cy="48%" r="48%">
-            <stop offset="0%" stop-color="var(--line)" stop-opacity="0.12"/>
-            <stop offset="100%" stop-color="var(--line)" stop-opacity="0"/>
-          </radialGradient>
-          <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="var(--line)" stop-opacity="0"/>
-            <stop offset="100%" stop-color="var(--line)" stop-opacity="0.35"/>
-          </linearGradient>
+          <radialGradient id="bpGlow" cx="50%" cy="48%" r="48%"><stop offset="0%" stop-color="#d8e9ff" stop-opacity="0.12"/><stop offset="100%" stop-color="#d8e9ff" stop-opacity="0"/></radialGradient>
+          <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#d8e9ff" stop-opacity="0"/><stop offset="100%" stop-color="#d8e9ff" stop-opacity="0.35"/></linearGradient>
         </defs>
         <circle cx="200" cy="210" r="170" fill="url(#bpGlow)"/>
-        <g fill="none" stroke="var(--line)" stroke-opacity="0.35" stroke-width="0.8">
-          <circle cx="200" cy="210" r="170" stroke-dasharray="4 6"/>
-          <circle cx="200" cy="210" r="135"/>
-          <circle cx="200" cy="210" r="95" stroke-dasharray="2 4"/>
-          <circle cx="200" cy="210" r="55"/>
+        <g fill="none" stroke="#d8e9ff" stroke-opacity="0.35" stroke-width="0.8">
+          <circle cx="200" cy="210" r="170" stroke-dasharray="4 6"/><circle cx="200" cy="210" r="135"/>
+          <circle cx="200" cy="210" r="95" stroke-dasharray="2 4"/><circle cx="200" cy="210" r="55"/>
         </g>
-        <g stroke="var(--line)" stroke-opacity="0.35" stroke-width="0.8" stroke-dasharray="4 4">
-          <line x1="20" y1="210" x2="380" y2="210"/>
-          <line x1="200" y1="40" x2="200" y2="380"/>
+        <g stroke="#d8e9ff" stroke-opacity="0.35" stroke-width="0.8" stroke-dasharray="4 4">
+          <line x1="20" y1="210" x2="380" y2="210"/><line x1="200" y1="40" x2="200" y2="380"/>
         </g>
-        <g stroke="var(--line)" stroke-width="1" stroke-opacity="0.6">
-          <line x1="200" y1="34" x2="200" y2="46"/>
-          <line x1="200" y1="374" x2="200" y2="386"/>
-          <line x1="24" y1="210" x2="36" y2="210"/>
-          <line x1="364" y1="210" x2="376" y2="210"/>
-          <line x1="80" y1="90" x2="88" y2="98"/>
-          <line x1="320" y1="90" x2="312" y2="98"/>
-          <line x1="80" y1="330" x2="88" y2="322"/>
-          <line x1="320" y1="330" x2="312" y2="322"/>
+        <g stroke="#d8e9ff" stroke-width="1" stroke-opacity="0.6">
+          <line x1="200" y1="34" x2="200" y2="46"/><line x1="200" y1="374" x2="200" y2="386"/>
+          <line x1="24" y1="210" x2="36" y2="210"/><line x1="364" y1="210" x2="376" y2="210"/>
+          <line x1="80" y1="90" x2="88" y2="98"/><line x1="320" y1="90" x2="312" y2="98"/>
+          <line x1="80" y1="330" x2="88" y2="322"/><line x1="320" y1="330" x2="312" y2="322"/>
         </g>
-        <text x="200" y="28" font-family="JetBrains Mono" font-size="10" fill="var(--ink)" text-anchor="middle" letter-spacing="2">N</text>
-        <text x="392" y="214" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" text-anchor="end" letter-spacing="1">E</text>
-        <text x="200" y="402" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" text-anchor="middle" letter-spacing="1">S</text>
-        <text x="8" y="214" font-family="JetBrains Mono" font-size="9" fill="var(--ink-dim)" letter-spacing="1">W</text>
-        <g style="transform-origin: 200px 210px; animation: sweep 8s linear infinite;">
+        <text x="200" y="28" font-family="JetBrains Mono" font-size="10" fill="#f4f1e4" text-anchor="middle" letter-spacing="2">N</text>
+        <text x="392" y="214" font-family="JetBrains Mono" font-size="9" fill="#a8c4e8" text-anchor="end" letter-spacing="1">E</text>
+        <text x="200" y="402" font-family="JetBrains Mono" font-size="9" fill="#a8c4e8" text-anchor="middle" letter-spacing="1">S</text>
+        <text x="8" y="214" font-family="JetBrains Mono" font-size="9" fill="#a8c4e8" letter-spacing="1">W</text>
+        <g style="transform-origin:200px 210px;animation:sweep 8s linear infinite;">
           <path d="M 200,210 L 370,210 A 170,170 0 0,0 320,89 Z" fill="url(#sweepGrad)" opacity="0.7"/>
         </g>
-        <g stroke="var(--ink)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <g stroke="#f4f1e4" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <rect x="178" y="188" width="44" height="44" rx="4"/>
           <rect x="184" y="194" width="32" height="32" rx="2" stroke-opacity="0.5" stroke-dasharray="2 2"/>
-          <circle cx="200" cy="210" r="7" fill="var(--ink)" fill-opacity="0.15"/>
-          <circle cx="200" cy="210" r="2.5" fill="var(--ink)"/>
-          <path d="M 196 184 L 200 176 L 204 184 Z" fill="var(--accent)" stroke="var(--accent)"/>
-          <line x1="182" y1="192" x2="146" y2="156"/>
-          <line x1="218" y1="192" x2="254" y2="156"/>
-          <line x1="182" y1="228" x2="146" y2="264"/>
-          <line x1="218" y1="228" x2="254" y2="264"/>
+          <circle cx="200" cy="210" r="7" fill="#f4f1e4" fill-opacity="0.15"/>
+          <circle cx="200" cy="210" r="2.5" fill="#f4f1e4"/>
+          <path d="M 196 184 L 200 176 L 204 184 Z" fill="#ffd84a" stroke="#ffd84a"/>
+          <line x1="182" y1="192" x2="146" y2="156"/><line x1="218" y1="192" x2="254" y2="156"/>
+          <line x1="182" y1="228" x2="146" y2="264"/><line x1="218" y1="228" x2="254" y2="264"/>
           <g stroke-opacity="0.5" stroke-dasharray="2 3">
-            <line x1="146" y1="156" x2="146" y2="130"/>
-            <line x1="254" y1="156" x2="254" y2="130"/>
+            <line x1="146" y1="156" x2="146" y2="130"/><line x1="254" y1="156" x2="254" y2="130"/>
             <line x1="146" y1="130" x2="254" y2="130"/>
           </g>
           <circle cx="146" cy="156" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
           <circle cx="254" cy="156" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
           <circle cx="146" cy="264" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
           <circle cx="254" cy="264" r="26" stroke-dasharray="3 4" stroke-opacity="0.7"/>
-          <circle cx="146" cy="156" r="16"/>
-          <circle cx="254" cy="156" r="16"/>
-          <circle cx="146" cy="264" r="16"/>
-          <circle cx="254" cy="264" r="16"/>
-          <circle cx="146" cy="156" r="2.5" fill="var(--ink)"/>
-          <circle cx="254" cy="156" r="2.5" fill="var(--ink)"/>
-          <circle cx="146" cy="264" r="2.5" fill="var(--ink)"/>
-          <circle cx="254" cy="264" r="2.5" fill="var(--ink)"/>
-          <g style="transform-origin: 146px 156px; animation: spin 0.45s linear infinite;">
-            <line x1="130" y1="156" x2="162" y2="156"/>
-            <line x1="146" y1="140" x2="146" y2="172"/>
-          </g>
-          <g style="transform-origin: 254px 156px; animation: spin 0.45s linear infinite reverse;">
-            <line x1="238" y1="156" x2="270" y2="156"/>
-            <line x1="254" y1="140" x2="254" y2="172"/>
-          </g>
-          <g style="transform-origin: 146px 264px; animation: spin 0.45s linear infinite reverse;">
-            <line x1="130" y1="264" x2="162" y2="264"/>
-            <line x1="146" y1="248" x2="146" y2="280"/>
-          </g>
-          <g style="transform-origin: 254px 264px; animation: spin 0.45s linear infinite;">
-            <line x1="238" y1="264" x2="270" y2="264"/>
-            <line x1="254" y1="248" x2="254" y2="280"/>
-          </g>
-          <circle cx="200" cy="180" r="3.5" fill="var(--accent)" stroke="var(--accent)"/>
+          <circle cx="146" cy="156" r="16"/><circle cx="254" cy="156" r="16"/>
+          <circle cx="146" cy="264" r="16"/><circle cx="254" cy="264" r="16"/>
+          <circle cx="146" cy="156" r="2.5" fill="#f4f1e4"/><circle cx="254" cy="156" r="2.5" fill="#f4f1e4"/>
+          <circle cx="146" cy="264" r="2.5" fill="#f4f1e4"/><circle cx="254" cy="264" r="2.5" fill="#f4f1e4"/>
+          <g style="transform-origin:146px 156px;animation:spin 0.45s linear infinite;"><line x1="130" y1="156" x2="162" y2="156"/><line x1="146" y1="140" x2="146" y2="172"/></g>
+          <g style="transform-origin:254px 156px;animation:spin 0.45s linear infinite reverse;"><line x1="238" y1="156" x2="270" y2="156"/><line x1="254" y1="140" x2="254" y2="172"/></g>
+          <g style="transform-origin:146px 264px;animation:spin 0.45s linear infinite reverse;"><line x1="130" y1="264" x2="162" y2="264"/><line x1="146" y1="248" x2="146" y2="280"/></g>
+          <g style="transform-origin:254px 264px;animation:spin 0.45s linear infinite;"><line x1="238" y1="264" x2="270" y2="264"/><line x1="254" y1="248" x2="254" y2="280"/></g>
+          <circle cx="200" cy="180" r="3.5" fill="#ffd84a" stroke="#ffd84a"/>
           <circle cx="200" cy="240" r="3" stroke-opacity="0.7"/>
           <line x1="184" y1="232" x2="184" y2="240" stroke-opacity="0.6"/>
           <line x1="216" y1="232" x2="216" y2="240" stroke-opacity="0.6"/>
         </g>
-        <g font-family="JetBrains Mono" font-size="8" fill="var(--ink-dim)" letter-spacing="1">
-          <line x1="120" y1="156" x2="98" y2="120" stroke="var(--line-soft)" stroke-width="0.8"/>
-          <circle cx="98" cy="120" r="2" fill="var(--accent)"/>
-          <text x="92" y="112" text-anchor="end">M-01</text>
-          <line x1="280" y1="156" x2="302" y2="120" stroke="var(--line-soft)" stroke-width="0.8"/>
-          <circle cx="302" cy="120" r="2" fill="var(--accent)"/>
-          <text x="308" y="112">M-02</text>
-          <line x1="222" y1="210" x2="350" y2="210" stroke="var(--line-soft)" stroke-width="0.8"/>
-          <circle cx="350" cy="210" r="2" fill="var(--accent)"/>
-          <text x="356" y="213">CORE</text>
-          <line x1="200" y1="180" x2="200" y2="60" stroke="var(--line-soft)" stroke-width="0.8" stroke-dasharray="2 2"/>
-          <circle cx="200" cy="60" r="2" fill="var(--accent)"/>
-          <text x="206" y="62">SENSOR ARRAY</text>
-          <line x1="200" y1="240" x2="60" y2="350" stroke="var(--line-soft)" stroke-width="0.8" stroke-dasharray="2 2"/>
-          <circle cx="60" cy="350" r="2" fill="var(--accent)"/>
-          <text x="66" y="353">PAYLOAD BAY</text>
+        <g font-family="JetBrains Mono" font-size="8" fill="#a8c4e8" letter-spacing="1">
+          <line x1="120" y1="156" x2="98" y2="120" stroke="#d8e9ff" stroke-opacity="0.45" stroke-width="0.8"/><circle cx="98" cy="120" r="2" fill="#ffd84a"/><text x="92" y="112" text-anchor="end">M-01</text>
+          <line x1="280" y1="156" x2="302" y2="120" stroke="#d8e9ff" stroke-opacity="0.45" stroke-width="0.8"/><circle cx="302" cy="120" r="2" fill="#ffd84a"/><text x="308" y="112">M-02</text>
+          <line x1="222" y1="210" x2="350" y2="210" stroke="#d8e9ff" stroke-opacity="0.45" stroke-width="0.8"/><circle cx="350" cy="210" r="2" fill="#ffd84a"/><text x="356" y="213">CORE</text>
+          <line x1="200" y1="180" x2="200" y2="60" stroke="#d8e9ff" stroke-opacity="0.45" stroke-width="0.8" stroke-dasharray="2 2"/><circle cx="200" cy="60" r="2" fill="#ffd84a"/><text x="206" y="62">SENSOR ARRAY</text>
+          <line x1="200" y1="240" x2="60" y2="350" stroke="#d8e9ff" stroke-opacity="0.45" stroke-width="0.8" stroke-dasharray="2 2"/><circle cx="60" cy="350" r="2" fill="#ffd84a"/><text x="66" y="353">PAYLOAD BAY</text>
         </g>
       </svg>
       <div class="titleblock">
         <div class="tb-cell">ToBeDefined.ai<div class="tb-val">TBD-2B &middot; AUTONOMOUS PLATFORM</div></div>
         <div class="tb-cell">Sheet<div class="tb-val">1 / 1</div></div>
         <div class="tb-cell">Scale<div class="tb-val">NTS</div></div>
-        <div class="tb-cell">Status<div class="tb-val amber">EMBARGO</div></div>
+        <div class="tb-cell">Status<div class="tb-val amber">DEPLOYED</div></div>
       </div>
     </div>
-
   </div>
 </section>
 
-<section class="section dark" id="story">
-  <div class="section-inner">
-    <div class="section-head">
-      <div class="sec-tag">02 / The Story</div>
-      <h2 class="sec-h2">Eight weeks. Zero experience.<br><em>One question: how far can we get with AI?</em></h2>
-    </div>
-    <div class="stats-strip">
-      <div class="stat-cell">
-        <div class="stat-val">Top 6</div>
-        <div class="stat-lbl">International Finalist</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-val">8<span class="unit">wk</span></div>
-        <div class="stat-lbl">To Qualification</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-val">0<span class="unit">mods</span></div>
-        <div class="stat-lbl">Hardware Changes</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-val">3.6k<span class="unit">lines</span></div>
-        <div class="stat-lbl">Python &middot; End-to-End</div>
-      </div>
-    </div>
-  <div class="story-prose">
-  <p>We had no drones. No experience. Not even a team.<br>
-  We signed up anyway.</p>
-
-  <p>One of us looked around a coworking space and asked four people if they were up for something none of us knew anything about. Everyone said yes. Why not.</p>
-
-  <p>Five software engineers. Five completely different backgrounds. Zero aerospace. No blueprint, no masterplan &mdash; just one question that wouldn&rsquo;t let us go: how far can you actually get if you take AI seriously?</p>
- <img src="/team-group.jpeg" alt="Team ToBeDefined.ai" class="story-group-photo">
-  <p>Eight weeks. One drone. One target. We built an autonomous control system from scratch, competed against teams who&rsquo;d been doing this for years &mdash; and made it through.</p>
-
-  <p>But that was just the beginning.</p>
-
-  <p>Because in the final, you don&rsquo;t fly. You play.</p>
-
-  <p>Swarm versus swarm. Capture the Flag. Fully autonomous &mdash; once the mission starts, no human touches the controls. Six more weeks to turn a working system into one that holds up under real pressure, against real opponents, in a real arena.</p>
-
-  <p>The strategy? The AI decides. Live. On the field. It watches the opposing swarm, reads the situation, picks its tactics &mdash; and executes.</p>
-
-  <p><strong>Top 6. International. ILA Berlin. Defence Track.</strong></p>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>SDC26 Finalist &mdash; ILA Berlin</span><span>14 Weeks &middot; Zero Prior Experience</span>
+    <span>Fast Software Solutions</span><span>0 Hardware Modifications</span>
+    <span>Autonomous Swarm Systems</span><span>AI-Augmented Development</span>
+    <span>Seasoned Engineers &middot; Multiple Domains</span><span>No Bureaucracy &middot; No Slide Decks</span>
+    <span>SDC26 Finalist &mdash; ILA Berlin</span><span>14 Weeks &middot; Zero Prior Experience</span>
+    <span>Fast Software Solutions</span><span>0 Hardware Modifications</span>
+    <span>Autonomous Swarm Systems</span><span>AI-Augmented Development</span>
+    <span>Seasoned Engineers &middot; Multiple Domains</span><span>No Bureaucracy &middot; No Slide Decks</span>
+  </div>
 </div>
 
-<blockquote class="story-quote">
-  &ldquo;This isn&rsquo;t a concept. This happened.&rdquo;
-</blockquote>
+<!-- §01 PROBLEM + USPs -->
+<section class="section dark" id="problem">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="sec-tag"><span class="lang-en">01 / The Problem</span><span class="lang-de">01 / Das Problem</span></div>
+      <h2 class="sec-h2">
+        <span class="lang-en">Sound familiar? <em>We fix that.</em></span>
+        <span class="lang-de">Kommt Ihnen bekannt vor? <em>Wir l&ouml;sen das.</em></span>
+      </h2>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-col">
+        <div class="problem-label red"><span class="lang-en">The Problem</span><span class="lang-de">Das Problem</span></div>
+        <div class="problem-title">
+          <span class="lang-en">Complex technical challenges that go nowhere</span>
+          <span class="lang-de">Komplexe technische Herausforderungen ohne Fortschritt</span>
+        </div>
+        <div class="problem-body">
+          <span class="lang-en">Your organization has a hard technical problem. Everyone agrees it&rsquo;s important. And yet &mdash;</span>
+          <span class="lang-de">Ihr Unternehmen hat ein hartes technisches Problem. Alle sind sich einig, dass es wichtig ist. Und trotzdem &mdash;</span>
+        </div>
+        <ul class="problem-list lang-en">
+          <li>Meetings multiply. Decisions don&rsquo;t.</li>
+          <li>Internal teams are busy with the roadmap.</li>
+          <li>External agencies take months just to onboard.</li>
+          <li>Slide decks pile up. Working software doesn&rsquo;t.</li>
+          <li>The problem is still waiting six months later.</li>
+        </ul>
+        <ul class="problem-list lang-de">
+          <li>Meetings h&auml;ufen sich. Entscheidungen nicht.</li>
+          <li>Interne Teams sind mit der Roadmap ausgelastet.</li>
+          <li>Externe Agenturen brauchen Monate allein f&uuml;r das Onboarding.</li>
+          <li>Slide Decks stapeln sich. Funktionierende Software nicht.</li>
+          <li>Das Problem wartet noch sechs Monate sp&auml;ter.</li>
+        </ul>
+      </div>
+      <div class="problem-col right">
+        <div class="problem-label grn"><span class="lang-en">Our Answer</span><span class="lang-de">Unsere Antwort</span></div>
+        <div class="problem-title">
+          <span class="lang-en">We come in. We scope it. We build it. Fast.</span>
+          <span class="lang-de">Wir kommen rein. Wir analysieren. Wir bauen. Schnell.</span>
+        </div>
+        <div class="problem-body">
+          <span class="lang-en">No lengthy procurement. No discovery workshops that last a quarter. We align on the outcome and ship working software &mdash; in weeks.</span>
+          <span class="lang-de">Kein langwieriges Procurement. Keine Discovery Workshops die ein Quartal dauern. Wir richten uns am Ergebnis aus und liefern funktionierende Software &mdash; in Wochen.</span>
+        </div>
+        <ul class="solution-list lang-en">
+          <li><strong>Unbureaucratic.</strong> Direct engagement, no overhead.</li>
+          <li><strong>AI-powered.</strong> We use agentic engineering as a force multiplier.</li>
+          <li><strong>Domain-agnostic.</strong> We learn fast. We&rsquo;ve proven it.</li>
+          <li><strong>Business-first.</strong> We understand your problem, not just the code.</li>
+          <li><strong>PoC to production.</strong> Working software you can actually use.</li>
+        </ul>
+        <ul class="solution-list lang-de">
+          <li><strong>Unb&uuml;rokratisch.</strong> Direktes Engagement, kein Overhead.</li>
+          <li><strong>KI-gest&uuml;tzt.</strong> Wir nutzen Agentic Engineering als Beschleuniger.</li>
+          <li><strong>Dom&auml;nen-agnostisch.</strong> Wir lernen schnell. Bewiesen.</li>
+          <li><strong>Business first.</strong> Wir verstehen Ihr Problem, nicht nur den Code.</li>
+          <li><strong>PoC bis Produktion.</strong> Funktionierende Software, die Sie wirklich nutzen k&ouml;nnen.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="usp-grid">
+      <div class="usp">
+        <div class="usp-icon">&#9889;</div>
+        <div class="usp-title"><span class="lang-en">Radically Fast</span><span class="lang-de">Radikal schnell</span></div>
+        <div class="usp-body"><span class="lang-en">Weeks, not quarters. We scope tight, ship fast, and iterate. No six-month onboarding.</span><span class="lang-de">Wochen, keine Quartale. Wir scopen eng, liefern schnell und iterieren. Kein sechsmonatiges Onboarding.</span></div>
+      </div>
+      <div class="usp">
+        <div class="usp-icon">&#128161;</div>
+        <div class="usp-title"><span class="lang-en">Seasoned Professionals</span><span class="lang-de">Erfahrene Professionals</span></div>
+        <div class="usp-body"><span class="lang-en">Not junior devs or Gen-Z vibe coders. Business professionals with years of real-world experience across multiple industries.</span><span class="lang-de">Keine Junior-Devs. Business Professionals mit jahrelanger Praxiserfahrung in verschiedensten Branchen.</span></div>
+      </div>
+      <div class="usp">
+        <div class="usp-icon">&#128257;</div>
+        <div class="usp-title"><span class="lang-en">Multi-Domain Expertise</span><span class="lang-de">Multi-Domain-Expertise</span></div>
+        <div class="usp-body"><span class="lang-en">Electronics, IT, AI, development, project management &mdash; five different backgrounds. One Swiss army knife team.</span><span class="lang-de">Elektronik, IT, KI, Entwicklung, Projektmanagement &mdash; f&uuml;nf verschiedene Hintergr&uuml;nde. Ein Schweizer Taschenmesser.</span></div>
+      </div>
+      <div class="usp">
+        <div class="usp-icon">&#129302;</div>
+        <div class="usp-title">Agentic Engineering</div>
+        <div class="usp-body"><span class="lang-en">AI-augmented development combined with real business experience. Not theory &mdash; a live proof of concept from engineers who&rsquo;ve done it under pressure.</span><span class="lang-de">KI-gest&uuml;tzte Entwicklung kombiniert mit echter Business-Erfahrung. Nicht Theorie &mdash; ein Live Proof of Concept von Engineers, die es unter Druck gemacht haben.</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- §02 OFFER -->
 <section class="section" id="offer">
   <div class="section-inner">
     <div class="section-head">
-      <div class="sec-tag">03 / What We Offer</div>
-      <h2 class="sec-h2">Your problem. <em>Our next mission.</em></h2>
+      <div class="sec-tag"><span class="lang-en">02 / What We Do</span><span class="lang-de">02 / Was wir tun</span></div>
+      <h2 class="sec-h2">
+        <span class="lang-en">Your problem. <em>Our next mission.</em></span>
+        <span class="lang-de">Ihr Problem. <em>Unsere n&auml;chste Mission.</em></span>
+      </h2>
     </div>
     <div class="offer-cards">
       <div class="offer-card primary">
-        <div class="offer-label p">Primary &mdash; What We Do</div>
-        <div class="offer-title">Fast Software Solutions for Complex Technical Problems</div>
-        <div class="offer-body">
-          <p>You have a hard technical problem. Tight timeline. A domain that feels too complex to outsource.</p>
-          <p>We&rsquo;ve been there &mdash; in a field none of us knew, with weeks on the clock. We built anyway. That&rsquo;s not a case study. That&rsquo;s a public competition with experienced teams watching.</p>
-          <p><strong>We take on your challenge and deliver working software. Fast.</strong></p>
+        <div class="offer-label p"><span class="lang-en">Primary &mdash; What We Build</span><span class="lang-de">Prim&auml;r &mdash; Was wir bauen</span></div>
+        <div class="offer-title"><span class="lang-en">Fast Software Solutions for Complex Technical Problems</span><span class="lang-de">Schnelle Softwarelo&#776;sungen fu&#776;r komplexe technische Probleme</span></div>
+        <div class="offer-body lang-en">
+          You have a hard technical challenge that needs working software &mdash; fast.<br><br>
+          We take it on. <strong>AI-powered, lean, direct.</strong> From concept to working PoC in weeks. We cover autonomous systems, computer vision, distributed architecture, full-stack Python &mdash; and we apply that same approach to any domain you bring us.<br><br>
+          <strong>No domain is off-limits.</strong> Proven: 14 weeks, zero prior experience, ILA Berlin Defence Track.
+        </div>
+        <div class="offer-body lang-de">
+          Sie haben eine harte technische Herausforderung, die funktionierende Software braucht &mdash; schnell.<br><br>
+          Wir &uuml;bernehmen es. <strong>KI-gest&uuml;tzt, schlank, direkt.</strong> Von Konzept zu funktionierendem PoC in Wochen. Autonome Systeme, Computer Vision, verteilte Architektur, Full-Stack Python &mdash; und denselben Ansatz auf jede Dom&auml;ne, die Sie mitbringen.<br><br>
+          <strong>Keine Dom&auml;ne ist zu schwer.</strong> Bewiesen: 14 Wochen, null Vorerfahrung, ILA Berlin Defence Track.
         </div>
         <div class="offer-targets">
-          Relevant for<br>
+          <span class="lang-en">Relevant for</span><span class="lang-de">Relevant f&uuml;r</span><br>
           <span>Defence &amp; Aerospace Contractors</span><br>
           <span>Corporate R&amp;D &amp; Innovation Labs</span><br>
           <span>Deep-Tech Startups</span>
         </div>
         <div class="offer-cta">
-          <a class="btn btn-primary" href="#contact">Let&rsquo;s Talk <span class="arrow">&rarr;</span></a>
+          <a class="btn btn-primary" href="#contact"><span class="lang-en">Let&rsquo;s Talk</span><span class="lang-de">Jetzt sprechen</span> <span class="arrow">&rarr;</span></a>
         </div>
       </div>
       <div class="offer-card secondary">
-        <div class="offer-label s">Secondary &mdash; What We Can Show</div>
-        <div class="offer-title">AI-Augmented Development Consulting</div>
-        <div class="offer-body">
-          <p>We don&rsquo;t just use AI to build faster &mdash; we&rsquo;ve stress-tested what that actually means in practice.</p>
-          <p>We show your team how AI-augmented development works when the problem is real and the deadline isn&rsquo;t.</p>
+        <div class="offer-label s"><span class="lang-en">Secondary &mdash; What We Can Show</span><span class="lang-de">Sekund&auml;r &mdash; Was wir zeigen k&ouml;nnen</span></div>
+        <div class="offer-title"><span class="lang-en">AI-Augmented Development Consulting</span><span class="lang-de">KI-gest&uuml;tzte Entwicklung &middot; Consulting</span></div>
+        <div class="offer-body lang-en">
+          We don&rsquo;t just use AI to build faster &mdash; we&rsquo;ve stress-tested what that actually means in practice.<br><br>
+          <strong>Agentic engineering combined with real business experience.</strong> We show your team how AI-augmented development works when the problem is real and the deadline isn&rsquo;t. Not theory. Not a workshop. A live proof of concept from engineers who&rsquo;ve done it under pressure.<br><br>
+          Domain knowledge accessible in days. Deep understanding still earned.
+        </div>
+        <div class="offer-body lang-de">
+          Wir nutzen KI nicht nur, um schneller zu bauen &mdash; wir haben getestet, was das in der Praxis wirklich bedeutet.<br><br>
+          <strong>Agentic Engineering kombiniert mit echter Business-Erfahrung.</strong> Wir zeigen Ihrem Team, wie KI-gest&uuml;tzte Entwicklung funktioniert, wenn das Problem real ist und die Deadline es nicht ist. Nicht Theorie. Nicht ein Workshop. Ein Live Proof of Concept von Engineers, die es unter Druck gemacht haben.<br><br>
+          Domain-Wissen in Tagen zug&auml;nglich. Tiefes Verst&auml;ndnis noch verdient.
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section mid" id="capabilities">
+<!-- §03 STORY -->
+<section class="section mid" id="story">
   <div class="section-inner">
     <div class="section-head">
-      <div class="sec-tag">04 / Capabilities</div>
-      <h2 class="sec-h2">What we actually built. <em>From scratch.</em></h2>
+      <div class="sec-tag green"><span class="lang-en">03 / The Story</span><span class="lang-de">03 / Die Story</span></div>
+      <h2 class="sec-h2">
+        <span class="lang-en">Eight weeks. Zero experience. <em>One question.</em></span>
+        <span class="lang-de">Acht Wochen. Null Erfahrung. <em>Eine Frage.</em></span>
+      </h2>
+    </div>
+    <div class="stats-strip">
+      <div class="stat-cell">
+        <div class="stat-cell-val">Top 6 <span>international</span></div>
+        <div class="stat-cell-label"><span class="lang-en">SDC26 Finalists</span><span class="lang-de">SDC26 Finalisten</span></div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-val">8 <span><span class="lang-en">wk</span><span class="lang-de">Wo</span></span></div>
+        <div class="stat-cell-label"><span class="lang-en">To qualification</span><span class="lang-de">Bis zur Qualifikation</span></div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-val">0 <span>mods</span></div>
+        <div class="stat-cell-label"><span class="lang-en">Hardware changes</span><span class="lang-de">Hardware-&Auml;nderungen</span></div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-val">3,600 <span>+</span></div>
+        <div class="stat-cell-label"><span class="lang-en">Lines of Python</span><span class="lang-de">Zeilen Python</span></div>
+      </div>
+    </div>
+
+    <div class="story-prose lang-en">
+      <p>We had no drones. No experience. Not even a team.<br>We signed up anyway.</p>
+      <p>One of us looked around a coworking space and asked four people if they were up for something none of us knew anything about. Everyone said yes. Why not.</p>
+      <p>Five software engineers. Five completely different backgrounds. Zero aerospace. No blueprint, no masterplan &mdash; just one question that wouldn&rsquo;t let us go: <strong>how far can you actually get if you take AI seriously?</strong></p>
+      <p>The arena: the <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong> &mdash; a serious international competition, backed by one of Europe&rsquo;s largest defence technology groups. Not a university project. Not a hackathon. Teams from around the world, with real experience in autonomous systems.</p>
+      <img src="/team-group.jpeg" alt="Team ToBeDefined.ai" class="story-group-photo">
+      <p>Eight weeks. One drone. One target. We built an autonomous control system from scratch, competed against teams who&rsquo;d been doing this for years &mdash; and made it through.</p>
+      <p>But that was just the beginning.</p>
+      <p>Because in the final, you don&rsquo;t fly. You play.</p>
+      <p>Swarm versus swarm. Capture the Flag. Fully autonomous &mdash; once the mission starts, no human touches the controls. Six more weeks to turn a working system into one that holds up under real pressure, against real opponents, in a real arena.</p>
+      <p>The strategy? The AI decides. Live. On the field. It watches the opposing swarm, reads the situation, picks its tactics &mdash; and executes.</p>
+      <p><strong>Top 6. International. ILA Berlin. Defence Track.</strong></p>
+    </div>
+
+    <div class="story-prose lang-de">
+      <p>Wir hatten keine Drohnen. Keine Erfahrung. Nicht mal ein Team.<br>Wir haben uns trotzdem angemeldet.</p>
+      <p>Einer von uns hat sich im Coworking Space umgeschaut und vier Menschen gefragt, ob sie Lust auf etwas haben, von dem keiner eine Ahnung hat. Alle sagten Ja. Warum auch nicht.</p>
+      <p>F&uuml;nf Softwareentwickler. F&uuml;nf v&ouml;llig verschiedene Hintergr&uuml;nde. Null Aerospace. Kein Blueprint, kein Masterplan &mdash; nur eine Frage, die uns nicht loslie&szlig;: <strong>Wie weit kommt man eigentlich, wenn man KI wirklich ernst nimmt?</strong></p>
+      <p>Die Arena: die <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong> &mdash; ein ernsthafter internationaler Wettbewerb, unterst&uuml;tzt von einer der gr&ouml;&szlig;ten R&uuml;stungstechnologiegruppen Europas. Kein Uni-Projekt. Kein Hackathon. Teams aus aller Welt, mit echter Erfahrung in autonomen Systemen.</p>
+      <img src="/team-group.jpeg" alt="Team ToBeDefined.ai" class="story-group-photo">
+      <p>Acht Wochen. Eine Drohne. Ein Ziel. Wir haben ein autonomes Steuerungssystem von null gebaut, sind gegen Teams angetreten, die das seit Jahren machen &mdash; und sind durchgekommen.</p>
+      <p>Aber das war erst der Anfang.</p>
+      <p>Denn im Finale wird nicht mehr geflogen. Da wird gespielt.</p>
+      <p>Schwarm gegen Schwarm. Capture the Flag. Vollst&auml;ndig autonom &mdash; sobald die Mission startet, greift kein Mensch mehr ein. Sechs weitere Wochen, um aus einem funktionierenden System eines zu machen, das unter echtem Druck, gegen echte Gegner, in einer echten Arena standhält.</p>
+      <p>Die Strategie? Entscheidet die KI. Live. Auf dem Feld. Sie beobachtet den gegnerischen Schwarm, liest die Situation, w&auml;hlt ihre Taktik &mdash; und setzt sie um.</p>
+      <p><strong>Top 6. International. ILA Berlin. Defence Track.</strong></p>
+    </div>
+
+    <blockquote class="story-quote lang-en">&ldquo;This isn&rsquo;t a concept. This happened.&rdquo;</blockquote>
+    <blockquote class="story-quote lang-de">&bdquo;Das ist kein Konzept. Das ist passiert.&ldquo;</blockquote>
+  </div>
+</section>
+
+<!-- §04 CAPABILITIES -->
+<section class="section dark" id="capabilities">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="sec-tag"><span class="lang-en">04 / Capabilities</span><span class="lang-de">04 / F&auml;higkeiten</span></div>
+      <h2 class="sec-h2">
+        <span class="lang-en">What we actually built. <em>From scratch.</em></span>
+        <span class="lang-de">Was wir wirklich gebaut haben. <em>Von null.</em></span>
+      </h2>
     </div>
     <div class="cap-grid">
       <div class="cap">
         <div class="cap-id">/ C-01 <span class="dep">DEPLOYED</span></div>
-        <div class="cap-title">Autonomous Systems &amp; Swarm AI</div>
-        <div class="cap-body">Multi-agent coordination, role-based Game AI (Scout, Attacker, Defender, Returner), rule-based strategy engine, collision avoidance, fully autonomous mission execution.</div>
-        <div class="cap-tags">
-          <span class="cap-tag">FastAPI</span><span class="cap-tag">Game AI</span><span class="cap-tag">Multi-Agent</span><span class="cap-tag">UDP Relay</span>
-        </div>
+        <div class="cap-title"><span class="lang-en">Autonomous Systems &amp; Swarm AI</span><span class="lang-de">Autonome Systeme &amp; Schwarm-KI</span></div>
+        <div class="cap-body lang-en">Multi-agent coordination, role-based Game AI (Scout, Attacker, Defender, Returner), rule-based strategy engine, collision avoidance, fully autonomous mission execution. Applicable to any multi-agent coordination problem.</div>
+        <div class="cap-body lang-de">Multi-Agent-Koordination, rollenbasierte Game AI (Scout, Attacker, Defender, Returner), regelbasierte Strategie-Engine, Kollisionsvermeidung, vollst&auml;ndig autonome Missionsausf&uuml;hrung. Anwendbar auf jedes Multi-Agent-Koordinationsproblem.</div>
+        <div class="cap-tags"><span class="cap-tag">FastAPI</span><span class="cap-tag">Game AI</span><span class="cap-tag">Multi-Agent</span><span class="cap-tag">UDP Relay</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-02 <span class="dep">DEPLOYED</span></div>
-        <div class="cap-title">Computer Vision &amp; Positioning</div>
-        <div class="cap-body">ArUco marker detection via OpenCV 4.13, solvePnP 3D localisation, Kalman filter state estimation at ~10 Hz. YOLO11n real-time drone detection at 15 FPS. No additional sensors or hardware.</div>
-        <div class="cap-tags">
-          <span class="cap-tag">OpenCV</span><span class="cap-tag">YOLO11n</span><span class="cap-tag">Kalman Filter</span><span class="cap-tag">solvePnP</span>
-        </div>
+        <div class="cap-title"><span class="lang-en">Computer Vision &amp; Positioning</span><span class="lang-de">Computer Vision &amp; Positionierung</span></div>
+        <div class="cap-body lang-en">ArUco marker detection via OpenCV 4.13, solvePnP 3D localisation, Kalman filter state estimation at ~10 Hz. YOLO11n real-time object detection at 15 FPS. The same pipeline applies to any real-time tracking problem.</div>
+        <div class="cap-body lang-de">ArUco-Marker-Erkennung via OpenCV 4.13, solvePnP 3D-Lokalisation, Kalman-Filter-Zustandssch&auml;tzung bei ~10 Hz. YOLO11n Echtzeit-Objekterkennung bei 15 FPS. Dieselbe Pipeline gilt f&uuml;r jedes Echtzeit-Tracking-Problem.</div>
+        <div class="cap-tags"><span class="cap-tag">OpenCV</span><span class="cap-tag">YOLO11n</span><span class="cap-tag">Kalman Filter</span><span class="cap-tag">solvePnP</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-03 <span class="dep">DEPLOYED</span></div>
-        <div class="cap-title">Distributed C2 Architecture</div>
-        <div class="cap-body">Decoupled flight controllers per drone. Central C2 server with clean separation: Tactics layer (Port 8080) and Strategy / Game AI layer (Port 9090). Low latency, scalable.</div>
-        <div class="cap-tags">
-          <span class="cap-tag">C2 Design</span><span class="cap-tag">WebSocket</span><span class="cap-tag">MJPEG</span><span class="cap-tag">REST API</span>
-        </div>
+        <div class="cap-title"><span class="lang-en">Distributed C2 Architecture</span><span class="lang-de">Verteilte C2-Architektur</span></div>
+        <div class="cap-body lang-en">Decoupled controllers per agent. Central C2 server with clean separation: Tactics layer (Port 8080) and Strategy / Game AI layer (Port 9090). Low latency, scalable to any distributed control problem.</div>
+        <div class="cap-body lang-de">Entkoppelte Controller pro Agent. Zentraler C2-Server mit sauberer Trennung: Tactics-Layer (Port 8080) und Strategy/Game-AI-Layer (Port 9090). Niedrige Latenz, skalierbar auf jedes verteilte Steuerungsproblem.</div>
+        <div class="cap-tags"><span class="cap-tag">C2 Design</span><span class="cap-tag">WebSocket</span><span class="cap-tag">MJPEG</span><span class="cap-tag">REST API</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-04 <span class="dep">DEPLOYED</span></div>
-        <div class="cap-title">Full-Stack Python &amp; AI Development</div>
-        <div class="cap-body">One language, one coherent architecture &mdash; from drone WiFi SDK to strategy AI to real-time web dashboard. Hardware-agnostic, vendor-agnostic, MAVlink-ready. 3,600+ lines built with Claude Code.</div>
-        <div class="cap-tags">
-          <span class="cap-tag">Python 3.11+</span><span class="cap-tag">Claude Code</span><span class="cap-tag">Flask</span><span class="cap-tag">MAVlink</span>
-        </div>
+        <div class="cap-title"><span class="lang-en">Full-Stack Python &amp; AI Development</span><span class="lang-de">Full-Stack Python &amp; KI-Entwicklung</span></div>
+        <div class="cap-body lang-en">One language, one coherent architecture &mdash; from hardware SDK to strategy AI to real-time dashboard. Hardware-agnostic, vendor-agnostic, MAVlink-ready. 3,600+ lines built with Claude Code. Applicable to any domain.</div>
+        <div class="cap-body lang-de">Eine Sprache, eine koh&auml;rente Architektur &mdash; vom Hardware-SDK bis zur Strategie-KI bis zum Echtzeit-Dashboard. Hardware-agnostisch, vendor-agnostisch, MAVlink-ready. 3.600+ Zeilen mit Claude Code. Anwendbar auf jede Dom&auml;ne.</div>
+        <div class="cap-tags"><span class="cap-tag">Python 3.11+</span><span class="cap-tag">Claude Code</span><span class="cap-tag">Flask</span><span class="cap-tag">MAVlink</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section dark" id="team">
+<!-- §05 TEAM -->
+<section class="section" id="team">
   <div class="section-inner">
     <div class="section-head">
-      <div class="sec-tag">05 / The Team</div>
-      <h2 class="sec-h2">Five engineers. <em>One swarm.</em></h2>
+      <div class="sec-tag"><span class="lang-en">05 / The Team</span><span class="lang-de">05 / Das Team</span></div>
+      <h2 class="sec-h2">
+        <span class="lang-en">Five engineers. <em>One swarm.</em></span>
+        <span class="lang-de">F&uuml;nf Engineers. <em>Ein Schwarm.</em></span>
+      </h2>
     </div>
     <div class="team-grid">
-      <a class="team-card" href="#" target="_blank" rel="noopener">
+
+      <a class="team-card" href="https://linkedin.com/in/RENE_LINKEDIN_URL" target="_blank" rel="noopener">
         <div class="team-card-info">
           <div class="team-id">/ T-01 &middot; BAVARIA, DE</div>
-          <div class="team-name">Ren&eacute; Melzer</div>
+          <div class="team-name">Ren&eacute; Melzer <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
           <span class="team-callsign">Supertyp Ren&eacute;</span>
           <div class="team-role">Electronics Engineer</div>
         </div>
-        <img class="team-photo" src="/rene.png" alt="René Melzer">
+        <img class="team-photo" src="/rene.png" alt="Ren&eacute; Melzer">
       </a>
+
       <a class="team-card" href="https://www.linkedin.com/company/teamware/posts/?feedView=all" target="_blank" rel="noopener">
         <div class="team-card-info">
           <div class="team-id">/ T-02 &middot; BAVARIA, DE</div>
-          <div class="team-name">Thomas Letze</div>
+          <div class="team-name">Thomas Letze <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
           <span class="team-callsign">Bruchpilot Thomas</span>
           <div class="team-role">Software Developer</div>
         </div>
         <img class="team-photo" src="/thomas.png" alt="Thomas Letze">
       </a>
+
       <a class="team-card" href="https://www.linkedin.com/in/sdirbach/" target="_blank" rel="noopener">
         <div class="team-card-info">
           <div class="team-id">/ T-03 &middot; BAVARIA, DE</div>
-          <div class="team-name">Sascha Dirbach</div>
+          <div class="team-name">Sascha Dirbach <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
           <span class="team-callsign">Drone Whisperer Sascha</span>
           <div class="team-role">IT Expert</div>
         </div>
         <img class="team-photo" src="/sascha.png" alt="Sascha Dirbach">
       </a>
+
       <a class="team-card" href="https://www.linkedin.com/in/oliver-tiedemann/" target="_blank" rel="noopener">
         <div class="team-card-info">
           <div class="team-id">/ T-04 &middot; BAVARIA, DE</div>
-          <div class="team-name">Oliver Tiedemann</div>
+          <div class="team-name">Oliver Tiedemann <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
           <span class="team-callsign">Hive Commander Olli</span>
           <div class="team-role">AI Enthusiast</div>
         </div>
         <img class="team-photo" src="/oliver.png" alt="Oliver Tiedemann">
       </a>
+
       <a class="team-card" href="https://www.linkedin.com/in/vicki-lichtenegger-195032226/" target="_blank" rel="noopener">
         <div class="team-card-info">
           <div class="team-id">/ T-05 &middot; BAVARIA, DE</div>
-          <div class="team-name">Vicki Lichtenegger</div>
+          <div class="team-name">Vicki Lichtenegger <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
           <span class="team-callsign">Drone Queen Vicki</span>
           <div class="team-role">Project Management &amp; Networking</div>
         </div>
         <img class="team-photo" src="/vicki.png" alt="Vicki Lichtenegger">
       </a>
+
     </div>
+
     <div class="next-mission">
-      <div class="corner tl"></div>
-      <div class="corner tr"></div>
-      <div class="corner bl"></div>
-      <div class="corner br"></div>
-      <div class="next-mission-title">Next mission: <em>undefined.</em></div>
-      <p class="next-mission-body">
-        We&rsquo;re available for new projects &mdash;
-        fast software solutions for complex technical challenges,
-        and consulting on AI-augmented development.
+      <div class="corner tl"></div><div class="corner tr"></div>
+      <div class="corner bl"></div><div class="corner br"></div>
+      <h3><span class="lang-en">Next mission: undefined.</span><span class="lang-de">N&auml;chste Mission: undefiniert.</span></h3>
+      <p>
+        <span class="lang-en">We&rsquo;re available for new projects &mdash; fast software solutions for complex technical challenges, and consulting on AI-augmented development. No slides. No long onboarding. We dive in.</span>
+        <span class="lang-de">Wir sind verf&uuml;gbar f&uuml;r neue Projekte &mdash; schnelle Softwarelo&#776;sungen fu&#776;r komplexe technische Herausforderungen und Consulting zu KI-gest&uuml;tzter Entwicklung. Keine Slides. Kein langes Onboarding. Wir tauchen ein.</span>
       </p>
-      <a class="btn btn-primary" href="#contact">Let&rsquo;s Talk <span class="arrow">&rarr;</span></a>
+      <a class="btn btn-primary" href="#contact"><span class="lang-en">Let&rsquo;s Talk</span><span class="lang-de">Jetzt sprechen</span> <span class="arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
 
+<!-- §06 CONTACT -->
 <section class="contact-section" id="contact">
   <div class="contact-inner">
-    <div class="corner tl"></div>
-    <div class="corner tr"></div>
-    <div class="corner bl"></div>
-    <div class="corner br"></div>
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
     <div class="contact-tag">
       <span class="blink"></span>
-      Next Mission: Undefined
+      <span class="lang-en">Next Mission: Undefined</span>
+      <span class="lang-de">N&auml;chste Mission: Undefiniert</span>
     </div>
     <h2 class="contact-h2">
-      Got a hard problem?
-      <em>Let&rsquo;s talk.</em>
+      <span class="lang-en">Got a hard problem? <em>Let&rsquo;s talk.</em></span>
+      <span class="lang-de">Sie haben ein hartes Problem? <em>Sprechen wir.</em></span>
     </h2>
-    <p class="contact-desc">
+    <p class="contact-desc lang-en">
       We are available for new projects &mdash;
       <strong>fast software solutions for complex technical challenges</strong>,
       and consulting on AI-augmented development.
-      No slides. No long onboarding. We dive in.
+      No slides. No long onboarding. We dive in. We reply within 48 hours.
     </p>
-    <a class="contact-email" href="mailto:hello@tobedefined.ai">
-      hello@tobedefined.ai
-    </a>
-    <div class="contact-sub">Bavaria, Germany &middot; Available remote &amp; on-site</div>
+    <p class="contact-desc lang-de">
+      Wir sind verf&uuml;gbar f&uuml;r neue Projekte &mdash;
+      <strong>schnelle Softwarelo&#776;sungen fu&#776;r komplexe technische Herausforderungen</strong>
+      und Consulting zu KI-gest&uuml;tzter Entwicklung.
+      Keine Slides. Kein langes Onboarding. Wir tauchen ein. Wir antworten innerhalb von 48 Stunden.
+    </p>
+    <a class="contact-email" href="mailto:hello@tobedefined.ai">hello@tobedefined.ai</a>
+    <div class="contact-sub">
+      <span class="lang-en">Bavaria, Germany &middot; Available remote &amp; on-site</span>
+      <span class="lang-de">Bayern, Deutschland &middot; Remote &amp; vor Ort verf&uuml;gbar</span>
+    </div>
   </div>
 </section>
 
 </main>
 
 <footer>
-<div class="foot-inner">
-  <div>&copy; ToBeDefined.ai &mdash; All Systems Reserved</div>
-  <div class="coord">52.36&deg; N / 13.50&deg; E &middot; ILA &middot; 11.06.2026</div>
-  <div>
-    <a href="/impressum.html" style="color:var(--ink-faint);text-decoration:none;letter-spacing:0.15em;text-transform:uppercase;font-size:10px;margin-right:16px">Impressum</a>
-    <a href="/privacy.html" style="color:var(--ink-faint);text-decoration:none;letter-spacing:0.15em;text-transform:uppercase;font-size:10px">Privacy</a>
+  <div class="foot-inner">
+    <div><span class="lang-en">&copy; ToBeDefined.ai &mdash; All Systems Reserved</span><span class="lang-de">&copy; ToBeDefined.ai &mdash; Alle Rechte vorbehalten</span></div>
+    <div class="coord">52.36&deg; N / 13.50&deg; E &middot; ILA &middot; 11.06.2026</div>
+    <div class="foot-links">
+      <a href="/impressum.html">Impressum</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/ila2026.html">ILA 2026 &nearr;</a>
+    </div>
   </div>
-</div>
 </footer>
+
+<script>
+  function setLang(lang) {
+    if (lang === 'de') {
+      document.body.classList.add('de');
+    } else {
+      document.body.classList.remove('de');
+    }
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+    try { localStorage.setItem('tbd-lang', lang); } catch(e) {}
+  }
+  // Restore saved language
+  try {
+    var saved = localStorage.getItem('tbd-lang');
+    if (saved === 'de') setLang('de');
+  } catch(e) {}
+</script>
 
 </body>
 </html>
