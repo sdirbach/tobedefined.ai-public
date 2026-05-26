@@ -237,6 +237,8 @@
 
   /* MOBILE */
 @media(max-width:860px){
+  .header-cta{font-size:0;padding:8px 10px;}
+  .header-cta::after{content:"→";font-size:14px;}
   .topstripe .ts-item:nth-child(n+4){display:none}
   .header-nav{display:none}
   .lang-toggle{display:flex}
@@ -260,9 +262,7 @@
 
 .mobile-nav{display:none}
 @media(max-width:860px){
-  .mobile-nav{
-    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:150;
-    background:var(--bg-3);border-top:1px solid var(--line-soft);
+  .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:150; background:var(--bg-3);border-top:1px solid var(--line-soft);
   }
   .mobile-nav a{
     flex:1;text-align:center;padding:14px 4px;
