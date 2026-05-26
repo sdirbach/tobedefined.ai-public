@@ -236,27 +236,45 @@
   .foot-links{display:flex;gap:20px}
 
   /* MOBILE */
-  @media(max-width:860px){
-    .topstripe .ts-item:nth-child(n+4){display:none}
-    .header-nav{display:none}
-    .hero{padding:108px 20px 56px}
-    .hero-grid{grid-template-columns:1fr;gap:40px}
-    .blueprint{max-width:100%;justify-self:center}
-    .section{padding:72px 20px}
-    .section-head{grid-template-columns:1fr;gap:14px}
-    .problem-grid,.offer-cards,.cap-grid,.team-grid{grid-template-columns:1fr}
-    .usp-grid{grid-template-columns:1fr 1fr}
-    .corner{display:none}
-    .contact-section{padding:80px 20px 72px}
-    .contact-email{padding:16px 24px}
-    footer{padding:20px}
-    .hero h1{font-size:clamp(30px,9vw,48px);line-height:1.05}
-    .hero h1 .word{overflow:visible}
-    .hero h1 .word > span{transform:none;animation:none}
-    .team-photo{width:120px;height:160px}
-    .stats-strip{flex-direction:column;gap:1px}
-    .lang-toggle{display:none}
+@media(max-width:860px){
+  .topstripe .ts-item:nth-child(n+4){display:none}
+  .header-nav{display:none}
+  .lang-toggle{display:flex}
+  .hero{padding:108px 20px 72px}
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .blueprint{max-width:100%;justify-self:center}
+  .section{padding:72px 20px}
+  .section-head{grid-template-columns:1fr;gap:14px}
+  .problem-grid,.offer-cards,.cap-grid,.team-grid{grid-template-columns:1fr}
+  .usp-grid{grid-template-columns:1fr 1fr}
+  .corner{display:none}
+  .contact-section{padding:80px 20px 96px}
+  .contact-email{padding:16px 24px}
+  footer{padding:20px 20px 80px}
+  .hero h1{font-size:clamp(30px,9vw,48px);line-height:1.05}
+  .hero h1 .word{overflow:visible}
+  .hero h1 .word > span{transform:none;animation:none}
+  .team-photo{width:120px;height:160px}
+  .stats-strip{flex-direction:column;gap:1px}
+}
+
+.mobile-nav{display:none}
+@media(max-width:860px){
+  .mobile-nav{
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:150;
+    background:var(--bg-3);border-top:1px solid var(--line-soft);
   }
+  .mobile-nav a{
+    flex:1;text-align:center;padding:14px 4px;
+    font-family:"JetBrains Mono",monospace;font-size:9px;
+    letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;transition:color 0.2s,background 0.2s;
+    border-right:1px solid var(--line-faint);
+  }
+  .mobile-nav a:last-child{border-right:none}
+  .mobile-nav a:active{color:var(--accent);background:rgba(255,216,74,0.05)}
+}
+
 </style>
 <script defer src="https://umami.dev.endless-webservices.de/script.js" data-website-id="83fc2907-1942-452e-b4ad-04eb1e57eb73"></script>
 </head>
@@ -806,6 +824,17 @@
     if (saved === 'de') setLang('de');
   } catch(e) {}
 </script>
-
+<nav class="mobile-nav">
+  <a href="#problem">
+    <span class="lang-en">Problem</span>
+    <span class="lang-de">Problem</span>
+  </a>
+  <a href="#offer">
+    <span class="lang-en">Offer</span>
+    <span class="lang-de">Angebot</span>
+  </a>
+  <a href="#story">Story</a>
+  <a href="#team">Team</a>
+</nav>
 </body>
 </html>
