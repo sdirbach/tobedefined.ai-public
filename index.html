@@ -79,6 +79,7 @@
   .hero-divider{width:100%;height:1px;background:linear-gradient(90deg,var(--line-soft),transparent 70%);margin-bottom:28px;opacity:0;animation:fadeIn 0.8s ease forwards 0.7s;}
   .hero-lede{font-size:13px;line-height:1.85;color:var(--ink-dim);max-width:520px;margin-bottom:36px;opacity:0;animation:fadeIn 0.8s ease forwards 0.8s;}
   .hero-lede strong{color:var(--ink);font-weight:500}
+  .trigger-line{display:block;font-family:"Share Tech Mono",monospace;font-size:13px;color:var(--accent);border-left:2px solid var(--accent);padding:10px 0 10px 16px;margin:16px 0;font-style:italic;line-height:1.5;letter-spacing:0.02em;}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeIn 0.8s ease forwards 1.0s;}
   @keyframes fadeIn{to{opacity:1}}
 
@@ -128,45 +129,6 @@
   .sec-h2{font-family:"Syne",sans-serif;font-weight:700;font-size:clamp(26px,3.5vw,44px);line-height:1.05;letter-spacing:-0.02em;}
   .sec-h2 em{font-family:"Share Tech Mono",monospace;font-style:italic;color:var(--accent);font-weight:400}
 
-  /* PROBLEM */
-  .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);}
-  .problem-col{background:var(--bg);padding:40px 36px;}
-  .problem-col.right{background:var(--bg-2);}
-  .problem-label{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;margin-bottom:20px;}
-  .problem-label.red{color:#ff6b6b}
-  .problem-label.grn{color:var(--green)}
-  .problem-title{font-family:"Syne",sans-serif;font-weight:700;font-size:clamp(18px,2vw,26px);line-height:1.1;color:var(--ink);margin-bottom:16px;}
-  .problem-body{font-size:13px;line-height:1.85;color:var(--ink-dim);}
-  .problem-body strong{color:var(--ink);font-weight:500}
-  .problem-list,.solution-list{list-style:none;margin-top:16px;}
-  .problem-list li,.solution-list li{font-size:13px;line-height:1.7;color:var(--ink-dim);padding:10px 0;border-bottom:1px solid var(--line-faint);display:flex;align-items:flex-start;gap:12px;}
-  .problem-list li:last-child,.solution-list li:last-child{border-bottom:none}
-  .problem-list li::before{content:"\2014";color:#ff6b6b;flex-shrink:0;margin-top:1px;}
-  .solution-list li::before{content:"\2713";color:var(--green);flex-shrink:0;margin-top:1px;}
-  .solution-list li strong{color:var(--ink);font-weight:500}
-
-  /* USP */
-  .usp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-top:1px;}
-  .usp{background:var(--bg);padding:24px 22px;transition:background 0.3s;}
-  .usp:hover{background:var(--bg-2)}
-  .usp-icon{font-size:20px;margin-bottom:14px;}
-  .usp-title{font-family:"Syne",sans-serif;font-weight:700;font-size:14px;color:var(--ink);margin-bottom:8px;line-height:1.2;}
-  .usp-body{font-size:11px;line-height:1.7;color:var(--ink-dim);}
-
-  /* OFFER */
-  .offer-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
-  .offer-card{background:var(--bg);padding:36px 32px;position:relative}
-  .offer-card.primary{border-top:3px solid var(--accent)}
-  .offer-card.secondary{border-top:3px solid var(--line-faint)}
-  .offer-label{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;margin-bottom:18px}
-  .offer-label.p{color:var(--accent)}
-  .offer-label.s{color:var(--ink-dim)}
-  .offer-title{font-family:"Syne",sans-serif;font-weight:700;font-size:clamp(18px,2.2vw,26px);line-height:1.1;color:var(--ink);margin-bottom:18px}
-  .offer-body{font-size:13px;line-height:1.85;color:var(--ink-dim)}
-  .offer-body strong{color:var(--ink);font-weight:500}
-  .offer-targets{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-faint);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-dim);line-height:1.9}
-  .offer-cta{margin-top:28px}
-
   /* STORY */
   .stats-strip{display:flex;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:48px;flex-wrap:wrap;}
   .stat-cell{flex:1;min-width:140px;background:var(--bg);padding:20px 24px;}
@@ -202,13 +164,6 @@
   .team-role{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-dim)}
   .linkedin-icon{color:var(--accent);flex-shrink:0;opacity:0.7;transition:opacity 0.2s;}
   .team-card:hover .linkedin-icon{opacity:1}
-  .next-mission{margin-top:48px;padding:40px;border:1px solid var(--line-soft);position:relative;text-align:center;}
-  .next-mission .corner.tl{top:-1px;left:-1px;border-top-width:1px;border-left-width:1px;width:16px;height:16px}
-  .next-mission .corner.tr{top:-1px;right:-1px;border-top-width:1px;border-right-width:1px;width:16px;height:16px}
-  .next-mission .corner.bl{bottom:-1px;left:-1px;border-bottom-width:1px;border-left-width:1px;width:16px;height:16px}
-  .next-mission .corner.br{bottom:-1px;right:-1px;border-bottom-width:1px;border-right-width:1px;width:16px;height:16px}
-  .next-mission h3{font-family:"Syne",sans-serif;font-weight:700;font-size:22px;color:var(--ink);margin-bottom:14px}
-  .next-mission p{font-size:13px;color:var(--ink-dim);line-height:1.8;margin-bottom:24px;max-width:560px;margin-left:auto;margin-right:auto}
 
   /* CONTACT */
   .contact-section{position:relative;z-index:2;background:radial-gradient(ellipse 70% 90% at 50% 0%,rgba(255,216,74,0.07),transparent 60%),var(--bg-3);border-top:1px solid var(--line-soft);padding:110px 32px 96px;text-align:center;}
@@ -221,8 +176,6 @@
   .contact-tag .blink{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.2s ease-in-out infinite}
   .contact-h2{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(32px,6vw,72px);line-height:0.95;letter-spacing:-0.025em;margin-bottom:20px}
   .contact-h2 em{font-family:"Share Tech Mono",monospace;font-style:italic;color:var(--accent);font-weight:400;font-size:0.55em;display:block;margin-top:12px}
-  .contact-desc{font-size:13px;line-height:1.85;color:var(--ink-dim);max-width:480px;margin:0 auto 52px}
-  .contact-desc strong{color:var(--ink);font-weight:500}
   .contact-email{display:inline-block;font-family:"Share Tech Mono",monospace;font-size:clamp(16px,3.5vw,28px);letter-spacing:0.04em;color:var(--accent);text-decoration:none;padding:20px 40px;border:1px solid var(--accent);background:rgba(255,216,74,0.06);margin-bottom:32px;transition:background 0.2s,color 0.2s;word-break:break-all;}
   .contact-email:hover{background:var(--accent);color:var(--bg-3)}
   .contact-sub{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim)}
@@ -236,45 +189,37 @@
   .foot-links{display:flex;gap:20px}
 
   /* MOBILE */
-@media(max-width:860px){
-  .header-cta{font-size:0;padding:0 10px;height:26px;min-width:36px;display:inline-flex;align-items:center;justify-content:center;background:var(--accent);border-color:var(--accent);}
-  .header-cta::after{content:"✉";font-size:18px;line-height:1;color:var(--bg-3);}
-  .topstripe .ts-item:nth-child(n+4){display:none}
-  .header-nav{display:none}
-  .lang-toggle{display:flex}
-  .hero{padding:108px 20px 72px}
-  .hero-grid{grid-template-columns:1fr;gap:40px}
-  .blueprint{max-width:100%;justify-self:center}
-  .section{padding:72px 20px}
-  .section-head{grid-template-columns:1fr;gap:14px}
-  .problem-grid,.offer-cards,.cap-grid,.team-grid{grid-template-columns:1fr}
-  .usp-grid{grid-template-columns:1fr 1fr}
-  .corner{display:none}
-  .contact-section{padding:80px 20px 96px}
-  .contact-email{padding:16px 24px}
-  footer{padding:20px 20px 80px}
-  .hero h1{font-size:clamp(30px,9vw,48px);line-height:1.05}
-  .hero h1 .word{overflow:visible}
-  .hero h1 .word > span{transform:none;animation:none}
-  .team-photo{width:120px;height:160px}
-  .stats-strip{flex-direction:column;gap:1px}
-}
-
-.mobile-nav{display:none}
-@media(max-width:860px){
-  .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:150; background:var(--bg-3);border-top:1px solid var(--line-soft);
+  @media(max-width:860px){
+    .header-cta{font-size:0;padding:0 10px;height:26px;min-width:36px;display:inline-flex;align-items:center;justify-content:center;background:var(--accent);border-color:var(--accent);}
+    .header-cta::after{content:"✉";font-size:18px;line-height:1;color:var(--bg-3);}
+    .topstripe .ts-item:nth-child(n+4){display:none}
+    .header-nav{display:none}
+    .lang-toggle{display:flex}
+    .hero{padding:108px 20px 72px}
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .blueprint{max-width:100%;justify-self:center}
+    .section{padding:72px 20px}
+    .section-head{grid-template-columns:1fr;gap:14px}
+    .cap-grid,.team-grid{grid-template-columns:1fr}
+    .corner{display:none}
+    .contact-section{padding:80px 20px 96px}
+    .contact-email{padding:16px 24px}
+    footer{padding:20px 20px 80px}
+    .hero h1{font-size:clamp(30px,9vw,48px);line-height:1.05}
+    .hero h1 .word{overflow:visible}
+    .hero h1 .word > span{transform:none;animation:none}
+    .team-photo{width:120px;height:160px}
+    .stats-strip{flex-direction:column;gap:1px}
+    .trigger-line{font-size:12px}
   }
-  .mobile-nav a{
-    flex:1;text-align:center;padding:14px 4px;
-    font-family:"JetBrains Mono",monospace;font-size:9px;
-    letter-spacing:0.12em;text-transform:uppercase;
-    color:var(--ink-dim);text-decoration:none;transition:color 0.2s,background 0.2s;
-    border-right:1px solid var(--line-faint);
-  }
-  .mobile-nav a:last-child{border-right:none}
-  .mobile-nav a:active{color:var(--accent);background:rgba(255,216,74,0.05)}
-}
 
+  .mobile-nav{display:none}
+  @media(max-width:860px){
+    .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--bg-3);border-top:1px solid var(--line-soft);}
+    .mobile-nav a{flex:1;text-align:center;padding:14px 4px;font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-dim);text-decoration:none;transition:color 0.2s,background 0.2s;border-right:1px solid var(--line-faint);}
+    .mobile-nav a:last-child{border-right:none}
+    .mobile-nav a:active{color:var(--accent);background:rgba(255,216,74,0.05)}
+  }
 </style>
 <script defer src="https://umami.dev.endless-webservices.de/script.js" data-website-id="83fc2907-1942-452e-b4ad-04eb1e57eb73"></script>
 </head>
@@ -294,9 +239,8 @@
     ToBeDefined<span class="dot">&middot;</span>ai
   </a>
   <nav class="header-nav">
-    <a href="#problem"><span class="lang-en">The Problem</span><span class="lang-de">Das Problem</span></a>
-    <a href="#offer"><span class="lang-en">What We Do</span><span class="lang-de">Was wir tun</span></a>
-    <a href="#story"><span class="lang-en">Our Story</span><span class="lang-de">Unsere Story</span></a>
+    <a href="#story"><span class="lang-en">The Story</span><span class="lang-de">Die Story</span></a>
+    <a href="#capabilities"><span class="lang-en">Capabilities</span><span class="lang-de">F&auml;higkeiten</span></a>
     <a href="#team"><span class="lang-en">The Team</span><span class="lang-de">Das Team</span></a>
   </nav>
   <div class="header-right">
@@ -324,22 +268,18 @@
       </h1>
       <div class="hero-divider"></div>
       <p class="hero-lede lang-en">
-        Your most complex technical challenge is stuck &mdash; in meetings, in roadmaps, in organizational friction.
-        <strong>We come in and build.</strong> Fast, lean, AI-powered.
-        No bureaucracy. No slide decks. No months of onboarding.<br><br>
-        Five seasoned engineers. <strong>Working software in weeks.</strong>
-        Proven in 14 weeks on the ILA Berlin Defence Track.
+        Your most complex technical challenge is stuck &mdash; not because it can&rsquo;t be solved.
+        <span class="trigger-line">Tired of waiting months for a result because the priority is always somewhere else?</span>
+        <strong>We come in and build.</strong> Five seasoned engineers, AI-powered, working software in weeks. Proven: 14&nbsp;weeks. ILA&nbsp;Berlin. Defence&nbsp;Track.
       </p>
       <p class="hero-lede lang-de">
-        Ihre komplexeste technische Herausforderung steckt fest &mdash; in Meetings, in Roadmaps, in organisatorischer Reibung.
-        <strong>Wir kommen rein und bauen.</strong> Schnell, schlank, KI-gest&uuml;tzt.
-        Keine B&uuml;rokratie. Keine Slide Decks. Kein monatelanges Onboarding.<br><br>
-        F&uuml;nf erfahrene Engineers. <strong>Funktionierende Software in Wochen.</strong>
-        Bewiesen in 14 Wochen auf dem ILA Berlin Defence Track.
+        Ihre komplexeste technische Herausforderung steckt fest &mdash; nicht weil sie unl&ouml;sbar w&auml;re.
+        <span class="trigger-line">Keine Lust mehr, Monate auf ein Ergebnis zu warten &mdash; weil die Prio gerade woanders liegt?</span>
+        <strong>Wir kommen rein und bauen.</strong> F&uuml;nf erfahrene Engineers, KI-gest&uuml;tzt, funktionierende Software in Wochen. Bewiesen: 14&nbsp;Wochen. ILA&nbsp;Berlin. Defence&nbsp;Track.
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#contact"><span class="lang-en">Let&rsquo;s Talk</span><span class="lang-de">Jetzt sprechen</span> <span class="arrow">&rarr;</span></a>
-        <a class="btn btn-ghost" href="#problem"><span class="lang-en">See How</span><span class="lang-de">Mehr erfahren</span> <span class="arrow">&darr;</span></a>
+        <a class="btn btn-ghost" href="#story"><span class="lang-en">Our Story</span><span class="lang-de">Unsere Story</span> <span class="arrow">&darr;</span></a>
       </div>
     </div>
 
@@ -436,152 +376,11 @@
   </div>
 </div>
 
-<!-- §01 PROBLEM + USPs -->
-<section class="section dark" id="problem">
-  <div class="section-inner">
-    <div class="section-head">
-      <div class="sec-tag"><span class="lang-en">01 / The Problem</span><span class="lang-de">01 / Das Problem</span></div>
-      <h2 class="sec-h2">
-        <span class="lang-en">Sound familiar? <em>We fix that.</em></span>
-        <span class="lang-de">Kommt Ihnen bekannt vor? <em>Wir l&ouml;sen das.</em></span>
-      </h2>
-    </div>
-
-    <div class="problem-grid">
-      <div class="problem-col">
-        <div class="problem-label red"><span class="lang-en">The Problem</span><span class="lang-de">Das Problem</span></div>
-        <div class="problem-title">
-          <span class="lang-en">Complex technical challenges that go nowhere</span>
-          <span class="lang-de">Komplexe technische Herausforderungen ohne Fortschritt</span>
-        </div>
-        <div class="problem-body">
-          <span class="lang-en">Your organization has a hard technical problem. Everyone agrees it&rsquo;s important. And yet &mdash;</span>
-          <span class="lang-de">Ihr Unternehmen hat ein hartes technisches Problem. Alle sind sich einig, dass es wichtig ist. Und trotzdem &mdash;</span>
-        </div>
-        <ul class="problem-list lang-en">
-          <li>Meetings multiply. Decisions don&rsquo;t.</li>
-          <li>Internal teams are busy with the roadmap.</li>
-          <li>External agencies take months just to onboard.</li>
-          <li>Slide decks pile up. Working software doesn&rsquo;t.</li>
-          <li>The problem is still waiting six months later.</li>
-        </ul>
-        <ul class="problem-list lang-de">
-          <li>Meetings h&auml;ufen sich. Entscheidungen nicht.</li>
-          <li>Interne Teams sind mit der Roadmap ausgelastet.</li>
-          <li>Externe Agenturen brauchen Monate allein f&uuml;r das Onboarding.</li>
-          <li>Slide Decks stapeln sich. Funktionierende Software nicht.</li>
-          <li>Das Problem wartet noch sechs Monate sp&auml;ter.</li>
-        </ul>
-      </div>
-      <div class="problem-col right">
-        <div class="problem-label grn"><span class="lang-en">Our Answer</span><span class="lang-de">Unsere Antwort</span></div>
-        <div class="problem-title">
-          <span class="lang-en">We come in. We scope it. We build it. Fast.</span>
-          <span class="lang-de">Wir kommen rein. Wir analysieren. Wir bauen. Schnell.</span>
-        </div>
-        <div class="problem-body">
-          <span class="lang-en">No lengthy procurement. No discovery workshops that last a quarter. We align on the outcome and ship working software &mdash; in weeks.</span>
-          <span class="lang-de">Kein langwieriges Procurement. Keine Discovery Workshops die ein Quartal dauern. Wir richten uns am Ergebnis aus und liefern funktionierende Software &mdash; in Wochen.</span>
-        </div>
-        <ul class="solution-list lang-en">
-          <li><strong>Unbureaucratic.</strong> Direct engagement, no overhead.</li>
-          <li><strong>AI-powered.</strong> We use agentic engineering as a force multiplier.</li>
-          <li><strong>Domain-agnostic.</strong> We learn fast. We&rsquo;ve proven it.</li>
-          <li><strong>Business-first.</strong> We understand your problem, not just the code.</li>
-          <li><strong>PoC to production.</strong> Working software you can actually use.</li>
-        </ul>
-        <ul class="solution-list lang-de">
-          <li><strong>Unb&uuml;rokratisch.</strong> Direktes Engagement, kein Overhead.</li>
-          <li><strong>KI-gest&uuml;tzt.</strong> Wir nutzen Agentic Engineering als Beschleuniger.</li>
-          <li><strong>Dom&auml;nen-agnostisch.</strong> Wir lernen schnell. Bewiesen.</li>
-          <li><strong>Business first.</strong> Wir verstehen Ihr Problem, nicht nur den Code.</li>
-          <li><strong>PoC bis Produktion.</strong> Funktionierende Software, die Sie wirklich nutzen k&ouml;nnen.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="usp-grid">
-      <div class="usp">
-        <div class="usp-icon">&#9889;</div>
-        <div class="usp-title"><span class="lang-en">Radically Fast</span><span class="lang-de">Radikal schnell</span></div>
-        <div class="usp-body"><span class="lang-en">Weeks, not quarters. We scope tight, ship fast, and iterate. No six-month onboarding.</span><span class="lang-de">Wochen, keine Quartale. Wir scopen eng, liefern schnell und iterieren. Kein sechsmonatiges Onboarding.</span></div>
-      </div>
-      <div class="usp">
-        <div class="usp-icon">&#128161;</div>
-        <div class="usp-title"><span class="lang-en">Seasoned Professionals</span><span class="lang-de">Erfahrene Professionals</span></div>
-        <div class="usp-body"><span class="lang-en">Not junior devs or Gen-Z vibe coders. Business professionals with years of real-world experience across multiple industries.</span><span class="lang-de">Keine Junior-Devs. Business Professionals mit jahrelanger Praxiserfahrung in verschiedensten Branchen.</span></div>
-      </div>
-      <div class="usp">
-        <div class="usp-icon">&#128257;</div>
-        <div class="usp-title"><span class="lang-en">Multi-Domain Expertise</span><span class="lang-de">Multi-Domain-Expertise</span></div>
-        <div class="usp-body"><span class="lang-en">Electronics, IT, AI, development, project management &mdash; five different backgrounds. One Swiss army knife team.</span><span class="lang-de">Elektronik, IT, KI, Entwicklung, Projektmanagement &mdash; f&uuml;nf verschiedene Hintergr&uuml;nde. Ein Schweizer Taschenmesser.</span></div>
-      </div>
-      <div class="usp">
-        <div class="usp-icon">&#129302;</div>
-        <div class="usp-title">Agentic Engineering</div>
-        <div class="usp-body"><span class="lang-en">AI-augmented development combined with real business experience. Not theory &mdash; a live proof of concept from engineers who&rsquo;ve done it under pressure.</span><span class="lang-de">KI-gest&uuml;tzte Entwicklung kombiniert mit echter Business-Erfahrung. Nicht Theorie &mdash; ein Live Proof of Concept von Engineers, die es unter Druck gemacht haben.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- §02 OFFER -->
-<section class="section" id="offer">
-  <div class="section-inner">
-    <div class="section-head">
-      <div class="sec-tag"><span class="lang-en">02 / What We Do</span><span class="lang-de">02 / Was wir tun</span></div>
-      <h2 class="sec-h2">
-        <span class="lang-en">Your problem. <em>Our next mission.</em></span>
-        <span class="lang-de">Ihr Problem. <em>Unsere n&auml;chste Mission.</em></span>
-      </h2>
-    </div>
-    <div class="offer-cards">
-      <div class="offer-card primary">
-        <div class="offer-label p"><span class="lang-en">Primary &mdash; What We Build</span><span class="lang-de">Prim&auml;r &mdash; Was wir bauen</span></div>
-        <div class="offer-title"><span class="lang-en">Fast Software Solutions for Complex Technical Problems</span><span class="lang-de">Schnelle Softwarelo&#776;sungen fu&#776;r komplexe technische Probleme</span></div>
-        <div class="offer-body lang-en">
-          You have a hard technical challenge that needs working software &mdash; fast.<br><br>
-          We take it on. <strong>AI-powered, lean, direct.</strong> From concept to working PoC in weeks. We cover autonomous systems, computer vision, distributed architecture, full-stack Python &mdash; and we apply that same approach to any domain you bring us.<br><br>
-          <strong>No domain is off-limits.</strong> Proven: 14 weeks, zero prior experience, ILA Berlin Defence Track.
-        </div>
-        <div class="offer-body lang-de">
-          Sie haben eine harte technische Herausforderung, die funktionierende Software braucht &mdash; schnell.<br><br>
-          Wir &uuml;bernehmen es. <strong>KI-gest&uuml;tzt, schlank, direkt.</strong> Von Konzept zu funktionierendem PoC in Wochen. Autonome Systeme, Computer Vision, verteilte Architektur, Full-Stack Python &mdash; und denselben Ansatz auf jede Dom&auml;ne, die Sie mitbringen.<br><br>
-          <strong>Keine Dom&auml;ne ist zu schwer.</strong> Bewiesen: 14 Wochen, null Vorerfahrung, ILA Berlin Defence Track.
-        </div>
-        <div class="offer-targets">
-          <span class="lang-en">Relevant for</span><span class="lang-de">Relevant f&uuml;r</span><br>
-          <span>Defence &amp; Aerospace Contractors</span><br>
-          <span>Corporate R&amp;D &amp; Innovation Labs</span><br>
-          <span>Deep-Tech Startups</span>
-        </div>
-        <div class="offer-cta">
-          <a class="btn btn-primary" href="#contact"><span class="lang-en">Let&rsquo;s Talk</span><span class="lang-de">Jetzt sprechen</span> <span class="arrow">&rarr;</span></a>
-        </div>
-      </div>
-      <div class="offer-card secondary">
-        <div class="offer-label s"><span class="lang-en">Secondary &mdash; What We Can Show</span><span class="lang-de">Sekund&auml;r &mdash; Was wir zeigen k&ouml;nnen</span></div>
-        <div class="offer-title"><span class="lang-en">AI-Augmented Development Consulting</span><span class="lang-de">KI-gest&uuml;tzte Entwicklung &middot; Consulting</span></div>
-        <div class="offer-body lang-en">
-          We don&rsquo;t just use AI to build faster &mdash; we&rsquo;ve stress-tested what that actually means in practice.<br><br>
-          <strong>Agentic engineering combined with real business experience.</strong> We show your team how AI-augmented development works when the problem is real and the deadline isn&rsquo;t. Not theory. Not a workshop. A live proof of concept from engineers who&rsquo;ve done it under pressure.<br><br>
-          Domain knowledge accessible in days. Deep understanding still earned.
-        </div>
-        <div class="offer-body lang-de">
-          Wir nutzen KI nicht nur, um schneller zu bauen &mdash; wir haben getestet, was das in der Praxis wirklich bedeutet.<br><br>
-          <strong>Agentic Engineering kombiniert mit echter Business-Erfahrung.</strong> Wir zeigen Ihrem Team, wie KI-gest&uuml;tzte Entwicklung funktioniert, wenn das Problem real ist und die Deadline es nicht ist. Nicht Theorie. Nicht ein Workshop. Ein Live Proof of Concept von Engineers, die es unter Druck gemacht haben.<br><br>
-          Domain-Wissen in Tagen zug&auml;nglich. Tiefes Verst&auml;ndnis noch verdient.
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- §03 STORY -->
+<!-- §01 STORY -->
 <section class="section mid" id="story">
   <div class="section-inner">
     <div class="section-head">
-      <div class="sec-tag green"><span class="lang-en">03 / The Story</span><span class="lang-de">03 / Die Story</span></div>
+      <div class="sec-tag green"><span class="lang-en">01 / The Story</span><span class="lang-de">01 / Die Story</span></div>
       <h2 class="sec-h2">
         <span class="lang-en">Eight weeks. Zero experience. <em>One question.</em></span>
         <span class="lang-de">Acht Wochen. Null Erfahrung. <em>Eine Frage.</em></span>
@@ -593,15 +392,15 @@
         <div class="stat-cell-label"><span class="lang-en">SDC26 Finalists</span><span class="lang-de">SDC26 Finalisten</span></div>
       </div>
       <div class="stat-cell">
-        <div class="stat-cell-val">8 <span><span class="lang-en">wk</span><span class="lang-de">Wo</span></span></div>
-        <div class="stat-cell-label"><span class="lang-en">To qualification</span><span class="lang-de">Bis zur Qualifikation</span></div>
+        <div class="stat-cell-val">14 <span><span class="lang-en">wk</span><span class="lang-de">Wo</span></span></div>
+        <div class="stat-cell-label"><span class="lang-en">Part-time build</span><span class="lang-de">Nebenberuflich</span></div>
       </div>
       <div class="stat-cell">
         <div class="stat-cell-val">0 <span>mods</span></div>
         <div class="stat-cell-label"><span class="lang-en">Hardware changes</span><span class="lang-de">Hardware-&Auml;nderungen</span></div>
       </div>
       <div class="stat-cell">
-        <div class="stat-cell-val">96K <span>+</span></div>
+        <div class="stat-cell-val">3.6K <span>+</span></div>
         <div class="stat-cell-label"><span class="lang-en">Lines of Python</span><span class="lang-de">Zeilen Python</span></div>
       </div>
     </div>
@@ -639,11 +438,11 @@
   </div>
 </section>
 
-<!-- §04 CAPABILITIES -->
+<!-- §02 CAPABILITIES -->
 <section class="section dark" id="capabilities">
   <div class="section-inner">
     <div class="section-head">
-      <div class="sec-tag"><span class="lang-en">04 / Capabilities</span><span class="lang-de">04 / F&auml;higkeiten</span></div>
+      <div class="sec-tag"><span class="lang-en">02 / Capabilities</span><span class="lang-de">02 / F&auml;higkeiten</span></div>
       <h2 class="sec-h2">
         <span class="lang-en">What we actually built. <em>From scratch.</em></span>
         <span class="lang-de">Was wir wirklich gebaut haben. <em>Von null.</em></span>
@@ -653,40 +452,40 @@
       <div class="cap">
         <div class="cap-id">/ C-01 <span class="dep">DEPLOYED</span></div>
         <div class="cap-title"><span class="lang-en">Autonomous Systems &amp; Swarm AI</span><span class="lang-de">Autonome Systeme &amp; Schwarm-KI</span></div>
-        <div class="cap-body lang-en">Multi-agent coordination, role-based Game AI (Scout, Attacker, Defender, Returner), rule-based strategy engine, collision avoidance, fully autonomous mission execution. Applicable to any multi-agent coordination problem.</div>
-        <div class="cap-body lang-de">Multi-Agent-Koordination, rollenbasierte Game AI (Scout, Attacker, Defender, Returner), regelbasierte Strategie-Engine, Kollisionsvermeidung, vollst&auml;ndig autonome Missionsausf&uuml;hrung. Anwendbar auf jedes Multi-Agent-Koordinationsproblem.</div>
+        <div class="cap-body lang-en">Multi-agent coordination with role-based Game AI (Scout, Attacker, Defender, Returner). Rule-based strategy engine, collision avoidance, fully autonomous mission execution.</div>
+        <div class="cap-body lang-de">Multi-Agent-Koordination mit rollenbasierter Game AI (Scout, Attacker, Defender, Returner). Regelbasierte Strategie-Engine, Kollisionsvermeidung, vollst&auml;ndig autonome Missionsausf&uuml;hrung.</div>
         <div class="cap-tags"><span class="cap-tag">FastAPI</span><span class="cap-tag">Game AI</span><span class="cap-tag">Multi-Agent</span><span class="cap-tag">UDP Relay</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-02 <span class="dep">DEPLOYED</span></div>
         <div class="cap-title"><span class="lang-en">Computer Vision &amp; Positioning</span><span class="lang-de">Computer Vision &amp; Positionierung</span></div>
-        <div class="cap-body lang-en">ArUco marker detection via OpenCV 4.13, solvePnP 3D localisation, Kalman filter state estimation at ~10 Hz. YOLO11n real-time object detection at 15 FPS. The same pipeline applies to any real-time tracking problem.</div>
-        <div class="cap-body lang-de">ArUco-Marker-Erkennung via OpenCV 4.13, solvePnP 3D-Lokalisation, Kalman-Filter-Zustandssch&auml;tzung bei ~10 Hz. YOLO11n Echtzeit-Objekterkennung bei 15 FPS. Dieselbe Pipeline gilt f&uuml;r jedes Echtzeit-Tracking-Problem.</div>
+        <div class="cap-body lang-en">ArUco marker detection via OpenCV 4.13, solvePnP 3D localisation, Kalman filter state estimation at ~10&nbsp;Hz. YOLO11n real-time object detection at 15&nbsp;FPS.</div>
+        <div class="cap-body lang-de">ArUco-Marker-Erkennung via OpenCV 4.13, solvePnP 3D-Lokalisation, Kalman-Filter-Zustandssch&auml;tzung bei ~10&nbsp;Hz. YOLO11n Echtzeit-Objekterkennung bei 15&nbsp;FPS.</div>
         <div class="cap-tags"><span class="cap-tag">OpenCV</span><span class="cap-tag">YOLO11n</span><span class="cap-tag">Kalman Filter</span><span class="cap-tag">solvePnP</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-03 <span class="dep">DEPLOYED</span></div>
         <div class="cap-title"><span class="lang-en">Distributed C2 Architecture</span><span class="lang-de">Verteilte C2-Architektur</span></div>
-        <div class="cap-body lang-en">Decoupled controllers per agent. Central C2 server with clean separation: Tactics layer (Port 8080) and Strategy / Game AI layer (Port 9090). Low latency, scalable to any distributed control problem.</div>
-        <div class="cap-body lang-de">Entkoppelte Controller pro Agent. Zentraler C2-Server mit sauberer Trennung: Tactics-Layer (Port 8080) und Strategy/Game-AI-Layer (Port 9090). Niedrige Latenz, skalierbar auf jedes verteilte Steuerungsproblem.</div>
+        <div class="cap-body lang-en">Decoupled controllers per agent. Clean layer separation: Tactics (Port&nbsp;8080) / Strategy &amp; Game AI (Port&nbsp;9090). Low latency, WebSocket, MJPEG, REST.</div>
+        <div class="cap-body lang-de">Entkoppelte Controller pro Agent. Saubere Schichttrennung: Tactics (Port&nbsp;8080) / Strategy &amp; Game-AI (Port&nbsp;9090). Niedrige Latenz, WebSocket, MJPEG, REST.</div>
         <div class="cap-tags"><span class="cap-tag">C2 Design</span><span class="cap-tag">WebSocket</span><span class="cap-tag">MJPEG</span><span class="cap-tag">REST API</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-04 <span class="dep">DEPLOYED</span></div>
         <div class="cap-title"><span class="lang-en">Full-Stack Python &amp; AI Development</span><span class="lang-de">Full-Stack Python &amp; KI-Entwicklung</span></div>
-        <div class="cap-body lang-en">One language, one coherent architecture &mdash; from hardware SDK to strategy AI to real-time dashboard. Hardware-agnostic, vendor-agnostic, MAVlink-ready. 3,600+ lines built with Claude Code. Applicable to any domain.</div>
-        <div class="cap-body lang-de">Eine Sprache, eine koh&auml;rente Architektur &mdash; vom Hardware-SDK bis zur Strategie-KI bis zum Echtzeit-Dashboard. Hardware-agnostisch, vendor-agnostisch, MAVlink-ready. 3.600+ Zeilen mit Claude Code. Anwendbar auf jede Dom&auml;ne.</div>
+        <div class="cap-body lang-en">One language, one coherent architecture &mdash; from hardware SDK to strategy AI to real-time dashboard. Hardware-agnostic, MAVlink-ready. 3,600+&nbsp;lines built with Claude&nbsp;Code.</div>
+        <div class="cap-body lang-de">Eine Sprache, eine koh&auml;rente Architektur &mdash; vom Hardware-SDK bis zur Strategie-KI bis zum Echtzeit-Dashboard. Hardware-agnostisch, MAVlink-ready. 3.600+&nbsp;Zeilen mit Claude&nbsp;Code.</div>
         <div class="cap-tags"><span class="cap-tag">Python 3.11+</span><span class="cap-tag">Claude Code</span><span class="cap-tag">Flask</span><span class="cap-tag">MAVlink</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- §05 TEAM -->
+<!-- §03 TEAM -->
 <section class="section" id="team">
   <div class="section-inner">
     <div class="section-head">
-      <div class="sec-tag"><span class="lang-en">05 / The Team</span><span class="lang-de">05 / Das Team</span></div>
+      <div class="sec-tag"><span class="lang-en">03 / The Team</span><span class="lang-de">03 / Das Team</span></div>
       <h2 class="sec-h2">
         <span class="lang-en">Five engineers. <em>One swarm.</em></span>
         <span class="lang-de">F&uuml;nf Engineers. <em>Ein Schwarm.</em></span>
@@ -745,21 +544,10 @@
       </a>
 
     </div>
-
-    <div class="next-mission">
-      <div class="corner tl"></div><div class="corner tr"></div>
-      <div class="corner bl"></div><div class="corner br"></div>
-      <h3><span class="lang-en">Next mission: undefined.</span><span class="lang-de">N&auml;chste Mission: undefiniert.</span></h3>
-      <p>
-        <span class="lang-en">We&rsquo;re available for new projects &mdash; fast software solutions for complex technical challenges, and consulting on AI-augmented development. No slides. No long onboarding. We dive in.</span>
-        <span class="lang-de">Wir sind verf&uuml;gbar f&uuml;r neue Projekte &mdash; schnelle Softwarelo&#776;sungen fu&#776;r komplexe technische Herausforderungen und Consulting zu KI-gest&uuml;tzter Entwicklung. Keine Slides. Kein langes Onboarding. Wir tauchen ein.</span>
-      </p>
-      <a class="btn btn-primary" href="#contact"><span class="lang-en">Let&rsquo;s Talk</span><span class="lang-de">Jetzt sprechen</span> <span class="arrow">&rarr;</span></a>
-    </div>
   </div>
 </section>
 
-<!-- §06 CONTACT -->
+<!-- CONTACT -->
 <section class="contact-section" id="contact">
   <div class="contact-inner">
     <div class="corner tl"></div><div class="corner tr"></div>
@@ -773,22 +561,10 @@
       <span class="lang-en">Got a hard problem? <em>Let&rsquo;s talk.</em></span>
       <span class="lang-de">Sie haben ein hartes Problem? <em>Sprechen wir.</em></span>
     </h2>
-    <p class="contact-desc lang-en">
-      We are available for new projects &mdash;
-      <strong>fast software solutions for complex technical challenges</strong>,
-      and consulting on AI-augmented development.
-      No slides. No long onboarding. We dive in. We reply within 48 hours.
-    </p>
-    <p class="contact-desc lang-de">
-      Wir sind verf&uuml;gbar f&uuml;r neue Projekte &mdash;
-      <strong>schnelle Softwarelo&#776;sungen fu&#776;r komplexe technische Herausforderungen</strong>
-      und Consulting zu KI-gest&uuml;tzter Entwicklung.
-      Keine Slides. Kein langes Onboarding. Wir tauchen ein. Wir antworten innerhalb von 48 Stunden.
-    </p>
     <a class="contact-email" href="mailto:hello@tobedefined.ai">hello@tobedefined.ai</a>
     <div class="contact-sub">
-      <span class="lang-en">Bavaria, Germany &middot; Available remote &amp; on-site</span>
-      <span class="lang-de">Bayern, Deutschland &middot; Remote &amp; vor Ort verf&uuml;gbar</span>
+      <span class="lang-en">We reply within 48 hours &middot; Bavaria, Germany &middot; Remote &amp; on-site</span>
+      <span class="lang-de">Antwort innerhalb 48h &middot; Bayern, Deutschland &middot; Remote &amp; vor Ort</span>
     </div>
   </div>
 </section>
@@ -798,7 +574,7 @@
 <footer>
   <div class="foot-inner">
     <div><span class="lang-en">&copy; ToBeDefined.ai &mdash; All Systems Reserved</span><span class="lang-de">&copy; ToBeDefined.ai &mdash; Alle Rechte vorbehalten</span></div>
-    <div class="coord">52.36&deg; N / 13.50&deg; E &middot; ILA &middot; 11.06.2026</div>
+    <div class="coord">48.76&deg; N / 11.42&deg; E &middot; Bavaria, DE</div>
     <div class="foot-links">
       <a href="/impressum.html">Impressum</a>
       <a href="/privacy.html">Privacy</a>
@@ -818,23 +594,18 @@
     document.getElementById('btn-de').classList.toggle('active', lang === 'de');
     try { localStorage.setItem('tbd-lang', lang); } catch(e) {}
   }
-  // Restore saved language
   try {
     var saved = localStorage.getItem('tbd-lang');
     if (saved === 'de') setLang('de');
   } catch(e) {}
 </script>
+
 <nav class="mobile-nav">
-  <a href="#problem">
-    <span class="lang-en">Problem</span>
-    <span class="lang-de">Problem</span>
-  </a>
-  <a href="#offer">
-    <span class="lang-en">Offer</span>
-    <span class="lang-de">Angebot</span>
-  </a>
   <a href="#story">Story</a>
+  <a href="#capabilities"><span class="lang-en">Caps</span><span class="lang-de">Skills</span></a>
   <a href="#team">Team</a>
+  <a href="#contact">Talk</a>
 </nav>
+
 </body>
 </html>
