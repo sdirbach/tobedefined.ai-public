@@ -130,16 +130,34 @@
   .sec-h2 em{font-family:"Share Tech Mono",monospace;font-style:italic;color:var(--accent);font-weight:400}
 
   /* STORY */
-  .stats-strip{display:flex;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:48px;flex-wrap:wrap;}
-  .stat-cell{flex:1;min-width:140px;background:var(--bg);padding:20px 24px;}
-  .stat-cell-val{font-family:"Syne",sans-serif;font-weight:700;font-size:28px;color:var(--accent);line-height:1}
-  .stat-cell-val span{font-family:"JetBrains Mono",monospace;font-weight:400;font-size:13px;color:var(--ink-dim);margin-left:3px}
-  .stat-cell-label{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-dim);margin-top:6px}
-  .story-prose p{font-size:14px;line-height:1.9;color:var(--ink-dim);margin-bottom:20px;max-width:760px;}
-  .story-prose p strong{color:var(--ink);font-weight:500}
-  .story-prose p:last-child{margin-bottom:0}
-  .story-group-photo{width:100%;max-width:560px;height:auto;display:block;margin:32px auto;border:1px solid var(--line-soft);filter:drop-shadow(0 0 24px rgba(216,233,255,0.10));}
-  .story-quote{margin:48px 0 0;padding:28px 32px;border-left:3px solid var(--accent);background:rgba(255,216,74,0.04);font-family:"Syne",sans-serif;font-style:italic;font-size:clamp(16px,2vw,22px);color:var(--ink);line-height:1.4;max-width:680px;}
+  .story-mission-intro{display:flex;align-items:stretch;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:1px;}
+  .story-mission-stamp{background:var(--accent);padding:28px 36px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;flex-shrink:0;min-width:200px;}
+  .story-mission-stamp .stamp-label{font-family:"Share Tech Mono",monospace;font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--bg-3);opacity:0.7;margin-bottom:6px;}
+  .story-mission-stamp .stamp-val{font-family:"Syne",sans-serif;font-weight:800;font-size:22px;line-height:1;color:var(--bg-3);letter-spacing:-0.01em;}
+  .story-mission-body{background:var(--bg-3);padding:28px 36px;display:flex;flex-direction:column;justify-content:center;gap:10px;flex:1;}
+  .story-mission-body .mission-line{display:flex;align-items:baseline;gap:14px;}
+  .story-mission-body .mission-key{font-family:"Share Tech Mono",monospace;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-faint);min-width:100px;flex-shrink:0;}
+  .story-mission-body .mission-val{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-dim);}
+  .story-mission-body .mission-val strong{color:var(--ink);font-weight:500;}
+  .stats-strip{display:flex;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-top:none;margin-bottom:56px;flex-wrap:wrap;}
+  .stat-cell{flex:1;min-width:140px;background:var(--bg);padding:24px 28px;}
+  .stat-cell-val{font-family:"Syne",sans-serif;font-weight:700;font-size:36px;color:var(--accent);line-height:1}
+  .stat-cell-val span{font-family:"JetBrains Mono",monospace;font-weight:400;font-size:13px;color:var(--ink-dim);margin-left:4px}
+  .stat-cell-label{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-dim);margin-top:8px}
+  .story-prose{max-width:760px;}
+  .story-prose .short{font-size:15px;color:var(--ink);line-height:1.7;font-family:"Syne",sans-serif;font-weight:500;margin-bottom:0;}
+  .story-prose .para{font-size:14px;line-height:2.0;color:var(--ink-dim);margin-bottom:0;}
+  .story-prose .para strong{color:var(--ink);font-weight:500}
+  .story-prose .break{height:20px;}
+  .story-prose .accent-line{display:block;font-family:"Share Tech Mono",monospace;font-size:13px;color:var(--accent);border-left:2px solid var(--accent);padding:10px 0 10px 16px;margin:24px 0;line-height:1.5;}
+  .story-group-photo{width:100%;max-width:560px;height:auto;display:block;margin:32px 0;border:1px solid var(--line-soft);filter:drop-shadow(0 0 24px rgba(216,233,255,0.10));}
+  .story-quote{margin:48px 0 0;padding:32px 36px;border-left:3px solid var(--accent);background:rgba(255,216,74,0.04);font-family:"Syne",sans-serif;font-style:italic;font-size:clamp(18px,2.2vw,26px);color:var(--ink);line-height:1.4;max-width:720px;}
+  @media(max-width:860px){
+    .story-mission-intro{flex-direction:column;}
+    .story-mission-stamp{min-width:unset;padding:20px 24px;}
+    .story-mission-body{padding:20px 24px;}
+    .stat-cell-val{font-size:28px}
+  }
 
   /* CAPABILITIES */
   .cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
@@ -148,7 +166,8 @@
   .cap-id{font-family:"Share Tech Mono",monospace;font-size:10px;color:var(--ink-dim);letter-spacing:0.1em;margin-bottom:18px;display:flex;justify-content:space-between}
   .cap-id .dep{font-size:9px;letter-spacing:0.2em;color:var(--green)}
   .cap-title{font-family:"Syne",sans-serif;font-weight:700;font-size:18px;line-height:1.15;color:var(--ink);margin-bottom:12px}
-  .cap-body{font-size:12px;line-height:1.75;color:var(--ink-dim)}
+  .cap-body{font-size:12px;line-height:1.85;color:var(--ink-dim)}
+  .cap-body .line{display:block;margin-bottom:2px;}
   .cap-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
   .cap-tag{font-size:10px;letter-spacing:0.08em;color:var(--ink-dim);border:1px solid var(--line-faint);padding:3px 9px}
 
@@ -158,9 +177,9 @@
   .team-card:hover{background:var(--bg-2)}
   .team-card-info{flex:1}
   .team-photo{width:180px;height:220px;object-fit:cover;object-position:top;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(216,233,255,0.15));}
-  .team-id{font-family:"Share Tech Mono",monospace;font-size:9px;color:var(--ink-dim);letter-spacing:0.12em;margin-bottom:20px}
-  .team-name{font-family:"Syne",sans-serif;font-weight:700;font-size:18px;line-height:1.1;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:10px}
-  .team-callsign{font-family:"Share Tech Mono",monospace;font-size:12px;color:var(--accent);font-style:italic;margin-bottom:8px;display:block}
+  .team-id{font-family:"Share Tech Mono",monospace;font-size:9px;color:var(--ink-dim);letter-spacing:0.12em;margin-bottom:16px}
+  .team-name{font-family:"Syne",sans-serif;font-weight:700;font-size:18px;line-height:1.1;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .team-one{font-size:12px;color:var(--accent);font-family:"Share Tech Mono",monospace;margin-bottom:12px;display:block;line-height:1.5;}
   .team-role{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-dim)}
   .linkedin-icon{color:var(--accent);flex-shrink:0;opacity:0.7;transition:opacity 0.2s;}
   .team-card:hover .linkedin-icon{opacity:1}
@@ -174,11 +193,12 @@
   .contact-inner .corner.br{bottom:-16px;right:-16px;border-bottom-width:1px;border-right-width:1px;width:18px;height:18px}
   .contact-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);border:1px solid rgba(74,222,128,0.35);background:var(--green-dim);padding:6px 16px;margin-bottom:32px;}
   .contact-tag .blink{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.2s ease-in-out infinite}
-  .contact-h2{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(32px,6vw,72px);line-height:0.95;letter-spacing:-0.025em;margin-bottom:20px}
-  .contact-h2 em{font-family:"Share Tech Mono",monospace;font-style:italic;color:var(--accent);font-weight:400;font-size:0.55em;display:block;margin-top:12px}
+  .contact-h2{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(28px,5vw,60px);line-height:1.05;letter-spacing:-0.025em;margin-bottom:20px}
+  .contact-sub-text{font-size:14px;color:var(--ink-dim);line-height:2.2;margin-bottom:36px;}
+  .contact-sub-text .line{display:block;}
   .contact-email{display:inline-block;font-family:"Share Tech Mono",monospace;font-size:clamp(16px,3.5vw,28px);letter-spacing:0.04em;color:var(--accent);text-decoration:none;padding:20px 40px;border:1px solid var(--accent);background:rgba(255,216,74,0.06);margin-bottom:32px;transition:background 0.2s,color 0.2s;word-break:break-all;}
   .contact-email:hover{background:var(--accent);color:var(--bg-3)}
-  .contact-sub{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim)}
+  .contact-note{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim)}
 
   /* FOOTER */
   footer{padding:28px 32px;border-top:1px solid var(--line-soft);background:var(--bg-3);position:relative;z-index:2}
@@ -377,27 +397,53 @@
 </div>
 
 <!-- §01 STORY -->
-<section class="section mid" id="story">
-  <div class="section-inner">
-    <div class="section-head">
+<section class="section dark" id="story" style="padding-top:0;border-top:1px solid var(--line-soft);">
+  <!-- MISSION INTRO BLOCK -->
+  <div class="story-mission-intro">
+    <div class="story-mission-stamp">
+      <div class="stamp-label"><span class="lang-en">Mission Report</span><span class="lang-de">Mission Report</span></div>
+      <div class="stamp-val">SDC26</div>
+    </div>
+    <div class="story-mission-body">
+      <div class="mission-line">
+        <span class="mission-key">Challenge</span>
+        <span class="mission-val"><strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong></span>
+      </div>
+      <div class="mission-line">
+        <span class="mission-key">Location</span>
+        <span class="mission-val">ILA Berlin &middot; Defence Track &middot; 11.06.2026</span>
+      </div>
+      <div class="mission-line">
+        <span class="mission-key">Result</span>
+        <span class="mission-val"><strong>Top 6 of 12 international teams</strong></span>
+      </div>
+      <div class="mission-line">
+        <span class="mission-key">Prior experience</span>
+        <span class="mission-val">Zero.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-inner" style="padding-top:80px;">
+    <div class="section-head" style="margin-bottom:40px;">
       <div class="sec-tag green"><span class="lang-en">01 / The Story</span><span class="lang-de">01 / Die Story</span></div>
-      <h2 class="sec-h2">
-        <span class="lang-en">No experience with drones. <p><em>Driven by curiosity.</em><p></span>
-        <span class="lang-de">Null Erfahrung mit Drohnen. <p><em>Angetrieben von der Neugier.</em></p></span>
+      <h2 class="sec-h2" style="font-size:clamp(32px,4.5vw,60px);">
+        <span class="lang-en">We just signed up. <em>That&rsquo;s how it started.</em></span>
+        <span class="lang-de">Wir haben uns einfach angemeldet. <em>So hat es angefangen.</em></span>
       </h2>
     </div>
     <div class="stats-strip">
       <div class="stat-cell">
         <div class="stat-cell-val">Top 6 <span>international</span></div>
-        <div class="stat-cell-label"><span class="lang-en">SwarmDroneChallange26 Finalists</span><span class="lang-de">SwarmDroneChallange26 Finalisten</span></div>
+        <div class="stat-cell-label"><span class="lang-en">SDC26 Finalists</span><span class="lang-de">SDC26 Finalisten</span></div>
       </div>
       <div class="stat-cell">
         <div class="stat-cell-val">14 <span><span class="lang-en">wk</span><span class="lang-de">Wo</span></span></div>
-        <div class="stat-cell-label"><span class="lang-en">Part-time build</span><span class="lang-de">Nebenberuflich</span></div>
+        <div class="stat-cell-label"><span class="lang-en">Part-time. Alongside real life.</span><span class="lang-de">Nebenberuflich. Neben dem echten Leben.</span></div>
       </div>
       <div class="stat-cell">
         <div class="stat-cell-val">0 <span>mods</span></div>
-        <div class="stat-cell-label"><span class="lang-en">Hardware changes</span><span class="lang-de">Hardware-&Auml;nderungen</span></div>
+        <div class="stat-cell-label"><span class="lang-en">Hardware untouched</span><span class="lang-de">Hardware unber&uuml;hrt</span></div>
       </div>
       <div class="stat-cell">
         <div class="stat-cell-val">3.6K <span>+</span></div>
@@ -406,31 +452,71 @@
     </div>
 
     <div class="story-prose lang-en">
-      <p>We had no drones. No experience. Not even a team.<br>We signed up anyway.</p>
-      <p>One of us looked around a coworking space and asked four people if they were up for something none of us knew anything about. Everyone said yes. Why not.</p>
-      <p>Five software engineers. Five completely different backgrounds. Zero aerospace. No blueprint, no masterplan &mdash; just one question that wouldn&rsquo;t let us go: <strong>how far can you actually get if you take AI seriously?</strong></p>
-      <p>The arena: the <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong> &mdash; a serious international competition, backed by one of Europe&rsquo;s largest defence technology groups. Not a university project. Not a hackathon. Teams from around the world, with real experience in autonomous systems.</p>
+      <p class="short">No drones. No experience. Not even a team.</p>
+      <div class="break"></div>
+      <p class="para">Someone looked around my coworking space and asked four people if they were up for something none of them knew anything about.</p>
+      <div class="break"></div>
+      <p class="para">Everyone said yes.</p>
+      <div class="break"></div>
+      <p class="para">Why not.</p>
+      <span class="accent-line">Five software engineers. Five completely different backgrounds. Zero aerospace. No deck, no masterplan &mdash; just one question that wouldn&rsquo;t let us go: how far can you actually get if you take AI seriously?</span>
+      <p class="para">The arena: the <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong>. Not a university project. Not a hackathon. Teams from around the world, with real experience in autonomous systems.</p>
+      <div class="break"></div>
       <img src="/team-group.jpeg" alt="Team ToBeDefined.ai" class="story-group-photo">
-      <p>Eight weeks. One drone. One target. We built an autonomous control system from scratch, competed against teams who&rsquo;d been doing this for years &mdash; and made it through.</p>
-      <p>But that was just the beginning.</p>
-      <p>Because in the final, you don&rsquo;t fly. You play.</p>
-      <p>Swarm versus swarm. Capture the Flag. Fully autonomous &mdash; once the mission starts, no human touches the controls. Six more weeks to turn a working system into one that holds up under real pressure, against real opponents, in a real arena.</p>
-      <p>The strategy? The AI decides. Live. On the field. It watches the opposing swarm, reads the situation, picks its tactics &mdash; and executes.</p>
-      <p><strong>Top 6. International. ILA Berlin. Defence Track.</strong></p>
+      <div class="break"></div>
+      <p class="para">We signed up eight weeks before the qualification deadline.</p>
+      <div class="break"></div>
+      <p class="para">The qualification: one drone, one target, autonomous. A lot of people didn&rsquo;t think we&rsquo;d make it through.</p>
+      <div class="break"></div>
+      <p class="para">We made it through.</p>
+      <div class="break"></div>
+      <p class="para">But that was just the beginning.</p>
+      <div class="break"></div>
+      <p class="para">Because in the final, you don&rsquo;t just fly. You play.</p>
+      <div class="break"></div>
+      <p class="para">Swarm versus swarm. Capture the Flag. Fully autonomous. Once the mission starts, no human touches the controls.</p>
+      <span class="accent-line">The AI decides the strategy. Live. On the field. It watches the opposing swarm, reads the situation, picks its tactics &mdash; and executes.</span>
+      <p class="para">Side note: two of our developers had family vacations booked over Whitsun. The final was three days after they got back.</p>
+      <div class="break"></div>
+      <p class="para">Family comes first. That was clear to all of us.</p>
+      <div class="break"></div>
+      <p class="para">So we set up a remote PC. Develop on the beach in the evenings. The rest of the team tests live in the hall at home.</p>
+      <div class="break"></div>
+      <p class="short"><strong>Top 6. International. ILA Berlin. Defence Track.</strong></p>
     </div>
 
     <div class="story-prose lang-de">
-      <p>Wir hatten keine Drohnen. Keine Erfahrung. Nicht mal ein Team.<br>Wir haben uns trotzdem angemeldet.</p>
-      <p>Einer von uns hat sich im Coworking Space umgeschaut und vier Menschen gefragt, ob sie Lust auf etwas haben, von dem keiner eine Ahnung hat. Alle sagten Ja. Warum auch nicht.</p>
-      <p>F&uuml;nf Softwareentwickler. F&uuml;nf v&ouml;llig verschiedene Hintergr&uuml;nde. Null Aerospace. Kein Blueprint, kein Masterplan &mdash; nur eine Frage, die uns nicht loslie&szlig;: <strong>Wie weit kommt man eigentlich, wenn man KI wirklich ernst nimmt?</strong></p>
-      <p>Die Arena: die <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong> &mdash; ein ernsthafter internationaler Wettbewerb, unterst&uuml;tzt von einer der gr&ouml;&szlig;ten R&uuml;stungstechnologiegruppen Europas. Kein Uni-Projekt. Kein Hackathon. Teams aus aller Welt, mit echter Erfahrung in autonomen Systemen.</p>
+      <p class="short">Wir hatten keine Drohnen. Keine Erfahrung. Nicht mal ein Team.</p>
+      <div class="break"></div>
+      <p class="para">Einer hat sich in meinem Coworking Space umgeschaut und vier Menschen gefragt, ob sie Lust haben auf etwas, von dem keiner eine Ahnung hat.</p>
+      <div class="break"></div>
+      <p class="para">Alle sagten Ja.</p>
+      <div class="break"></div>
+      <p class="para">Warum auch nicht.</p>
+      <span class="accent-line">F&uuml;nf Softwareentwickler. F&uuml;nf v&ouml;llig verschiedene Hintergr&uuml;nde. Null Aerospace. Keine PowerPoint, kein Masterplan &mdash; nur eine Frage, die uns nicht loslie&szlig;: Wie weit kommt man wirklich, wenn man KI ernst nimmt?</span>
+      <p class="para">Die Arena: die <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026</strong>. Kein Uni-Projekt. Kein Hackathon. Teams aus aller Welt, mit echter Erfahrung in autonomen Systemen.</p>
+      <div class="break"></div>
       <img src="/team-group.jpeg" alt="Team ToBeDefined.ai" class="story-group-photo">
-      <p>Acht Wochen. Eine Drohne. Ein Ziel. Wir haben ein autonomes Steuerungssystem von null gebaut, sind gegen Teams angetreten, die das seit Jahren machen &mdash; und sind durchgekommen.</p>
-      <p>Aber das war erst der Anfang.</p>
-      <p>Denn im Finale wird nicht mehr geflogen. Da wird gespielt.</p>
-      <p>Schwarm gegen Schwarm. Capture the Flag. Vollst&auml;ndig autonom &mdash; sobald die Mission startet, greift kein Mensch mehr ein. Sechs weitere Wochen, um aus einem funktionierenden System eines zu machen, das unter echtem Druck, gegen echte Gegner, in einer echten Arena standhält.</p>
-      <p>Die Strategie? Entscheidet die KI. Live. Auf dem Feld. Sie beobachtet den gegnerischen Schwarm, liest die Situation, w&auml;hlt ihre Taktik &mdash; und setzt sie um.</p>
-      <p><strong>Top 6. International. ILA Berlin. Defence Track.</strong></p>
+      <div class="break"></div>
+      <p class="para">Wir haben uns acht Wochen vor dem Qualifikations-Abgabe beworben.</p>
+      <div class="break"></div>
+      <p class="para">Die Qualifikation: eine Drohne, ein Ziel, autonom. Viele dachten, wir kommen nicht durch.</p>
+      <div class="break"></div>
+      <p class="para">Wir sind durchgekommen.</p>
+      <div class="break"></div>
+      <p class="para">Aber das war erst der Anfang.</p>
+      <div class="break"></div>
+      <p class="para">Denn im Finale wird nicht mehr geflogen. Da wird gespielt.</p>
+      <div class="break"></div>
+      <p class="para">Schwarm gegen Schwarm. Capture the Flag. Vollst&auml;ndig autonom. Sobald die Mission startet, greift kein Mensch mehr ein.</p>
+      <span class="accent-line">Die Strategie entscheidet die KI. Live. Auf dem Feld. Sie beobachtet den gegnerischen Schwarm, liest die Situation, w&auml;hlt ihre Taktik &mdash; und setzt sie um.</span>
+      <p class="para">Nebenbei: Zwei unserer Entwickler haben &uuml;ber Pfingsten Familienurlaub gebucht. Drei Tage nach den Ferien: Finale.</p>
+      <div class="break"></div>
+      <p class="para">Familie geht vor. Das war f&uuml;r uns alle klar.</p>
+      <div class="break"></div>
+      <p class="para">Also haben wir einen Remote-PC eingerichtet. Entwickeln abends am Strand. Das Team zuhause testet live in der Halle.</p>
+      <div class="break"></div>
+      <p class="short"><strong>Top 6. International. ILA Berlin. Defence Track.</strong></p>
     </div>
 
     <blockquote class="story-quote lang-en">&ldquo;This isn&rsquo;t a concept. This happened.&rdquo;</blockquote>
@@ -442,39 +528,83 @@
 <section class="section dark" id="capabilities">
   <div class="section-inner">
     <div class="section-head">
-      <div class="sec-tag"><span class="lang-en">02 / Capabilities</span><span class="lang-de">02 / F&auml;higkeiten</span></div>
+      <div class="sec-tag"><span class="lang-en">02 / What We Built</span><span class="lang-de">02 / Was wir gebaut haben</span></div>
       <h2 class="sec-h2">
-        <span class="lang-en">What we actually built. <em>From scratch.</em></span>
-        <span class="lang-de">Was wir wirklich gebaut haben. <em>Von null.</em></span>
+        <span class="lang-en">From zero. <em>In 14 weeks.</em></span>
+        <span class="lang-de">Von null. <em>In 14 Wochen.</em></span>
       </h2>
     </div>
     <div class="cap-grid">
       <div class="cap">
         <div class="cap-id">/ C-01 <span class="dep">DEPLOYED</span></div>
-        <div class="cap-title"><span class="lang-en">Autonomous Systems &amp; Swarm AI</span><span class="lang-de">Autonome Systeme &amp; Schwarm-KI</span></div>
-        <div class="cap-body lang-en">Multi-agent coordination with role-based Game AI (Scout, Attacker, Defender, Returner). Rule-based strategy engine, collision avoidance, fully autonomous mission execution.</div>
-        <div class="cap-body lang-de">Multi-Agent-Koordination mit rollenbasierter Game AI (Scout, Attacker, Defender, Returner). Regelbasierte Strategie-Engine, Kollisionsvermeidung, vollst&auml;ndig autonome Missionsausf&uuml;hrung.</div>
+        <div class="cap-title"><span class="lang-en">Autonomous Swarm &amp; Game AI</span><span class="lang-de">Autonomer Schwarm &amp; Game-KI</span></div>
+        <div class="cap-body lang-en">
+          <span class="line">Multi-agent coordination with roles:</span>
+          <span class="line">Scout. Attacker. Defender. Returner.</span>
+          <span class="line">Rule-based strategy engine.</span>
+          <span class="line">Collision avoidance. Fully autonomous.</span>
+          <span class="line">No human intervention once the mission runs.</span>
+        </div>
+        <div class="cap-body lang-de">
+          <span class="line">Mehragenten-Koordination mit Rollen:</span>
+          <span class="line">Scout. Attacker. Defender. Returner.</span>
+          <span class="line">Regelbasierte Strategie-Engine.</span>
+          <span class="line">Kollisionsvermeidung. Vollst&auml;ndig autonom.</span>
+          <span class="line">Kein Eingriff sobald die Mission l&auml;uft.</span>
+        </div>
         <div class="cap-tags"><span class="cap-tag">FastAPI</span><span class="cap-tag">Game AI</span><span class="cap-tag">Multi-Agent</span><span class="cap-tag">UDP Relay</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-02 <span class="dep">DEPLOYED</span></div>
         <div class="cap-title"><span class="lang-en">Computer Vision &amp; Positioning</span><span class="lang-de">Computer Vision &amp; Positionierung</span></div>
-        <div class="cap-body lang-en">ArUco marker detection via OpenCV 4.13, solvePnP 3D localisation, Kalman filter state estimation at ~10&nbsp;Hz. YOLO11n real-time object detection at 15&nbsp;FPS.</div>
-        <div class="cap-body lang-de">ArUco-Marker-Erkennung via OpenCV 4.13, solvePnP 3D-Lokalisation, Kalman-Filter-Zustandssch&auml;tzung bei ~10&nbsp;Hz. YOLO11n Echtzeit-Objekterkennung bei 15&nbsp;FPS.</div>
+        <div class="cap-body lang-en">
+          <span class="line">ArUco marker detection. solvePnP 3D localisation.</span>
+          <span class="line">Kalman filter at ~10 Hz.</span>
+          <span class="line">YOLO11n real-time detection at 15 FPS.</span>
+          <span class="line">Self-built. From zero.</span>
+        </div>
+        <div class="cap-body lang-de">
+          <span class="line">ArUco-Marker-Erkennung. solvePnP 3D-Lokalisierung.</span>
+          <span class="line">Kalman-Filter bei ~10 Hz.</span>
+          <span class="line">YOLO11n Echtzeit-Erkennung bei 15 FPS.</span>
+          <span class="line">Selbst gebaut. Von null.</span>
+        </div>
         <div class="cap-tags"><span class="cap-tag">OpenCV</span><span class="cap-tag">YOLO11n</span><span class="cap-tag">Kalman Filter</span><span class="cap-tag">solvePnP</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-03 <span class="dep">DEPLOYED</span></div>
         <div class="cap-title"><span class="lang-en">Distributed C2 Architecture</span><span class="lang-de">Verteilte C2-Architektur</span></div>
-        <div class="cap-body lang-en">Decoupled controllers per agent. Clean layer separation: Tactics (Port&nbsp;8080) / Strategy &amp; Game AI (Port&nbsp;9090). Low latency, WebSocket, MJPEG, REST.</div>
-        <div class="cap-body lang-de">Entkoppelte Controller pro Agent. Saubere Schichttrennung: Tactics (Port&nbsp;8080) / Strategy &amp; Game-AI (Port&nbsp;9090). Niedrige Latenz, WebSocket, MJPEG, REST.</div>
+        <div class="cap-body lang-en">
+          <span class="line">One controller per agent. Clean separation.</span>
+          <span class="line">Tactics (Port 8080) / Strategy &amp; Game AI (Port 9090).</span>
+          <span class="line">We built the project management tool ourselves too.</span>
+          <span class="line">Except GitHub: everything self-built.</span>
+        </div>
+        <div class="cap-body lang-de">
+          <span class="line">Ein Controller pro Agent. Sauber getrennt.</span>
+          <span class="line">Tactics (Port 8080) / Strategy &amp; Game-AI (Port 9090).</span>
+          <span class="line">Wir haben auch das Projektmanagement-Tool selbst gebaut.</span>
+          <span class="line">Au&szlig;er GitHub: alles selbst.</span>
+        </div>
         <div class="cap-tags"><span class="cap-tag">C2 Design</span><span class="cap-tag">WebSocket</span><span class="cap-tag">MJPEG</span><span class="cap-tag">REST API</span></div>
       </div>
       <div class="cap">
         <div class="cap-id">/ C-04 <span class="dep">DEPLOYED</span></div>
-        <div class="cap-title"><span class="lang-en">Full-Stack Python &amp; AI Development</span><span class="lang-de">Full-Stack Python &amp; KI-Entwicklung</span></div>
-        <div class="cap-body lang-en">One language, one coherent architecture &mdash; from hardware SDK to strategy AI to real-time dashboard. Hardware-agnostic, MAVlink-ready. 3,600+&nbsp;lines built with Claude&nbsp;Code.</div>
-        <div class="cap-body lang-de">Eine Sprache, eine koh&auml;rente Architektur &mdash; vom Hardware-SDK bis zur Strategie-KI bis zum Echtzeit-Dashboard. Hardware-agnostisch, MAVlink-ready. 3.600+&nbsp;Zeilen mit Claude&nbsp;Code.</div>
+        <div class="cap-title"><span class="lang-en">AI-Augmented Development</span><span class="lang-de">KI-gest&uuml;tztes Entwickeln</span></div>
+        <div class="cap-body lang-en">
+          <span class="line">We pushed Agentic Engineering to its limits.</span>
+          <span class="line">What we learned: the developer becomes an architect.</span>
+          <span class="line">They design the structure. The AI builds the modules.</span>
+          <span class="line">3,600+ lines of Python with Claude Code.</span>
+          <span class="line">You have to have been through the mess first.</span>
+        </div>
+        <div class="cap-body lang-de">
+          <span class="line">Wir haben Agentic Engineering auf die Probe gestellt.</span>
+          <span class="line">Erkenntnis: Der Entwickler wird zur F&uuml;hrungskraft.</span>
+          <span class="line">Er denkt die Architektur. Die KI baut die Module.</span>
+          <span class="line">3.600+ Zeilen Python mit Claude Code.</span>
+          <span class="line">Man muss durch den Mist gegangen sein.</span>
+        </div>
         <div class="cap-tags"><span class="cap-tag">Python 3.11+</span><span class="cap-tag">Claude Code</span><span class="cap-tag">Flask</span><span class="cap-tag">MAVlink</span></div>
       </div>
     </div>
@@ -487,17 +617,18 @@
     <div class="section-head">
       <div class="sec-tag"><span class="lang-en">03 / The Team</span><span class="lang-de">03 / Das Team</span></div>
       <h2 class="sec-h2">
-        <span class="lang-en">Five engineers. <em>One swarm.</em></span>
-        <span class="lang-de">F&uuml;nf Engineers. <em>Ein Schwarm.</em></span>
+        <span class="lang-en">Five people. <em>One of them asked.</em></span>
+        <span class="lang-de">F&uuml;nf Menschen. <em>Einer hat gefragt.</em></span>
       </h2>
     </div>
     <div class="team-grid">
 
-      <a class="team-card" href="https://linkedin.com/in/RENE_LINKEDIN_URL" target="_blank" rel="noopener">
+      <a class="team-card" href="https://www.linkedin.com/in/ren%C3%A9-melzer-1461912a4/" target="_blank" rel="noopener">
         <div class="team-card-info">
           <div class="team-id">/ T-01 &middot; BAVARIA, DE</div>
           <div class="team-name">Ren&eacute; Melzer <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
-          <span class="team-callsign">Supertyp Ren&eacute;</span>
+          <span class="team-one lang-de">Der, der nachfragt. Und nichts als gegeben hinnimmt.</span>
+          <span class="team-one lang-en">The one who asks questions. Takes nothing for granted.</span>
           <div class="team-role">Electronics Engineer</div>
         </div>
         <img class="team-photo" src="/rene.png" alt="Ren&eacute; Melzer">
@@ -507,8 +638,9 @@
         <div class="team-card-info">
           <div class="team-id">/ T-02 &middot; BAVARIA, DE</div>
           <div class="team-name">Thomas Letze <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
-          <span class="team-callsign">Bruchpilot Thomas</span>
-          <div class="team-role">Software Developer</div>
+          <span class="team-one lang-de">Ausgeliehen vom Nachbarn. Mit Jahren Erfahrung im Gep&auml;ck.</span>
+          <span class="team-one lang-en">Borrowed from next door. Decades of experience in his bag.</span>
+          <div class="team-role">Software Developer &middot; Teamware Gruppe</div>
         </div>
         <img class="team-photo" src="/thomas.png" alt="Thomas Letze">
       </a>
@@ -517,8 +649,9 @@
         <div class="team-card-info">
           <div class="team-id">/ T-03 &middot; BAVARIA, DE</div>
           <div class="team-name">Sascha Dirbach <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
-          <span class="team-callsign">Drone Whisperer Sascha</span>
-          <div class="team-role">IT Expert</div>
+          <span class="team-one lang-de">Hackathon-erfahren. Er kennt dieses Eindenken.</span>
+          <span class="team-one lang-en">Hackathon veteran. Knows this kind of deep-dive thinking.</span>
+          <div class="team-role">IT Expert &middot; Software Developer</div>
         </div>
         <img class="team-photo" src="/sascha.png" alt="Sascha Dirbach">
       </a>
@@ -527,8 +660,9 @@
         <div class="team-card-info">
           <div class="team-id">/ T-04 &middot; BAVARIA, DE</div>
           <div class="team-name">Oliver Tiedemann <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
-          <span class="team-callsign">Hive Commander Olli</span>
-          <div class="team-role">AI Enthusiast</div>
+          <span class="team-one lang-de">Hat die halbe Welt gesehen. Und trotzdem immer neugierig.</span>
+          <span class="team-one lang-en">Has seen half the world. And still endlessly curious.</span>
+          <div class="team-role">AI Enthusiast &middot; Automation</div>
         </div>
         <img class="team-photo" src="/oliver.png" alt="Oliver Tiedemann">
       </a>
@@ -537,8 +671,9 @@
         <div class="team-card-info">
           <div class="team-id">/ T-05 &middot; BAVARIA, DE</div>
           <div class="team-name">Vicki Lichtenegger <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
-          <span class="team-callsign">Drone Queen Vicki</span>
-          <div class="team-role">Project Management &amp; Networking</div>
+          <span class="team-one lang-de">Hat den Coworking Space. Hat gefragt. Und nicht nein bekommen.</span>
+          <span class="team-one lang-en">Owns the coworking space. Asked the question. Didn&rsquo;t get a no.</span>
+          <div class="team-role">Engineer &middot; Founder &middot; Careakter.de</div>
         </div>
         <img class="team-photo" src="/vicki.png" alt="Vicki Lichtenegger">
       </a>
@@ -554,16 +689,26 @@
     <div class="corner bl"></div><div class="corner br"></div>
     <div class="contact-tag">
       <span class="blink"></span>
-      <span class="lang-en">Next Mission: Undefined</span>
-      <span class="lang-de">N&auml;chste Mission: Undefiniert</span>
+      <span class="lang-en">Next mission: undefined</span>
+      <span class="lang-de">N&auml;chste Mission: undefiniert</span>
     </div>
     <h2 class="contact-h2">
-      <span class="lang-en">Got a hard problem? <em>Let&rsquo;s talk.</em></span>
-      <span class="lang-de">Sie haben ein hartes Problem? <em>Sprechen wir.</em></span>
+      <span class="lang-en">A problem that&rsquo;s been sitting there for months?</span>
+      <span class="lang-de">Ein Problem, das seit Monaten liegenbleibt?</span>
     </h2>
+    <div class="contact-sub-text lang-en">
+      <span class="line">We come in. We build.</span>
+      <span class="line">No slide decks. No bureaucracy.</span>
+      <span class="line">Just write to us.</span>
+    </div>
+    <div class="contact-sub-text lang-de">
+      <span class="line">Wir kommen rein. Wir bauen.</span>
+      <span class="line">Keine Slides. Keine B&uuml;rokratie.</span>
+      <span class="line">Einfach schreiben.</span>
+    </div>
     <a class="contact-email" href="mailto:hello@tobedefined.ai">hello@tobedefined.ai</a>
-    <div class="contact-sub">
-      <span class="lang-en">We reply within 48 hours &middot; Bavaria, Germany &middot; Remote &amp; on-site</span>
+    <div class="contact-note">
+      <span class="lang-en">Reply within 48h &middot; Bavaria, Germany &middot; Remote &amp; on-site</span>
       <span class="lang-de">Antwort innerhalb 48h &middot; Bayern, Deutschland &middot; Remote &amp; vor Ort</span>
     </div>
   </div>
