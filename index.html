@@ -806,5 +806,436 @@
   <a href="#contact">Talk</a>
 </nav>
 
+<!--
+  ============================================================
+  ToBeDefined.ai — Kontakt-Lightbox
+  Einbau: diesen gesamten Block vor </body> in index.html einfügen
+  
+  SETUP (3 Stellen anpassen):
+  1. BREVO_API_KEY   → deinen Brevo API-Key eintragen
+  2. BREVO_LIST_ID   → ID der Brevo-Liste (Zahl, z.B. 3)
+  3. CONTACT_EMAIL   → deine Kontakt-E-Mail für Erstgespräch
+  ============================================================
+-->
+
+<!-- Google Fonts für CI-Konsistenz -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  #tbd-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  #tbd-overlay.tbd-visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+  #tbd-modal {
+    background: #0D1B2A;
+    border: 1px solid #1E3A5F;
+    border-radius: 4px;
+    padding: 2.5rem 2.5rem 1.75rem;
+    max-width: 460px;
+    width: 100%;
+    position: relative;
+    transform: translateY(16px);
+    transition: transform 0.35s ease;
+  }
+  #tbd-overlay.tbd-visible #tbd-modal {
+    transform: translateY(0);
+  }
+  .tbd-timer {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: #1E3A5F;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+  }
+  .tbd-timer-bar {
+    height: 100%;
+    background: #00BFFF;
+    width: 0%;
+    transition: width 3s linear;
+  }
+  .tbd-close {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: none;
+    border: none;
+    color: #3A5272;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    font-family: 'Space Mono', monospace;
+  }
+  .tbd-close:hover { color: #F0F4FF; }
+  .tbd-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #00FF00;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.1rem;
+  }
+  .tbd-headline {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #F0F4FF;
+    margin: 0 0 0.4rem;
+    line-height: 1.25;
+  }
+  .tbd-sub {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    color: #6B8BAE;
+    margin: 0 0 1.5rem;
+    line-height: 1.5;
+  }
+  .tbd-input-row {
+    display: flex;
+    margin-bottom: 1.1rem;
+  }
+  .tbd-input {
+    flex: 1;
+    background: #0A0A0A;
+    border: 1px solid #1E3A5F;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    padding: 10px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: #F0F4FF;
+    outline: none;
+    min-width: 0;
+  }
+  .tbd-input:focus { border-color: #00BFFF; }
+  .tbd-input::placeholder { color: #3A5272; }
+  .tbd-btn-send {
+    background: #FF6B00;
+    border: 1px solid #FF6B00;
+    border-radius: 0 4px 4px 0;
+    padding: 10px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0A0A0A;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tbd-btn-send:hover { background: #FF8C33; border-color: #FF8C33; }
+  .tbd-divider {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #3A5272;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .tbd-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .tbd-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #0A0A0A;
+    border: 1px solid #1E3A5F;
+    border-radius: 4px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    user-select: none;
+  }
+  .tbd-option:hover { border-color: #00BFFF; }
+  .tbd-option.tbd-sel { border-color: #00BFFF; background: #0A1A2E; }
+  .tbd-opt-icon {
+    font-size: 20px;
+    color: #00BFFF;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+  }
+  .tbd-opt-text { flex: 1; min-width: 0; }
+  .tbd-opt-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #C8D8F0;
+  }
+  .tbd-opt-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #3A5272;
+    margin-top: 2px;
+  }
+  .tbd-check {
+    width: 16px; height: 16px;
+    border: 1px solid #1E3A5F;
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: transparent;
+  }
+  .tbd-option.tbd-sel .tbd-check {
+    background: #00BFFF;
+    border-color: #00BFFF;
+    color: #0A0A0A;
+  }
+  .tbd-btn-confirm {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #FF6B00;
+    color: #FF6B00;
+    border-radius: 4px;
+    padding: 11px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+    transition: background 0.15s;
+  }
+  .tbd-btn-confirm:hover { background: rgba(255,107,0,0.1); }
+  .tbd-btn-confirm:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .tbd-footer {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #2A4060;
+    text-align: center;
+  }
+  .tbd-msg {
+    display: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .tbd-msg.tbd-ok  { background: rgba(0,255,0,0.07); color: #00FF00; border: 1px solid rgba(0,255,0,0.2); }
+  .tbd-msg.tbd-err { background: rgba(255,107,0,0.07); color: #FF6B00; border: 1px solid rgba(255,107,0,0.25); }
+
+  @media (max-width: 500px) {
+    #tbd-modal { padding: 2rem 1.25rem 1.5rem; }
+    .tbd-headline { font-size: 18px; }
+  }
+</style>
+
+<!-- Lightbox Markup -->
+<div id="tbd-overlay" role="dialog" aria-modal="true" aria-labelledby="tbd-title">
+  <div id="tbd-modal">
+    <div class="tbd-timer"><div class="tbd-timer-bar" id="tbd-timerbar"></div></div>
+    <button class="tbd-close" onclick="tbdClose()" aria-label="Schließen">×</button>
+
+    <div class="tbd-tag">{ in_kontakt_bleiben }</div>
+    <h2 class="tbd-headline" id="tbd-title">Wir bauen weiter.<br>Bleib dabei.</h2>
+    <p class="tbd-sub">Kein Spam. Nur relevante Updates — wenn etwas läuft.</p>
+
+    <div class="tbd-input-row">
+      <input class="tbd-input" type="email" id="tbd-email"
+             placeholder="deine@mail.de" autocomplete="email" />
+      <button class="tbd-btn-send" onclick="tbdSubmit()">→ Senden</button>
+    </div>
+
+    <div class="tbd-divider">// wie sollen wir in kontakt bleiben?</div>
+
+    <div class="tbd-options">
+      <div class="tbd-option" data-type="email" onclick="tbdToggle(this)" tabindex="0" role="checkbox" aria-checked="false">
+        <span class="tbd-opt-icon">✉</span>
+        <div class="tbd-opt-text">
+          <div class="tbd-opt-label">E-Mail-Kontakt</div>
+          <div class="tbd-opt-desc">direkte antwort auf anfragen</div>
+        </div>
+        <div class="tbd-check">✓</div>
+      </div>
+      <div class="tbd-option" data-type="newsletter" onclick="tbdToggle(this)" tabindex="0" role="checkbox" aria-checked="false">
+        <span class="tbd-opt-icon">◈</span>
+        <div class="tbd-opt-text">
+          <div class="tbd-opt-label">Newsletter</div>
+          <div class="tbd-opt-desc">updates wenn etwas deployed wird</div>
+        </div>
+        <div class="tbd-check">✓</div>
+      </div>
+      <div class="tbd-option" data-type="call" onclick="tbdToggle(this)" tabindex="0" role="checkbox" aria-checked="false">
+        <span class="tbd-opt-icon">◎</span>
+        <div class="tbd-opt-text">
+          <div class="tbd-opt-label">Erstgespräch</div>
+          <div class="tbd-opt-desc">30 min → schauen ob es passt</div>
+        </div>
+        <div class="tbd-check">✓</div>
+      </div>
+    </div>
+
+    <div class="tbd-msg" id="tbd-msg"></div>
+    <button class="tbd-btn-confirm" id="tbd-confirm-btn" onclick="tbdSubmit()">[ bestätigen ]</button>
+    <div class="tbd-footer">keine weitergabe · kein tracking · nur kontakt.</div>
+  </div>
+</div>
+
+<script>
+(function() {
+
+  /* ── KONFIGURATION ── */
+  var BREVO_API_KEY  = 'DEIN_NEUER_KEY';   // ← neuen Key nach Rotation eintragen
+  var BREVO_LIST_ID  = 4;
+  var CONTACT_EMAIL  = 'hallo@tobedefined.ai';  // ← falls abweichend, anpassen
+  var DELAY_MS       = 3000;   // 3 Sekunden
+  var STORAGE_KEY    = 'tbd_lb_shown';
+  var SUPPRESS_DAYS  = 30;     // nach Schließen X Tage nicht mehr zeigen
+  /* ────────────────── */
+
+  function tbdShouldShow() {
+    var stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return true;
+    var data = JSON.parse(stored);
+    if (data.submitted) return false;
+    var elapsed = (Date.now() - data.ts) / 86400000;
+    return elapsed > SUPPRESS_DAYS;
+  }
+
+  window.tbdClose = function() {
+    var el = document.getElementById('tbd-overlay');
+    el.classList.remove('tbd-visible');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ts: Date.now(), submitted: false }));
+  };
+
+  window.tbdToggle = function(el) {
+    el.classList.toggle('tbd-sel');
+    el.setAttribute('aria-checked', el.classList.contains('tbd-sel') ? 'true' : 'false');
+  };
+
+  window.tbdSubmit = async function() {
+    var email = document.getElementById('tbd-email').value.trim();
+    var msgEl = document.getElementById('tbd-msg');
+    var btn   = document.getElementById('tbd-confirm-btn');
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      tbdShowMsg('Bitte eine gültige E-Mail-Adresse eingeben.', 'err');
+      return;
+    }
+
+    var selected = Array.from(document.querySelectorAll('.tbd-option.tbd-sel'))
+                        .map(function(o) { return o.dataset.type; });
+
+    if (selected.length === 0) {
+      tbdShowMsg('Bitte mindestens eine Option auswählen.', 'err');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '[ ... ]';
+
+    var promises = [];
+
+    /* 1. Newsletter → Brevo */
+    if (selected.includes('newsletter')) {
+      promises.push(
+        fetch('https://api.brevo.com/v3/contacts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'api-key': BREVO_API_KEY
+          },
+          body: JSON.stringify({
+            email: email,
+            listIds: [BREVO_LIST_ID],
+            updateEnabled: true,
+            attributes: { SOURCE: 'lightbox_newsletter' }
+          })
+        }).catch(function() { return { ok: false }; })
+      );
+    }
+
+    /* 2. E-Mail-Kontakt → Brevo (andere Liste oder Tag) */
+    if (selected.includes('email')) {
+      promises.push(
+        fetch('https://api.brevo.com/v3/contacts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'api-key': BREVO_API_KEY
+          },
+          body: JSON.stringify({
+            email: email,
+            updateEnabled: true,
+            attributes: { SOURCE: 'lightbox_email_kontakt' }
+          })
+        }).catch(function() { return { ok: false }; })
+      );
+    }
+
+    /* 3. Erstgespräch → mailto öffnen */
+    if (selected.includes('call')) {
+      var subject = encodeURIComponent('Erstgespräch – ' + email);
+      var body    = encodeURIComponent(
+        'Hallo,\n\nich interessiere mich für ein Erstgespräch mit ToBeDefined.ai.\n\nMeine E-Mail: ' + email + '\n\nBeste Grüße'
+      );
+      window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + subject + '&body=' + body;
+    }
+
+    await Promise.all(promises);
+
+    tbdShowMsg('Alles klar. Wir melden uns.', 'ok');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ts: Date.now(), submitted: true }));
+    setTimeout(function() { tbdClose(); }, 2500);
+  };
+
+  function tbdShowMsg(text, type) {
+    var el = document.getElementById('tbd-msg');
+    el.textContent = text;
+    el.className = 'tbd-msg tbd-' + type;
+    el.style.display = 'block';
+  }
+
+  /* Autostart nach DELAY_MS, außer bereits gesehen */
+  if (tbdShouldShow()) {
+    setTimeout(function() {
+      var overlay = document.getElementById('tbd-overlay');
+      overlay.style.display = 'flex';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          overlay.classList.add('tbd-visible');
+          /* Timer-Balken animieren */
+          document.getElementById('tbd-timerbar').style.width = '100%';
+        });
+      });
+    }, DELAY_MS);
+  }
+
+  /* ESC zum Schließen */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') tbdClose();
+  });
+
+  /* Klick außerhalb schließt */
+  document.getElementById('tbd-overlay').addEventListener('click', function(e) {
+    if (e.target === this) tbdClose();
+  });
+
+})();
+</script>
+
 </body>
 </html>
