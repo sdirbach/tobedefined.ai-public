@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-lang="de">
 <head>
 <meta charset="UTF-8">
+<script>
+  (function(){
+    try{
+      var l = localStorage.getItem('tbd_lang');
+      if(l === 'de' || l === 'en'){
+        document.documentElement.setAttribute('data-lang', l);
+        document.documentElement.lang = l;
+      }
+    }catch(e){}
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kontakt — ToBeDefined.ai</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,6 +50,10 @@
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;color:var(--signal);display:block;margin-bottom:16px;}
   section{position:relative;z-index:2;}
 
+  /* i18n toggle — hide whichever language isn't active */
+  [data-lang="de"] .i18n-en{display:none !important;}
+  [data-lang="en"] .i18n-de{display:none !important;}
+
   /* readout + nav */
   .readout{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:11px 28px;border-bottom:1px solid var(--signal-dim);font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--dim);flex-wrap:wrap;position:relative;z-index:2;}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal);animation:pulse 2.4s ease-in-out infinite;flex-shrink:0;}
@@ -50,9 +65,9 @@
   .back-link:hover{color:var(--paper);}
   .nav-right{display:flex;align-items:center;gap:18px;}
   .lang-switch{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:var(--dim-2);}
-  .lang-switch a{color:var(--dim-2);}
-  .lang-switch a.active{color:var(--signal);font-weight:700;}
-  .lang-switch a:hover{color:var(--paper);}
+  .lang-btn{background:none;border:none;padding:0;margin:0;font:inherit;font-family:var(--mono);font-size:12px;color:var(--dim-2);cursor:pointer;}
+  .lang-btn.active{color:var(--signal);font-weight:700;}
+  .lang-btn:hover{color:var(--paper);}
 
   /* header */
   .kontakt-hero{padding:56px 28px 8px;max-width:720px;margin:0 auto;}
@@ -106,21 +121,29 @@
 <body>
 
   <div class="readout">
-    <div class="status"><span class="dot"></span> VERFÜGBAR FÜR NEUE PROJEKTE</div>
+    <div class="status"><span class="dot"></span> <span class="i18n-de">VERFÜGBAR FÜR NEUE PROJEKTE</span><span class="i18n-en">AVAILABLE FOR NEW PROJECTS</span></div>
   </div>
 
   <nav>
     <a href="index.html" class="logo">TOBEDEFINED<span>.AI</span></a>
     <div class="nav-right">
-      <div class="lang-switch"><a href="kontakt.html" class="active">DE</a><span>/</span><a href="kontakt-en.html">EN</a></div>
-      <a href="index.html" class="back-link">← Zurück zu tobedefined.ai</a>
+      <div class="lang-switch">
+        <button type="button" class="lang-btn" data-set-lang="de">DE</button><span>/</span><button type="button" class="lang-btn" data-set-lang="en">EN</button>
+      </div>
+      <a href="index.html" class="back-link"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
     </div>
   </nav>
 
   <header class="kontakt-hero">
-    <span class="eyebrow">KONTAKT</span>
-    <h1 class="kontakt-h1">Wie sollen wir <span class="accent">sprechen?</span></h1>
-    <p class="kontakt-lede">Wählt eine Option, hinterlasst eure E-Mail — den Rest übernehmen wir.</p>
+    <span class="eyebrow"><span class="i18n-de">KONTAKT</span><span class="i18n-en">CONTACT</span></span>
+    <h1 class="kontakt-h1">
+      <span class="i18n-de">Wie sollen wir <span class="accent">sprechen?</span></span>
+      <span class="i18n-en">How should we <span class="accent">talk?</span></span>
+    </h1>
+    <p class="kontakt-lede">
+      <span class="i18n-de">Wählt eine Option, hinterlasst eure E-Mail — den Rest übernehmen wir.</span>
+      <span class="i18n-en">Pick an option, leave your email — we'll take it from there.</span>
+    </p>
   </header>
 
   <section class="wrap">
@@ -129,44 +152,46 @@
         <div class="option">
           <input type="radio" name="mode" id="modeCall" value="call">
           <label for="modeCall">
-            <span class="option-title"><span class="radio"></span> Kurz telefonieren</span>
-            <span class="option-desc">15 Minuten, unverbindlich.</span>
+            <span class="option-title"><span class="radio"></span> <span class="i18n-de">Kurz telefonieren</span><span class="i18n-en">Quick call</span></span>
+            <span class="option-desc"><span class="i18n-de">15 Minuten, unverbindlich.</span><span class="i18n-en">15 minutes, no obligation.</span></span>
           </label>
         </div>
         <div class="option">
           <input type="radio" name="mode" id="modeVideo" value="video">
           <label for="modeVideo">
-            <span class="option-title"><span class="radio"></span> Per Video kennenlernen</span>
-            <span class="option-desc">Gesicht zu Gesicht, genauso kurz.</span>
+            <span class="option-title"><span class="radio"></span> <span class="i18n-de">Per Video kennenlernen</span><span class="i18n-en">Meet over video</span></span>
+            <span class="option-desc"><span class="i18n-de">Gesicht zu Gesicht, genauso kurz.</span><span class="i18n-en">Face to face, just as short.</span></span>
           </label>
         </div>
         <div class="option">
           <input type="radio" name="mode" id="modeQuestion" value="question">
           <label for="modeQuestion">
-            <span class="option-title"><span class="radio"></span> Eine Frage stellen</span>
-            <span class="option-desc">Kein Call nötig — schreibt uns direkt.</span>
+            <span class="option-title"><span class="radio"></span> <span class="i18n-de">Eine Frage stellen</span><span class="i18n-en">Ask a question</span></span>
+            <span class="option-desc"><span class="i18n-de">Kein Call nötig — schreibt uns direkt.</span><span class="i18n-en">No call needed — just write to us directly.</span></span>
           </label>
         </div>
       </div>
 
       <div class="kontakt-form" id="kontaktFormFields">
         <div class="form-row">
-          <input type="text" id="kName" placeholder="Name" required>
-          <input type="email" id="kEmail" placeholder="E-Mail" required>
+          <input type="text" id="kName" required data-ph-de="Name" data-ph-en="Name" placeholder="Name">
+          <input type="email" id="kEmail" required data-ph-de="E-Mail" data-ph-en="Email" placeholder="E-Mail">
         </div>
         <div id="questionField">
-          <textarea id="kQuestion" rows="4" placeholder="Eure Frage — kurz reicht."></textarea>
+          <textarea id="kQuestion" rows="4" data-ph-de="Eure Frage — kurz reicht." data-ph-en="Your question — short is fine." placeholder="Eure Frage — kurz reicht."></textarea>
         </div>
-        <button type="submit" class="cta-primary" id="kSubmit">Absenden →</button>
-        <div class="form-note">Wird direkt an uns gesendet — kein E-Mail-Programm nötig.</div>
-        <div class="form-success" id="kSuccess">Danke! Eure Nachricht ist bei uns angekommen — wir melden uns zeitnah.</div>
-        <div class="form-error" id="kError">Das hat gerade nicht geklappt. Wir öffnen stattdessen euer E-Mail-Programm.</div>
+        <button type="submit" class="cta-primary" id="kSubmit"><span class="i18n-de">Absenden →</span><span class="i18n-en">Submit →</span></button>
+        <div class="form-note"><span class="i18n-de">Wird direkt an uns gesendet — kein E-Mail-Programm nötig.</span><span class="i18n-en">Sent straight to us — no email client needed.</span></div>
+        <div class="form-success i18n-de" id="kSuccessDe">Danke! Eure Nachricht ist bei uns angekommen — wir melden uns zeitnah.</div>
+        <div class="form-success i18n-en" id="kSuccessEn">Thanks! Your message has reached us — we'll get back to you soon.</div>
+        <div class="form-error i18n-de" id="kErrorDe">Das hat gerade nicht geklappt. Wir öffnen stattdessen euer E-Mail-Programm.</div>
+        <div class="form-error i18n-en" id="kErrorEn">That didn't quite work. We'll open your email client instead.</div>
       </div>
     </form>
   </section>
 
   <div class="kontakt-footer">
-    <a href="index.html" class="back-link">← Zurück zu tobedefined.ai</a>
+    <a href="index.html" class="back-link"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
   </div>
 
 <script>
@@ -176,11 +201,20 @@
   const questionInput = document.getElementById('kQuestion');
   const submitBtn = document.getElementById('kSubmit');
 
-  const labels = {
-    call: 'Anruf anfragen →',
-    video: 'Videocall anfragen →',
-    question: 'Frage senden →'
+  const SUBMIT_LABELS = {
+    de: { call: 'Anruf anfragen →', video: 'Videocall anfragen →', question: 'Frage senden →' },
+    en: { call: 'Request a call →', video: 'Request a video call →', question: 'Send question →' }
   };
+  const MODE_TEXT = {
+    de: { call: 'Kurzes Telefonat', video: 'Videocall', question: 'Frage' },
+    en: { call: 'Quick call', video: 'Video call', question: 'Question' }
+  };
+
+  function updateSubmitLabel(){
+    const selected = document.querySelector('input[name="mode"]:checked');
+    if(!selected) return;
+    submitBtn.textContent = SUBMIT_LABELS[currentLang()][selected.value];
+  }
 
   modeInputs.forEach(input=>{
     input.addEventListener('change', ()=>{
@@ -192,7 +226,7 @@
         questionField.classList.remove('show');
         questionInput.required = false;
       }
-      submitBtn.textContent = labels[input.value];
+      updateSubmitLabel();
     });
   });
 
@@ -201,23 +235,20 @@
 
   document.getElementById('kontaktForm').addEventListener('submit', async (e)=>{
     e.preventDefault();
+    const lang = currentLang();
     const selected = document.querySelector('input[name="mode"]:checked');
     if(!selected) return;
 
-    const modeLabel = {
-      call: 'Kurzes Telefonat',
-      video: 'Videocall',
-      question: 'Frage'
-    }[selected.value];
+    const modeLabel = MODE_TEXT[lang][selected.value];
 
     const name = document.getElementById('kName').value.trim();
     const email = document.getElementById('kEmail').value.trim();
     const question = questionInput.value.trim();
 
-    const successEl = document.getElementById('kSuccess');
-    const errorEl = document.getElementById('kError');
-    successEl.style.display = 'none';
-    errorEl.style.display = 'none';
+    const successEls = [document.getElementById('kSuccessDe'), document.getElementById('kSuccessEn')];
+    const errorEls = [document.getElementById('kErrorDe'), document.getElementById('kErrorEn')];
+    successEls.forEach(el=>el.style.display = 'none');
+    errorEls.forEach(el=>el.style.display = 'none');
     submitBtn.disabled = true;
 
     const payload = { name, email, anliegen: modeLabel };
@@ -233,7 +264,7 @@
       });
 
       if(res.ok){
-        successEl.style.display = 'block';
+        successEls.forEach(el=>el.style.display = 'block');
         document.getElementById('kontaktForm').reset();
         formFields.classList.remove('show');
         questionField.classList.remove('show');
@@ -242,15 +273,58 @@
       }
     } catch(err){
       // Rückfallebene: Mailto, falls Formspree (noch) nicht konfiguriert ist oder ausfällt
-      errorEl.style.display = 'block';
-      const subject = encodeURIComponent(`${modeLabel} — Anfrage von ${name}`);
-      let bodyText = `Name: ${name}\nE-Mail: ${email}\nGewünscht: ${modeLabel}`;
-      if(selected.value === 'question' && question) bodyText += `\n\nFrage:\n${question}`;
-      window.location.href = `mailto:hello@tobedefined.ai?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+      errorEls.forEach(el=>el.style.display = 'block');
+      const subject = lang === 'de'
+        ? `${modeLabel} — Anfrage von ${name}`
+        : `${modeLabel} — Request from ${name}`;
+      let bodyText = lang === 'de'
+        ? `Name: ${name}\nE-Mail: ${email}\nGewünscht: ${modeLabel}`
+        : `Name: ${name}\nEmail: ${email}\nRequested: ${modeLabel}`;
+      if(selected.value === 'question' && question){
+        bodyText += lang === 'de' ? `\n\nFrage:\n${question}` : `\n\nQuestion:\n${question}`;
+      }
+      window.location.href = `mailto:hello@tobedefined.ai?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
     } finally {
       submitBtn.disabled = false;
     }
   });
+
+  /* ============== LANGUAGE TOGGLE ============== */
+  const PAGE_TITLES = {
+    de: 'Kontakt — ToBeDefined.ai',
+    en: 'Contact — ToBeDefined.ai'
+  };
+
+  function currentLang(){
+    return document.documentElement.getAttribute('data-lang') || 'de';
+  }
+
+  function applyPlaceholders(lang){
+    document.querySelectorAll('[data-ph-de]').forEach(el=>{
+      el.placeholder = lang === 'de' ? el.dataset.phDe : el.dataset.phEn;
+    });
+    document.querySelectorAll('[data-aria-de]').forEach(el=>{
+      el.setAttribute('aria-label', lang === 'de' ? el.dataset.ariaDe : el.dataset.ariaEn);
+    });
+  }
+
+  function setLang(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+    try{ localStorage.setItem('tbd_lang', lang); }catch(e){}
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.setLang === lang);
+    });
+    document.title = PAGE_TITLES[lang];
+    applyPlaceholders(lang);
+    updateSubmitLabel();
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> setLang(btn.dataset.setLang));
+  });
+
+  setLang(currentLang());
 </script>
 
 </body>
