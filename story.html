@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-lang="de">
 <head>
 <meta charset="UTF-8">
+<script>
+  (function(){
+    try{
+      var l = localStorage.getItem('tbd_lang');
+      if(l === 'de' || l === 'en'){
+        document.documentElement.setAttribute('data-lang', l);
+        document.documentElement.lang = l;
+      }
+    }catch(e){}
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Die Geschichte — ToBeDefined.ai</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,6 +55,10 @@
   p.body-text strong{color:var(--paper);font-weight:600;}
   p.body-text + p.body-text{margin-top:14px;}
 
+  /* i18n toggle — hide whichever language isn't active */
+  [data-lang="de"] .i18n-en{display:none !important;}
+  [data-lang="en"] .i18n-de{display:none !important;}
+
   /* readout + nav */
   .readout{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:11px 28px;border-bottom:1px solid var(--signal-dim);font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--dim);flex-wrap:wrap;position:relative;z-index:2;}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal);animation:pulse 2.4s ease-in-out infinite;flex-shrink:0;}
@@ -57,6 +72,11 @@
   @media(min-width:960px){ .navlinks{display:flex;} }
   .back-link{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--dim);}
   .back-link:hover{color:var(--paper);}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .lang-switch{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:var(--dim-2);}
+  .lang-btn{background:none;border:none;padding:0;margin:0;font:inherit;font-family:var(--mono);font-size:12px;color:var(--dim-2);cursor:pointer;}
+  .lang-btn.active{color:var(--signal);font-weight:700;}
+  .lang-btn:hover{color:var(--paper);}
 
   /* story hero */
   .story-hero{padding:64px 28px 40px;max-width:1000px;margin:0 auto;}
@@ -163,27 +183,37 @@
 <body>
 
   <div class="readout">
-    <div class="status"><span class="dot"></span> DIE GESCHICHTE</div>
+    <div class="status"><span class="dot"></span> <span class="i18n-de">DIE GESCHICHTE</span><span class="i18n-en">THE STORY</span></div>
     <div class="proof">SWARM DRONE CHALLENGE 2026 · ILA BERLIN</div>
   </div>
 
   <nav>
     <a href="index.html" class="logo">TOBEDEFINED<span>.AI</span></a>
     <div class="navlinks">
-      <a href="index.html#klartext">Klartext</a>
-      <a href="index.html#how-we-work">Wie wir arbeiten</a>
-      <a href="story.html">Die Story</a>
+      <a href="index.html#klartext"><span class="i18n-de">Klartext</span><span class="i18n-en">Straight Talk</span></a>
+      <a href="index.html#how-we-work"><span class="i18n-de">Wie wir arbeiten</span><span class="i18n-en">How We Work</span></a>
+      <a href="story.html"><span class="i18n-de">Die Story</span><span class="i18n-en">The Story</span></a>
     </div>
-    <a href="index.html" class="back-link">← Zurück zu tobedefined.ai</a>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button type="button" class="lang-btn" data-set-lang="de">DE</button><span>/</span><button type="button" class="lang-btn" data-set-lang="en">EN</button>
+      </div>
+      <a href="index.html" class="back-link"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
+    </div>
   </nav>
 
   <!-- ================= STORY HERO ================= -->
   <header class="story-hero">
-    <span class="eyebrow">DIE GESCHICHTE</span>
-    <h1 class="story-headline">Null Erfahrung. 14 Wochen. <span class="accent">2. Platz von 22 Teams.</span></h1>
+    <span class="eyebrow"><span class="i18n-de">DIE GESCHICHTE</span><span class="i18n-en">THE STORY</span></span>
+    <h1 class="story-headline">
+      <span class="i18n-de">Null Erfahrung. 14 Wochen. <span class="accent">2. Platz von 22 Teams.</span></span>
+      <span class="i18n-en">Zero experience. 14 weeks. <span class="accent">2nd out of 22 teams.</span></span>
+    </h1>
     <p class="story-lede">
-      Wie fünf Software-Ingenieure aus Bayern in ihrer Freizeit ein System für autonome Drohnenschwärme bauten —
-      und sich unter 22 Teams aus 11 Ländern den zweiten Platz insgesamt sicherten.
+      <span class="i18n-de">Wie fünf Software-Ingenieure aus Bayern in ihrer Freizeit ein System für autonome Drohnenschwärme bauten —
+      und sich unter 22 Teams aus 11 Ländern den zweiten Platz insgesamt sicherten.</span>
+      <span class="i18n-en">How five software engineers from Bavaria built a coordination system for autonomous drone swarms in their
+      spare time — and secured second place overall among 22 teams from 11 countries.</span>
     </p>
     <img class="photo-ph wide" src="https://www.tobedefined.ai/team-group.jpeg" alt="Team ToBeDefined.ai" style="width:100%;object-fit:cover;display:block;">
     <div class="photo-caption">Team ToBeDefined.ai — SDC26, ILA Berlin 2026</div>
@@ -192,17 +222,26 @@
   <!-- ================= AUSGANGSPUNKT ================= -->
   <section>
     <div class="wrap section-top">
-      <span class="eyebrow">§01 · DER AUSGANGSPUNKT</span>
-      <h2 class="section-h2">Alle reden über KI. Wir wollten echte Erfahrung.</h2>
+      <span class="eyebrow"><span class="i18n-de">§01 · DER AUSGANGSPUNKT</span><span class="i18n-en">§01 · THE STARTING POINT</span></span>
+      <h2 class="section-h2">
+        <span class="i18n-de">Alle reden über KI. Wir wollten echte Erfahrung.</span>
+        <span class="i18n-en">Everyone talks about AI. We wanted real experience.</span>
+      </h2>
       <p class="body-text">
-        Fünf Software-Ingenieure aus Bayern, nebenberuflich. Keine Drohnenerfahrung, kein Budget, keine
+        <span class="i18n-de">Fünf Software-Ingenieure aus Bayern, nebenberuflich. Keine Drohnenerfahrung, kein Budget, keine
         Testflächen, keine eigene Infrastruktur. Statt eines weiteren Gesprächs über KI-Trends: Anmeldung zur
         <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026 (SDC26)</strong> — einem internationalen Wettbewerb
-        für autonome Drohnenschwärme, Defence Track, Finale bei der ILA Berlin.
+        für autonome Drohnenschwärme, Defence Track, Finale bei der ILA Berlin.</span>
+        <span class="i18n-en">Five software engineers from Bavaria, working on the side. No drone experience, no budget, no test
+        sites, no infrastructure of their own. Instead of another conversation about AI trends: sign-up for the
+        <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026 (SDC26)</strong> — an international competition for
+        autonomous drone swarms, Defence Track, final at ILA Berlin.</span>
       </p>
       <p class="body-text">
-        Der Gedanke dahinter war einfach: Wer wissen will, ob man in einer neuen Domäne schnell etwas Funktionierendes
-        bauen kann, sollte es an einem Ort testen, an dem man nicht ausweichen kann.
+        <span class="i18n-de">Der Gedanke dahinter war einfach: Wer wissen will, ob man in einer neuen Domäne schnell etwas Funktionierendes
+        bauen kann, sollte es an einem Ort testen, an dem man nicht ausweichen kann.</span>
+        <span class="i18n-en">The thinking behind it was simple: if you want to know whether you can build something that actually
+        works in a new domain, and build it fast, test it somewhere you can't dodge the question.</span>
       </p>
     </div>
   </section>
@@ -210,22 +249,28 @@
   <!-- ================= DIE CHALLENGE ================= -->
   <section>
     <div class="wrap section-top">
-      <span class="eyebrow">§02 · DIE CHALLENGE</span>
-      <h2 class="section-h2">22 Teams. 11 Länder. Unveränderte Hardware.</h2>
+      <span class="eyebrow"><span class="i18n-de">§02 · DIE CHALLENGE</span><span class="i18n-en">§02 · THE CHALLENGE</span></span>
+      <h2 class="section-h2">
+        <span class="i18n-de">22 Teams. 11 Länder. Unveränderte Hardware.</span>
+        <span class="i18n-en">22 teams. 11 countries. Unmodified hardware.</span>
+      </h2>
       <p class="body-text">
-        Format: 22 Teams aus 11 Ländern traten an, 12 davon erreichten die Qualifying-Runde. Wir kamen bis ins
+        <span class="i18n-de">Format: 22 Teams aus 11 Ländern traten an, 12 davon erreichten die Qualifying-Runde. Wir kamen bis ins
         Finale bei der ILA Berlin am 11. Juni 2026. Entwicklungszeit: 14 Wochen, komplett nebenberuflich. Auflage:
-        keine Hardware-Modifikationen — nur handelsübliche Parrot Anafi und DJI Tello Drohnen, unverändert.
+        keine Hardware-Modifikationen — nur handelsübliche Parrot Anafi und DJI Tello Drohnen, unverändert.</span>
+        <span class="i18n-en">Format: 22 teams from 11 countries entered, 12 of them reached the qualifying round. We made it to the
+        final at ILA Berlin on June 11, 2026. Development time: 14 weeks, entirely on the side. Constraint: no
+        hardware modifications — only off-the-shelf Parrot Anafi and DJI Tello drones, unmodified.</span>
       </p>
 
       <div class="stats-row">
-        <div class="stat"><div class="stat-num">22</div><div class="stat-cap">Teams aus 11 Ländern</div></div>
-        <div class="stat"><div class="stat-num">14</div><div class="stat-cap">Wochen Entwicklungszeit</div></div>
-        <div class="stat"><div class="stat-num">0</div><div class="stat-cap">Hardware-Modifikationen</div></div>
+        <div class="stat"><div class="stat-num">22</div><div class="stat-cap"><span class="i18n-de">Teams aus 11 Ländern</span><span class="i18n-en">Teams from 11 countries</span></div></div>
+        <div class="stat"><div class="stat-num">14</div><div class="stat-cap"><span class="i18n-de">Wochen Entwicklungszeit</span><span class="i18n-en">Weeks of development</span></div></div>
+        <div class="stat"><div class="stat-num">0</div><div class="stat-cap"><span class="i18n-de">Hardware-Modifikationen</span><span class="i18n-en">Hardware modifications</span></div></div>
         <div class="stat"><div class="stat-num">95K+</div><div class="stat-cap">Lines of Code</div></div>
       </div>
 
-      <p class="body-text">Technisch gebaut mit:</p>
+      <p class="body-text"><span class="i18n-de">Technisch gebaut mit:</span><span class="i18n-en">Technically built with:</span></p>
       <div class="tech-tags">
         <span class="tag">Python 3.11+</span>
         <span class="tag">FastAPI</span>
@@ -243,25 +288,37 @@
   <!-- ================= DAS ERGEBNIS ================= -->
   <section>
     <div class="wrap section-top">
-      <span class="eyebrow">§03 · DAS ERGEBNIS</span>
-      <h2 class="section-h2">2. Platz insgesamt, unter 22 internationalen Teams.</h2>
+      <span class="eyebrow"><span class="i18n-de">§03 · DAS ERGEBNIS</span><span class="i18n-en">§03 · THE RESULT</span></span>
+      <h2 class="section-h2">
+        <span class="i18n-de">2. Platz insgesamt, unter 22 internationalen Teams.</span>
+        <span class="i18n-en">2nd place overall, among 22 international teams.</span>
+      </h2>
       <p class="body-text">
-        Verloren haben wir nur gegen ein Team, das seit sechs Jahren an genau diesem Thema arbeitet — unter 22
+        <span class="i18n-de">Verloren haben wir nur gegen ein Team, das seit sechs Jahren an genau diesem Thema arbeitet — unter 22
         Teams aus 11 Ländern reichte es für den zweiten Platz insgesamt. Für ein Team, das 14 Wochen zuvor noch
-        keine Drohne geflogen hatte, war das ein Ergebnis, das viele der Beteiligten selbst überrascht hat.
+        keine Drohne geflogen hatte, war das ein Ergebnis, das viele der Beteiligten selbst überrascht hat.</span>
+        <span class="i18n-en">We only lost to a team that has been working on exactly this subject for six years — among 22 teams
+        from 11 countries, that was enough for second place overall. For a team that hadn't flown a single drone
+        14 weeks earlier, it was a result that surprised even many of the people involved.</span>
       </p>
 
       <div class="callout">
-        <div class="callout-eyebrow">EIN INVESTOR SIEHT DAS ANDERS</div>
+        <div class="callout-eyebrow"><span class="i18n-de">EIN INVESTOR SIEHT DAS ANDERS</span><span class="i18n-en">AN INVESTOR SEES IT DIFFERENTLY</span></div>
         <div class="callout-quote">
-          „Je länger ich darüber nachdenke, desto weniger interessiert mich der zweite Platz. Viel spannender finde
+          <span class="i18n-de">„Je länger ich darüber nachdenke, desto weniger interessiert mich der zweite Platz. Viel spannender finde
           ich die Frage, was hier eigentlich entstanden ist. Ein kleines Team. Keine große Organisation im
           Hintergrund. Keine eigenen Testflächen. Keine Infrastruktur. Keine Logistik. Keine Millionenbudgets.
           Dafür Menschen, die neben ihrem eigentlichen Beruf, in ihrer Freizeit und oft auf eigene Kosten etwas
           aufgebaut haben. Und dann tritt man gegen Teams an, die über Jahre entwickeln konnten. Mein Respekt gilt
-          deshalb nicht dem Ergebnis, sondern den Menschen dahinter. Starke Leistung. Chapeau.“
+          deshalb nicht dem Ergebnis, sondern den Menschen dahinter. Starke Leistung. Chapeau.“</span>
+          <span class="i18n-en">"The longer I think about it, the less second place matters to me. What I find far more interesting is
+          the question of what actually came into being here. A small team. No large organization behind them. No
+          test sites of their own. No infrastructure. No logistics. No multi-million budgets. Instead, people who
+          built something alongside their actual jobs, in their spare time, and often at their own expense. And
+          then they go up against teams that had years to develop. My respect, therefore, isn't for the result —
+          it's for the people behind it. Strong performance. Chapeau."</span>
         </div>
-        <div class="callout-attrib">Henry Jaeger · Founder &amp; CEO, Hunter Holding</div>
+        <div class="callout-attrib">Henry Jaeger · <span class="i18n-de">Gründer &amp; CEO, Hunter Holding</span><span class="i18n-en">Founder &amp; CEO, Hunter Holding</span></div>
       </div>
     </div>
   </section>
@@ -269,24 +326,36 @@
   <!-- ================= STIMMEN ================= -->
   <section>
     <div class="wrap section-top">
-      <span class="eyebrow">§04 · WAS DIE BRANCHE SAGTE</span>
-      <h2 class="section-h2">Reaktionen aus Industrie, Investment und Politik.</h2>
+      <span class="eyebrow"><span class="i18n-de">§04 · WAS DIE BRANCHE SAGTE</span><span class="i18n-en">§04 · WHAT THE INDUSTRY SAID</span></span>
+      <h2 class="section-h2">
+        <span class="i18n-de">Reaktionen aus Industrie, Investment und Politik.</span>
+        <span class="i18n-en">Reactions from industry, investment, and politics.</span>
+      </h2>
       <div class="voice-grid">
         <div class="voice-card">
-          <div class="voice-quote">„Gratulation zu einer großartigen Leistung! Das MBDA-Team war beeindruckt von der technischen Reife, die ToBeDefined.ai an den Tag gelegt hat — und das mit so kurzer Entwicklungszeit. Euer Eifer, euer Teamgeist und Zusammenhalt haben die Challenge für alle Beteiligten zu einem Spektakel gemacht.“</div>
+          <div class="voice-quote">
+            <span class="i18n-de">„Gratulation zu einer großartigen Leistung! Das MBDA-Team war beeindruckt von der technischen Reife, die ToBeDefined.ai an den Tag gelegt hat — und das mit so kurzer Entwicklungszeit. Euer Eifer, euer Teamgeist und Zusammenhalt haben die Challenge für alle Beteiligten zu einem Spektakel gemacht.“</span>
+            <span class="i18n-en">"Congratulations on a fantastic achievement! The MBDA team was impressed by the technical maturity ToBeDefined.ai showed — and that with such a short development time. Your drive, team spirit, and cohesion turned the challenge into a spectacle for everyone involved."</span>
+          </div>
           <div class="voice-attrib">BERKAY INAN · PORTFOLIO MANAGER FUTURE BUSINESS, MBDA DEUTSCHLAND</div>
         </div>
         <div class="voice-card">
-          <div class="voice-quote">„Respekt! Wir ziehen unseren Hut vor eurem Team.“</div>
+          <div class="voice-quote"><span class="i18n-de">„Respekt! Wir ziehen unseren Hut vor eurem Team.“</span><span class="i18n-en">"Respect! Hats off to your team."</span></div>
           <div class="voice-attrib">MEINRAD POHL · AIRBUS</div>
         </div>
         <div class="voice-card">
-          <div class="voice-quote">„Finalteilnehmer in einem internationalen harten Wettbewerb, zweiter Platz, bestes deutsches Team. Und aus Ingolstadt. Wenn das nichts ist. Danke fürs Mitmachen und weiter so!“</div>
-          <div class="voice-attrib">GEORG ROSENFELD · WIRTSCHAFTSREFERENT INGOLSTADT</div>
+          <div class="voice-quote">
+            <span class="i18n-de">„Finalteilnehmer in einem internationalen harten Wettbewerb, zweiter Platz, bestes deutsches Team. Und aus Ingolstadt. Wenn das nichts ist. Danke fürs Mitmachen und weiter so!“</span>
+            <span class="i18n-en">"Finalists in a tough international competition, second place, best German team. And from Ingolstadt. If that's not something. Thanks for taking part, and keep it up!"</span>
+          </div>
+          <div class="voice-attrib">GEORG ROSENFELD · <span class="i18n-de">WIRTSCHAFTSREFERENT INGOLSTADT</span><span class="i18n-en">ECONOMIC AFFAIRS OFFICER, CITY OF INGOLSTADT</span></div>
         </div>
         <div class="voice-card">
-          <div class="voice-quote">„Ihr habt den Beweis geliefert, wie AI-Kompetenz die Welt und Wirtschaft nachhaltig verändern wird — als Team, das keinerlei Erfahrung in dem Sektor hat.“</div>
-          <div class="voice-attrib">JOHN BALUMUENA · GESCHÄFTSFÜHRER</div>
+          <div class="voice-quote">
+            <span class="i18n-de">„Ihr habt den Beweis geliefert, wie AI-Kompetenz die Welt und Wirtschaft nachhaltig verändern wird — als Team, das keinerlei Erfahrung in dem Sektor hat.“</span>
+            <span class="i18n-en">"You delivered the proof of how AI competence will sustainably change the world and the economy — as a team with zero prior experience in the sector."</span>
+          </div>
+          <div class="voice-attrib">JOHN BALUMUENA · <span class="i18n-de">GESCHÄFTSFÜHRER</span><span class="i18n-en">MANAGING DIRECTOR</span></div>
         </div>
       </div>
     </div>
@@ -295,13 +364,28 @@
   <!-- ================= SEITDEM ================= -->
   <section>
     <div class="wrap section-top">
-      <span class="eyebrow">§05 · WAS SEITDEM PASSIERT IST</span>
-      <h2 class="section-h2">Aus dem Wettbewerb wurde ein Angebot.</h2>
+      <span class="eyebrow"><span class="i18n-de">§05 · WAS SEITDEM PASSIERT IST</span><span class="i18n-en">§05 · WHAT'S HAPPENED SINCE</span></span>
+      <h2 class="section-h2">
+        <span class="i18n-de">Aus dem Wettbewerb wurde ein Angebot.</span>
+        <span class="i18n-en">The competition turned into an offer.</span>
+      </h2>
       <div class="since-list">
-        <div class="since-item"><span class="mark">→</span> Konkrete Gespräche mit Unternehmen über schnelle MVP-Lösungen in neuen technischen Domänen</div>
-        <div class="since-item"><span class="mark">→</span> Mehrere angefragte Impulsvorträge auf regionalen Bühnen</div>
-        <div class="since-item"><span class="mark">→</span> Ein Feature bei der Deutschen Welle <em>(Titel/Link folgt)</em></div>
-        <div class="since-item"><span class="mark">→</span> Ein wiederholbarer Prozess, der sicherstellt, dass wir "jede Domäne, schnelle Software" tatsächlich einhalten können — <a href="index.html#how-we-work" style="color:var(--signal);">siehe "Wie wir arbeiten" →</a></div>
+        <div class="since-item"><span class="mark">→</span>
+          <span class="i18n-de">Konkrete Gespräche mit Unternehmen über schnelle MVP-Lösungen in neuen technischen Domänen</span>
+          <span class="i18n-en">Concrete conversations with companies about fast MVP solutions in new technical domains</span>
+        </div>
+        <div class="since-item"><span class="mark">→</span>
+          <span class="i18n-de">Mehrere angefragte Impulsvorträge auf regionalen Bühnen</span>
+          <span class="i18n-en">Several requested keynote talks on regional stages</span>
+        </div>
+        <div class="since-item"><span class="mark">→</span>
+          <span class="i18n-de">Ein Feature bei der Deutschen Welle <em>(Titel/Link folgt)</em></span>
+          <span class="i18n-en">A feature on Deutsche Welle <em>(title/link to follow)</em></span>
+        </div>
+        <div class="since-item"><span class="mark">→</span>
+          <span class="i18n-de">Ein wiederholbarer Prozess, der sicherstellt, dass wir "jede Domäne, schnelle Software" tatsächlich einhalten können — <a href="index.html#how-we-work" style="color:var(--signal);">siehe "Wie wir arbeiten" →</a></span>
+          <span class="i18n-en">A repeatable process that makes sure we can actually keep the promise of "any domain, fast software" — <a href="index.html#how-we-work" style="color:var(--signal);">see "How We Work" →</a></span>
+        </div>
       </div>
     </div>
   </section>
@@ -309,15 +393,21 @@
   <!-- ================= GALERIE ================= -->
   <section>
     <div class="wrap section-top">
-      <span class="eyebrow">§06 · IMPRESSIONEN</span>
-      <h2 class="section-h2">Vom ersten Prototyp zum Finaltag.</h2>
-      <p class="body-text">Zwölf Momente aus 14 Wochen — durchklicken oder auf ein Seitenbild tippen.</p>
+      <span class="eyebrow"><span class="i18n-de">§06 · IMPRESSIONEN</span><span class="i18n-en">§06 · MOMENTS</span></span>
+      <h2 class="section-h2">
+        <span class="i18n-de">Vom ersten Prototyp zum Finaltag.</span>
+        <span class="i18n-en">From first prototype to final day.</span>
+      </h2>
+      <p class="body-text">
+        <span class="i18n-de">Zwölf Momente aus 14 Wochen — durchklicken oder auf ein Seitenbild tippen.</span>
+        <span class="i18n-en">Twelve moments from 14 weeks — click through or tap a thumbnail.</span>
+      </p>
 
       <div class="gallery-wrap">
         <div class="gallery-carousel" id="carousel" tabindex="0">
           <div class="carousel-track" id="carouselTrack"></div>
-          <button class="carousel-nav prev" id="carPrev" aria-label="Vorheriges Bild">‹</button>
-          <button class="carousel-nav next" id="carNext" aria-label="Nächstes Bild">›</button>
+          <button class="carousel-nav prev" id="carPrev" data-aria-de="Vorheriges Bild" data-aria-en="Previous image" aria-label="Vorheriges Bild">‹</button>
+          <button class="carousel-nav next" id="carNext" data-aria-de="Nächstes Bild" data-aria-en="Next image" aria-label="Nächstes Bild">›</button>
         </div>
         <div class="carousel-caption" id="carouselCaption"></div>
         <div class="carousel-counter" id="carouselCounter"></div>
@@ -328,25 +418,28 @@
   <!-- ================= TEAM ================= -->
   <section id="team">
     <div class="wrap section-top">
-      <span class="eyebrow">§07 · DAS TEAM</span>
-      <h2 class="section-h2">Fünf Menschen, ein Labor.</h2>
-      <p class="body-text">Das Team, das die Challenge gebaut hat — und das auch euren Sprint bauen wird.</p>
+      <span class="eyebrow"><span class="i18n-de">§07 · DAS TEAM</span><span class="i18n-en">§07 · THE TEAM</span></span>
+      <h2 class="section-h2"><span class="i18n-de">Fünf Menschen, ein Labor.</span><span class="i18n-en">Five people, one lab.</span></h2>
+      <p class="body-text">
+        <span class="i18n-de">Das Team, das die Challenge gebaut hat — und das auch euren Sprint bauen wird.</span>
+        <span class="i18n-en">The team that built the challenge entry — and the team that will build your sprint too.</span>
+      </p>
 
       <div class="team-grid">
         <div class="team-card">
           <img class="team-photo" src="https://www.tobedefined.ai/rene.png" alt="René Melzer">
           <div class="team-tag">T-01 · BAVARIA, DE</div>
           <div class="team-name">René Melzer</div>
-          <div class="team-role">Embedded Software Developer · Regler Spezialist</div>
-          <div class="team-tagline">„Der, der nachfragt. Und nichts als gegeben hinnimmt.“</div>
+          <div class="team-role"><span class="i18n-de">Embedded Software Developer · Regler Spezialist</span><span class="i18n-en">Embedded Software Developer · Control Systems Specialist</span></div>
+          <div class="team-tagline"><span class="i18n-de">„Der, der nachfragt. Und nichts als gegeben hinnimmt.“</span><span class="i18n-en">"The one who asks questions. And never takes anything as a given."</span></div>
           <a class="team-linkedin" href="https://www.linkedin.com/in/ren%C3%A9-melzer-404877158/">LinkedIn →</a>
         </div>
         <div class="team-card">
           <img class="team-photo" src="https://www.tobedefined.ai/thomas.png" alt="Thomas Letze">
           <div class="team-tag">T-02 · BAVARIA, DE</div>
           <div class="team-name">Thomas Letze</div>
-          <div class="team-role">Software Developer · Teamware Gruppe</div>
-          <div class="team-tagline">„Ausgeliehen vom Nachbarn. Mit Jahren Erfahrung im Gepäck.“</div>
+          <div class="team-role"><span class="i18n-de">Software Developer · Teamware Gruppe</span><span class="i18n-en">Software Developer · Teamware Group</span></div>
+          <div class="team-tagline"><span class="i18n-de">„Ausgeliehen vom Nachbarn. Mit Jahren Erfahrung im Gepäck.“</span><span class="i18n-en">"Borrowed from the neighbors. With years of experience in tow."</span></div>
           <a class="team-linkedin" href="https://www.linkedin.com/in/thomas-letze-197046414/">LinkedIn →</a>
         </div>
         <div class="team-card">
@@ -354,7 +447,7 @@
           <div class="team-tag">T-03 · BAVARIA, DE</div>
           <div class="team-name">Sascha Dirbach</div>
           <div class="team-role">IT Expert · Software Developer</div>
-          <div class="team-tagline">„Hackathon-erfahren. Er kennt dieses Eindenken.“</div>
+          <div class="team-tagline"><span class="i18n-de">„Hackathon-erfahren. Er kennt dieses Eindenken.“</span><span class="i18n-en">"Hackathon-tested. He knows this deep-dive feeling."</span></div>
           <a class="team-linkedin" href="https://www.linkedin.com/in/sdirbach/">LinkedIn →</a>
         </div>
         <div class="team-card">
@@ -362,15 +455,15 @@
           <div class="team-tag">T-04 · BAVARIA, DE</div>
           <div class="team-name">Oliver Tiedemann</div>
           <div class="team-role">AI Enthusiast · Automation</div>
-          <div class="team-tagline">„Hat die halbe Welt gesehen. Und trotzdem immer neugierig.“</div>
+          <div class="team-tagline"><span class="i18n-de">„Hat die halbe Welt gesehen. Und trotzdem immer neugierig.“</span><span class="i18n-en">"Has seen half the world. And is still curious about all of it."</span></div>
           <a class="team-linkedin" href="https://www.linkedin.com/in/oliver-tiedemann/">LinkedIn →</a>
         </div>
         <div class="team-card">
           <img class="team-photo" src="https://www.tobedefined.ai/vicki.png" alt="Vicki Lichtenegger">
           <div class="team-tag">T-05 · BAVARIA, DE</div>
           <div class="team-name">Vicki Lichtenegger</div>
-          <div class="team-role">Engineer · Founder · Project Lead</div>
-          <div class="team-tagline">„Hat den Coworking Space. Hat gefragt. Und nicht nein bekommen.“</div>
+          <div class="team-role"><span class="i18n-de">Engineer · Founder · Project Lead</span><span class="i18n-en">Engineer · Founder · Project Lead</span></div>
+          <div class="team-tagline"><span class="i18n-de">„Hat den Coworking Space. Hat gefragt. Und nicht nein bekommen.“</span><span class="i18n-en">"Had the coworking space. Asked the question. Didn't take no for an answer."</span></div>
           <a class="team-linkedin" href="https://www.linkedin.com/in/vicki-lichtenegger-195032226/">LinkedIn →</a>
         </div>
       </div>
@@ -379,11 +472,11 @@
 
   <!-- ================= CLOSING ================= -->
   <section class="closing" id="contact">
-    <h2>Das war der Beweis. Euer Sprint ist der nächste.</h2>
-    <p>Zurück zur Hauptseite oder direkt einen ersten Termin sichern.</p>
+    <h2><span class="i18n-de">Das war der Beweis. Euer Sprint ist der nächste.</span><span class="i18n-en">That was the proof. Your sprint is next.</span></h2>
+    <p><span class="i18n-de">Zurück zur Hauptseite oder direkt einen ersten Termin sichern.</span><span class="i18n-en">Head back to the homepage or book a first slot right away.</span></p>
     <div class="cta-row">
       <a href="kontakt.html" class="cta-primary">Book a Call →</a>
-      <a href="index.html" class="cta-secondary">← Zurück zu tobedefined.ai</a>
+      <a href="index.html" class="cta-secondary"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
     </div>
   </section>
 
@@ -391,27 +484,44 @@
     <div class="wrap footer-inner">
       <div class="footer-brand">TOBEDEFINED<span>.AI</span></div>
       <div class="footer-links">
-        <a href="impressum.html">Impressum</a>
-        <a href="privacy.html">Datenschutz</a>
+        <a href="impressum.html"><span class="i18n-de">Impressum</span><span class="i18n-en">Imprint</span></a>
+        <a href="privacy.html"><span class="i18n-de">Datenschutz</span><span class="i18n-en">Privacy</span></a>
       </div>
     </div>
   </footer>
 
 <script>
-  const galleryImages = [
-    { src: 'sdc-01.jpg', caption: 'Erster Site-Besuch — Bundeswehr Innovation Center' },
-    { src: 'sdc-02.jpg', caption: 'Bundeswehr Innovation Center — Blick in die Halle' },
-    { src: 'sdc-03.jpg', caption: 'Erste Prototypen — Objekterkennung im Testaufbau' },
-    { src: 'sdc-04.jpg', caption: 'Hardware-Test — erste Sensorik' },
-    { src: 'sdc-05.jpg', caption: 'Die Flotte: ToBe 4 & ToBe 5, einsatzbereit' },
-    { src: 'sdc-06.jpg', caption: 'Erste Flugtests in der Halle' },
-    { src: 'sdc-07.jpg', caption: 'Endspurt vor dem Finale — Debugging vor Ort' },
-    { src: 'sdc-08.jpg', caption: 'Angekommen — Drone Pavilion, ILA Berlin 2026' },
-    { src: 'sdc-09.jpg', caption: 'Testbereich beim Finale — MBDA Swarm Drone Challenge' },
-    { src: 'sdc-10.jpg', caption: 'Drohnen im Einsatz — Finaltag' },
-    { src: 'sdc-11.jpg', caption: 'Live beim Finale — volle Aufmerksamkeit' },
-    { src: 'sdc-12.jpg', caption: 'Nach dem Finale — die Flotte, vollständig' }
-  ];
+  const GALLERY_T = {
+    de: [
+      'Erster Site-Besuch — Bundeswehr Innovation Center',
+      'Bundeswehr Innovation Center — Blick in die Halle',
+      'Erste Prototypen — Objekterkennung im Testaufbau',
+      'Hardware-Test — erste Sensorik',
+      'Die Flotte: ToBe 4 & ToBe 5, einsatzbereit',
+      'Erste Flugtests in der Halle',
+      'Endspurt vor dem Finale — Debugging vor Ort',
+      'Angekommen — Drone Pavilion, ILA Berlin 2026',
+      'Testbereich beim Finale — MBDA Swarm Drone Challenge',
+      'Drohnen im Einsatz — Finaltag',
+      'Live beim Finale — volle Aufmerksamkeit',
+      'Nach dem Finale — die Flotte, vollständig'
+    ],
+    en: [
+      'First site visit — Bundeswehr Innovation Center',
+      'Bundeswehr Innovation Center — view of the hangar',
+      'First prototypes — object detection in the test rig',
+      'Hardware test — first sensors',
+      'The fleet: ToBe 4 & ToBe 5, mission-ready',
+      'First flight tests in the hangar',
+      'Final stretch before the final — debugging on site',
+      'Arrived — Drone Pavilion, ILA Berlin 2026',
+      'Test area at the final — MBDA Swarm Drone Challenge',
+      'Drones in action — final day',
+      'Live at the final — full attention',
+      'After the final — the fleet, complete'
+    ]
+  };
+  const galleryFiles = ['sdc-01.jpg','sdc-02.jpg','sdc-03.jpg','sdc-04.jpg','sdc-05.jpg','sdc-06.jpg','sdc-07.jpg','sdc-08.jpg','sdc-09.jpg','sdc-10.jpg','sdc-11.jpg','sdc-12.jpg'];
 
   const track = document.getElementById('carouselTrack');
   const caption = document.getElementById('carouselCaption');
@@ -419,16 +529,17 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let current = 0;
 
-  galleryImages.forEach((g, i) => {
+  galleryFiles.forEach((src, i) => {
     const item = document.createElement('div');
     item.className = 'carousel-item';
-    item.innerHTML = `<img src="${g.src}" alt="${g.caption}" loading="lazy">`;
+    item.innerHTML = `<img src="${src}" alt="${GALLERY_T.de[i]}" loading="lazy">`;
     item.addEventListener('click', () => { current = i; render(); });
     track.appendChild(item);
   });
   const items = track.querySelectorAll('.carousel-item');
 
   function render(){
+    const lang = currentLang();
     const n = items.length;
     items.forEach((item, i) => {
       let offset = i - current;
@@ -444,7 +555,7 @@
       item.style.pointerEvents = abs > 3 ? 'none' : 'auto';
       if (reduceMotion) item.style.transition = 'none';
     });
-    caption.textContent = galleryImages[current].caption;
+    caption.textContent = GALLERY_T[lang][current];
     counter.textContent = `${current + 1} / ${items.length}`;
   }
 
@@ -473,7 +584,43 @@
     touchStartX = null;
   });
 
+  /* ============== LANGUAGE TOGGLE ============== */
+  const PAGE_TITLES = {
+    de: 'Die Geschichte — ToBeDefined.ai',
+    en: 'The Story — ToBeDefined.ai'
+  };
+
+  function currentLang(){
+    return document.documentElement.getAttribute('data-lang') || 'de';
+  }
+
+  function applyPlaceholders(lang){
+    document.querySelectorAll('[data-ph-de]').forEach(el=>{
+      el.placeholder = lang === 'de' ? el.dataset.phDe : el.dataset.phEn;
+    });
+    document.querySelectorAll('[data-aria-de]').forEach(el=>{
+      el.setAttribute('aria-label', lang === 'de' ? el.dataset.ariaDe : el.dataset.ariaEn);
+    });
+  }
+
+  function setLang(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+    try{ localStorage.setItem('tbd_lang', lang); }catch(e){}
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.setLang === lang);
+    });
+    document.title = PAGE_TITLES[lang];
+    applyPlaceholders(lang);
+    if(caption && GALLERY_T[lang]) caption.textContent = GALLERY_T[lang][current];
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> setLang(btn.dataset.setLang));
+  });
+
   render();
+  setLang(currentLang());
 </script>
 
 </body>
