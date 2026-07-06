@@ -214,6 +214,21 @@
   .footer-brand span{color:var(--signal);}
   .footer-links{display:flex;gap:24px;font-family:var(--sans);font-size:13px;color:var(--dim);}
   .footer-links a:hover{color:var(--paper);}
+
+  /* contact form */
+  .contact-form{margin:0 auto;max-width:440px;text-align:left;display:flex;flex-direction:column;gap:14px;}
+  .form-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .form-row input{flex:1;min-width:160px;}
+  .contact-form input, .contact-form textarea{
+    background:var(--panel);border:1px solid var(--signal-dim);border-radius:2px;
+    color:var(--paper);font-family:var(--sans);font-size:14px;padding:12px 14px;
+    width:100%;resize:vertical;
+  }
+  .contact-form input::placeholder, .contact-form textarea::placeholder{color:var(--dim-2);}
+  .contact-form input:focus, .contact-form textarea:focus{outline:none;border-color:var(--signal);}
+  .contact-form button{align-self:flex-start;border:none;cursor:pointer;}
+  .form-note{font-family:var(--mono);font-size:11px;color:var(--dim-2);margin-top:4px;}
+  .form-success{display:none;font-family:var(--sans);font-size:14px;color:var(--signal);margin-top:10px;}
 </style>
 </head>
 <body>
@@ -228,7 +243,7 @@
     <div class="navlinks">
       <a href="#klartext">Klartext</a>
       <a href="#how-we-work">Wie wir arbeiten</a>
-      <a href="#fit">Passt das?</a>
+      <a href="story.html">Die Story</a>
     </div>
     <a href="#contact" class="nav-cta">Book a Call</a>
   </nav>
@@ -468,9 +483,38 @@
   <!-- ================= CLOSING ================= -->
   <section class="closing" id="contact">
     <h2>Bereit für den Beweis?</h2>
-    <p>Lasst uns in einem ersten Gespräch klären, ob sich der Weg lohnt.</p>
-    <div class="cta-row"><a href="#" class="cta-primary">Book a Call →</a></div>
+    <p>Kurz Kontakt aufnehmen — wir melden uns zeitnah für ein erstes Gespräch.</p>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
+        <input type="text" id="cName" placeholder="Name" required>
+        <input type="email" id="cEmail" placeholder="E-Mail" required>
+      </div>
+      <input type="text" id="cCompany" placeholder="Firma (optional)">
+      <textarea id="cMessage" rows="4" placeholder="Worum geht's? Kurz reicht." required></textarea>
+      <button type="submit" class="cta-primary">Nachricht senden →</button>
+      <div class="form-note">Öffnet euer E-Mail-Programm mit vorausgefüllter Nachricht an hello@tobedefined.ai.</div>
+      <div class="form-success" id="formSuccess">Danke! Euer E-Mail-Programm sollte sich gerade öffnen.</div>
+    </form>
   </section>
+
+<script>
+  const contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    contactForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('cName').value.trim();
+      const email = document.getElementById('cEmail').value.trim();
+      const company = document.getElementById('cCompany').value.trim();
+      const message = document.getElementById('cMessage').value.trim();
+      const subject = encodeURIComponent(`Anfrage von ${name}${company ? ' · ' + company : ''}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\nE-Mail: ${email}\nFirma: ${company || '-'}\n\nNachricht:\n${message}`
+      );
+      window.location.href = `mailto:hello@tobedefined.ai?subject=${subject}&body=${body}`;
+      document.getElementById('formSuccess').style.display = 'block';
+    });
+  }
+</script>
 
 <script>
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
