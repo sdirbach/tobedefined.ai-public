@@ -90,6 +90,8 @@
   }
   .form-note{font-family:var(--mono);font-size:11px;color:var(--dim-2);}
   .form-success{display:none;font-family:var(--sans);font-size:14.5px;color:var(--signal);margin-top:4px;}
+  .form-error{display:none;font-family:var(--sans);font-size:14.5px;color:#ff6b6b;margin-top:4px;}
+  .lab-submit:disabled, .cta-primary:disabled{opacity:0.5;cursor:default;}
 
   .kontakt-footer{padding:56px 28px 40px;text-align:center;}
 
@@ -103,7 +105,7 @@
   </div>
 
   <nav>
-    <div class="logo">TOBEDEFINED<span>.AI</span></div>
+    <a href="index.html" class="logo">TOBEDEFINED<span>.AI</span></a>
     <a href="index.html" class="back-link">← Zurück zu tobedefined.ai</a>
   </nav>
 
@@ -148,8 +150,9 @@
           <textarea id="kQuestion" rows="4" placeholder="Eure Frage — kurz reicht."></textarea>
         </div>
         <button type="submit" class="cta-primary" id="kSubmit">Absenden →</button>
-        <div class="form-note">Öffnet euer E-Mail-Programm mit vorausgefüllter Nachricht an hello@tobedefined.ai.</div>
-        <div class="form-success" id="kSuccess">Danke! Euer E-Mail-Programm sollte sich gerade öffnen.</div>
+        <div class="form-note">Wird direkt an uns gesendet — kein E-Mail-Programm nötig.</div>
+        <div class="form-success" id="kSuccess">Danke! Eure Nachricht ist bei uns angekommen — wir melden uns zeitnah.</div>
+        <div class="form-error" id="kError">Das hat gerade nicht geklappt. Wir öffnen stattdessen euer E-Mail-Programm.</div>
       </div>
     </form>
   </section>
@@ -185,7 +188,10 @@
     });
   });
 
-  document.getElementById('kontaktForm').addEventListener('submit', (e)=>{
+  // Formspree-Endpoint hier eintragen, sobald vorhanden — Format: https://formspree.io/f/xxxxxxxx
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvdydyo';
+
+  document.getElementById('kontaktForm').addEventListener('submit', async (e)=>{
     e.preventDefault();
     const selected = document.querySelector('input[name="mode"]:checked');
     if(!selected) return;
@@ -200,15 +206,42 @@
     const email = document.getElementById('kEmail').value.trim();
     const question = questionInput.value.trim();
 
-    const subject = encodeURIComponent(`${modeLabel} — Anfrage von ${name}`);
-    let bodyText = `Name: ${name}\nE-Mail: ${email}\nGewünscht: ${modeLabel}`;
-    if(selected.value === 'question' && question){
-      bodyText += `\n\nFrage:\n${question}`;
-    }
-    const body = encodeURIComponent(bodyText);
+    const successEl = document.getElementById('kSuccess');
+    const errorEl = document.getElementById('kError');
+    successEl.style.display = 'none';
+    errorEl.style.display = 'none';
+    submitBtn.disabled = true;
 
-    window.location.href = `mailto:hello@tobedefined.ai?subject=${subject}&body=${body}`;
-    document.getElementById('kSuccess').style.display = 'block';
+    const payload = { name, email, anliegen: modeLabel };
+    if(selected.value === 'question' && question) payload.frage = question;
+
+    try{
+      if(FORMSPREE_ENDPOINT.includes('YOUR_FORM_ID')) throw new Error('no-endpoint-configured');
+
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if(res.ok){
+        successEl.style.display = 'block';
+        document.getElementById('kontaktForm').reset();
+        formFields.classList.remove('show');
+        questionField.classList.remove('show');
+      } else {
+        throw new Error('formspree-error');
+      }
+    } catch(err){
+      // Rückfallebene: Mailto, falls Formspree (noch) nicht konfiguriert ist oder ausfällt
+      errorEl.style.display = 'block';
+      const subject = encodeURIComponent(`${modeLabel} — Anfrage von ${name}`);
+      let bodyText = `Name: ${name}\nE-Mail: ${email}\nGewünscht: ${modeLabel}`;
+      if(selected.value === 'question' && question) bodyText += `\n\nFrage:\n${question}`;
+      window.location.href = `mailto:hello@tobedefined.ai?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 </script>
 
