@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-lang="de">
 <head>
 <meta charset="UTF-8">
+<script>
+  (function(){
+    try{
+      var l = localStorage.getItem('tbd_lang');
+      if(l === 'de' || l === 'en'){
+        document.documentElement.setAttribute('data-lang', l);
+        document.documentElement.lang = l;
+      }
+    }catch(e){}
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ToBeDefined.ai — Euer Software-Labor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,6 +53,10 @@
   section{position:relative;z-index:2;}
   .section-top{border-top:1px solid var(--signal-dim);padding-top:56px;}
 
+  /* i18n toggle — hide whichever language isn't active */
+  [data-lang="de"] .i18n-en{display:none !important;}
+  [data-lang="en"] .i18n-de{display:none !important;}
+
   /* readout + nav */
   .readout{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:11px 28px;border-bottom:1px solid var(--signal-dim);font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--dim);flex-wrap:wrap;position:relative;z-index:2;}
   .readout .status{display:flex;align-items:center;gap:9px;}
@@ -56,6 +71,11 @@
   @media(min-width:960px){ .navlinks{display:flex;} }
   .nav-cta{font-family:var(--sans);font-size:13px;font-weight:600;border:1px solid var(--signal-dim);padding:9px 16px;border-radius:2px;transition:border-color .15s ease, background .15s ease;}
   .nav-cta:hover{border-color:var(--signal); background:rgba(0,255,0,0.06);}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .lang-switch{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:var(--dim-2);}
+  .lang-btn{background:none;border:none;padding:0;margin:0;font:inherit;font-family:var(--mono);font-size:12px;color:var(--dim-2);cursor:pointer;}
+  .lang-btn.active{color:var(--signal);font-weight:700;}
+  .lang-btn:hover{color:var(--paper);}
 
   /* hero */
   .hero{padding:76px 28px 56px;max-width:1180px;margin:0 auto;}
@@ -153,7 +173,7 @@
   .trust-note{flex:1;min-width:260px;padding:16px 20px;border:1px solid var(--signal-faint);border-radius:3px;font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--dim-2);}
   .trust-note b{color:var(--dim);font-weight:600;}
 
-  /* warum jetzt — quiet white break, no diagonal, no bars-flourish overload */
+  /* why now — quiet white break, no diagonal, no bars-flourish overload */
   .whynow{padding:76px 0;}
   .whynow.inverted{background:var(--paper);}
   .whynow.inverted .eyebrow{color:#0a8a0a;}
@@ -214,58 +234,66 @@
   .footer-brand span{color:var(--signal);}
   .footer-links{display:flex;gap:24px;font-family:var(--sans);font-size:13px;color:var(--dim);}
   .footer-links a:hover{color:var(--paper);}
-
-  /* contact form */
-  .contact-form{margin:0 auto;max-width:440px;text-align:left;display:flex;flex-direction:column;gap:14px;}
-  .form-row{display:flex;gap:14px;flex-wrap:wrap;}
-  .form-row input{flex:1;min-width:160px;}
-  .contact-form input, .contact-form textarea{
-    background:var(--panel);border:1px solid var(--signal-dim);border-radius:2px;
-    color:var(--paper);font-family:var(--sans);font-size:14px;padding:12px 14px;
-    width:100%;resize:vertical;
-  }
-  .contact-form input::placeholder, .contact-form textarea::placeholder{color:var(--dim-2);}
-  .contact-form input:focus, .contact-form textarea:focus{outline:none;border-color:var(--signal);}
-  .contact-form button{align-self:flex-start;border:none;cursor:pointer;}
-  .form-note{font-family:var(--mono);font-size:11px;color:var(--dim-2);margin-top:4px;}
-  .form-success{display:none;font-family:var(--sans);font-size:14px;color:var(--signal);margin-top:10px;}
 </style>
 </head>
 <body>
 
   <div class="readout">
-    <div class="status"><span class="dot"></span> VERFÜGBAR FÜR NEUE PROJEKTE</div>
-    <div class="proof">SWARM DRONE CHALLENGE 2026 · 2. VON 22 TEAMS INTERNATIONAL</div>
+    <div class="status"><span class="dot"></span>
+      <span class="i18n-de">VERFÜGBAR FÜR NEUE PROJEKTE</span><span class="i18n-en">AVAILABLE FOR NEW PROJECTS</span>
+    </div>
+    <div class="proof">
+      <span class="i18n-de">SWARM DRONE CHALLENGE 2026 · 2. VON 22 TEAMS INTERNATIONAL</span>
+      <span class="i18n-en">SWARM DRONE CHALLENGE 2026 · 2ND OF 22 INTERNATIONAL TEAMS</span>
+    </div>
   </div>
 
   <nav>
-    <div class="logo">TOBEDEFINED<span>.AI</span></div>
+    <a href="index.html" class="logo">TOBEDEFINED<span>.AI</span></a>
     <div class="navlinks">
-      <a href="#klartext">Klartext</a>
-      <a href="#how-we-work">Wie wir arbeiten</a>
-      <a href="story.html">Die Story</a>
+      <a href="#klartext"><span class="i18n-de">Klartext</span><span class="i18n-en">Straight Talk</span></a>
+      <a href="#how-we-work"><span class="i18n-de">Wie wir arbeiten</span><span class="i18n-en">How We Work</span></a>
+      <a href="story.html"><span class="i18n-de">Die Story</span><span class="i18n-en">The Story</span></a>
     </div>
-    <a href="kontakt.html" class="nav-cta">Book a Call</a>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button type="button" class="lang-btn" data-set-lang="de">DE</button><span>/</span><button type="button" class="lang-btn" data-set-lang="en">EN</button>
+      </div>
+      <a href="kontakt.html" class="nav-cta">Book a Call</a>
+    </div>
   </nav>
 
   <!-- ================= HERO ================= -->
   <header class="hero">
     <div class="hero-grid">
     <div class="hero-inner">
-      <span class="eyebrow">SOFTWARE-LABOR · JEDE DOMÄNE</span>
-      <h1 class="headline">Euer Software-<span class="accent">Labor.</span></h1>
+      <span class="eyebrow">
+        <span class="i18n-de">SOFTWARE-LABOR · JEDE DOMÄNE</span><span class="i18n-en">SOFTWARE LAB · ANY DOMAIN</span>
+      </span>
+      <h1 class="headline">
+        <span class="i18n-de">Euer Software-<span class="accent">Labor.</span></span>
+        <span class="i18n-en">Your Software <span class="accent">Lab.</span></span>
+      </h1>
       <div class="headline-rule"></div>
       <p class="lede">
-        ToBeDefined.ai ist ein fünfköpfiges Softwareentwicklungs-Labor für schnelle Machbarkeit, MVPs und
-        KI-/Autonomie-Prototypen in komplexen technischen Domänen.
+        <span class="i18n-de">ToBeDefined.ai ist ein Softwareentwicklungs-Labor für schnelle Machbarkeit, MVPs und
+        KI-/Autonomie-Prototypen in komplexen technischen Domänen. Fünf Gründer als Kern — ein Netzwerk, das
+        mitwächst, wenn's der Sprint verlangt.</span>
+        <span class="i18n-en">ToBeDefined.ai is a software development lab for rapid feasibility studies,
+        MVPs, and AI/autonomy prototypes in complex technical domains. Five founders at the core — a network
+        that scales in when a sprint calls for it.</span>
       </p>
       <p class="lede" style="margin-top:14px;">
-        Nicht jede Idee braucht sofort ein Programm, ein Budgetjahr oder eine Ausschreibung.
-        <strong>Manchmal braucht sie zuerst einen belastbaren Nachweis.</strong>
+        <span class="i18n-de">Nicht jede Idee braucht sofort ein Programm, ein Budgetjahr oder eine Ausschreibung.
+        <strong>Manchmal braucht sie zuerst einen belastbaren Nachweis.</strong></span>
+        <span class="i18n-en">Not every idea needs a program, a budget cycle, or a tender right away.
+        <strong>Sometimes it just needs solid proof first.</strong></span>
       </p>
       <div class="cta-row">
         <a href="kontakt.html" class="cta-primary">Book a Call →</a>
-        <a href="#klartext" class="cta-secondary">Sechs Fragen, direkt beantwortet ↓</a>
+        <a href="#klartext" class="cta-secondary">
+          <span class="i18n-de">Sechs Fragen, direkt beantwortet ↓</span><span class="i18n-en">Six questions, answered straight ↓</span>
+        </a>
       </div>
     </div>
     <div>
@@ -280,51 +308,75 @@
     <div class="megaproof-row">
       <div class="megaproof-item">
         <div class="mega-num">14</div>
-        <div class="mega-label">WOCHEN VON NULL DROHNENERFAHRUNG ZUM INTERNATIONALEN FINALE</div>
+        <div class="mega-label">
+          <span class="i18n-de">WOCHEN VON NULL DROHNENERFAHRUNG ZUM INTERNATIONALEN FINALE</span>
+          <span class="i18n-en">WEEKS FROM ZERO DRONE EXPERIENCE TO THE INTERNATIONAL FINAL</span>
+        </div>
       </div>
       <div class="megaproof-divider"></div>
       <div class="megaproof-item">
-        <div class="mega-num accent">2.</div>
-        <div class="mega-label">PLATZ VON 22 TEAMS AUS 11 LÄNDERN · BESTES DEUTSCHES TEAM — SWARM DRONE CHALLENGE, ILA BERLIN 2026</div>
+        <div class="mega-num accent"><span class="i18n-de">2.</span><span class="i18n-en">2nd</span></div>
+        <div class="mega-label">
+          <span class="i18n-de">PLATZ VON 22 TEAMS AUS 11 LÄNDERN · BESTES DEUTSCHES TEAM — SWARM DRONE CHALLENGE, ILA BERLIN 2026</span>
+          <span class="i18n-en">PLACE OUT OF 22 TEAMS FROM 11 COUNTRIES · BEST GERMAN TEAM — SWARM DRONE CHALLENGE, ILA BERLIN 2026</span>
+        </div>
       </div>
     </div>
     <div style="text-align:center;margin-top:32px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap;">
-      <a href="story.html" class="cta-primary">Volle Story lesen →</a>
-      <a href="story.html#team" class="cta-primary" style="background:transparent;color:var(--signal);border:1px solid var(--signal);">Zum Team →</a>
+      <a href="story.html" class="cta-primary"><span class="i18n-de">Volle Story lesen →</span><span class="i18n-en">Read the full story →</span></a>
+      <a href="story.html#team" class="cta-primary" style="background:transparent;color:var(--signal);border:1px solid var(--signal);"><span class="i18n-de">Zum Team →</span><span class="i18n-en">Meet the team →</span></a>
     </div>
   </section>
 
   <!-- ================= KLARTEXT (six precise answers) ================= -->
   <section class="klartext" id="klartext">
     <div class="wrap section-top">
-      <span class="eyebrow">KLARTEXT</span>
-      <h2 class="section-h2">Kurz beantwortet.</h2>
-      <p class="klartext-intro">Keine Umwege.</p>
+      <span class="eyebrow"><span class="i18n-de">KLARTEXT</span><span class="i18n-en">STRAIGHT TALK</span></span>
+      <h2 class="section-h2"><span class="i18n-de">Kurz beantwortet.</span><span class="i18n-en">Straight answers.</span></h2>
+      <p class="klartext-intro"><span class="i18n-de">Keine Umwege.</span><span class="i18n-en">No detours.</span></p>
 
       <div class="qa-list">
         <div class="qa-row">
-          <div class="qa-q">WAS?</div>
-          <div class="qa-a">Prototypen für autonome Systeme, Computer Vision, KI-Integration — zuletzt ein komplettes Koordinationssystem für Drohnenschwärme.</div>
+          <div class="qa-q"><span class="i18n-de">WAS?</span><span class="i18n-en">WHAT?</span></div>
+          <div class="qa-a">
+            <span class="i18n-de">Prototypen für autonome Systeme, Computer Vision, KI-Integration — zuletzt ein komplettes Koordinationssystem für Drohnenschwärme.</span>
+            <span class="i18n-en">Prototypes for autonomous systems, computer vision, AI integration — most recently a complete coordination system for drone swarms.</span>
+          </div>
         </div>
         <div class="qa-row">
-          <div class="qa-q">FÜR WEN?</div>
-          <div class="qa-a">Unternehmen im technischen Neuland: Rüstung, Luftfahrt, Industrie.</div>
+          <div class="qa-q"><span class="i18n-de">FÜR WEN?</span><span class="i18n-en">FOR WHOM?</span></div>
+          <div class="qa-a">
+            <span class="i18n-de">Unternehmen im technischen Neuland: Rüstung, Luftfahrt, Industrie.</span>
+            <span class="i18n-en">Companies in technical uncharted territory: defence, aerospace, industry.</span>
+          </div>
         </div>
         <div class="qa-row">
-          <div class="qa-q">WANN?</div>
-          <div class="qa-a">Wenn ihr eine Idee habt, aber keinen Beweis — vor Budget, Programm oder Ausschreibung.</div>
+          <div class="qa-q"><span class="i18n-de">WANN?</span><span class="i18n-en">WHEN?</span></div>
+          <div class="qa-a">
+            <span class="i18n-de">Wenn ihr eine Idee habt, aber keinen Beweis — vor Budget, Programm oder Ausschreibung.</span>
+            <span class="i18n-en">When you have an idea but no proof — before budget, program, or tender.</span>
+          </div>
         </div>
         <div class="qa-row">
-          <div class="qa-q">NACH 2 WOCHEN?</div>
-          <div class="qa-a">Ein lauffähiger Prototyp. Und eine ehrliche Antwort: weitermachen oder nicht.</div>
+          <div class="qa-q"><span class="i18n-de">NACH 2 WOCHEN?</span><span class="i18n-en">AFTER 2 WEEKS?</span></div>
+          <div class="qa-a">
+            <span class="i18n-de">Ein lauffähiger Prototyp. Und eine ehrliche Antwort: weitermachen oder nicht.</span>
+            <span class="i18n-en">A working prototype. And an honest answer: continue or not.</span>
+          </div>
         </div>
         <div class="qa-row">
-          <div class="qa-q">KOSTEN?</div>
-          <div class="qa-a">Richtet sich nach dem gewählten Tempo. Fixer erster Baustein: ein 2-Wochen-Sprint nach dem Discovery-Workshop — keine langfristige Bindung danach.</div>
+          <div class="qa-q"><span class="i18n-de">KOSTEN?</span><span class="i18n-en">COST?</span></div>
+          <div class="qa-a">
+            <span class="i18n-de">Richtet sich nach dem gewählten Tempo. Fixer erster Baustein: ein 2-Wochen-Sprint nach dem Discovery-Workshop — keine langfristige Bindung danach.</span>
+            <span class="i18n-en">Depends on the pace you choose. Fixed first building block: a 2-week sprint after the discovery workshop — no long-term commitment after that.</span>
+          </div>
         </div>
         <div class="qa-row">
-          <div class="qa-q">GRENZE?</div>
-          <div class="qa-a">Beim pilotfähigen Prototyp. Danach übergeben wir an unseren Partner — spezialisiert auf DSGVO, Datensicherheit und Skalierung.</div>
+          <div class="qa-q"><span class="i18n-de">GRENZE?</span><span class="i18n-en">LIMIT?</span></div>
+          <div class="qa-a">
+            <span class="i18n-de">Beim pilotfähigen Prototyp. Danach übergeben wir an unseren Partner — spezialisiert auf DSGVO, Datensicherheit und Skalierung.</span>
+            <span class="i18n-en">At the pilot-ready prototype. After that, we hand off to our partner — specialized in GDPR, data security, and scaling.</span>
+          </div>
         </div>
       </div>
     </div>
@@ -333,9 +385,12 @@
   <!-- ================= LAB DEMO ================= -->
   <section class="labdemo" id="lab-demo">
     <div class="wrap section-top">
-      <span class="eyebrow">TESTET ES SELBST</span>
-      <h2 class="section-h2">Nennt eure Domäne — wir sagen ehrlich, ob ein Sprint Sinn ergibt.</h2>
-      <p class="labdemo-intro">Kein Verkaufsgespräch, keine Anmeldung.</p>
+      <span class="eyebrow"><span class="i18n-de">TESTET ES SELBST</span><span class="i18n-en">TRY IT YOURSELF</span></span>
+      <h2 class="section-h2">
+        <span class="i18n-de">Nennt eure Domäne — wir sagen ehrlich, ob ein Sprint Sinn ergibt.</span>
+        <span class="i18n-en">Name your domain — we'll tell you honestly if a sprint makes sense.</span>
+      </h2>
+      <p class="labdemo-intro"><span class="i18n-de">Kein Verkaufsgespräch, keine Anmeldung.</span><span class="i18n-en">No sales pitch, no sign-up.</span></p>
 
       <div class="lab-console">
         <div class="lab-console-bar">
@@ -343,9 +398,10 @@
         </div>
         <div class="lab-console-body">
           <form class="lab-form" id="labForm">
-            <span class="prompt-sym">Eure Domäne:</span>
-            <input type="text" id="labInput" maxlength="40" placeholder="z. B. Logistik, Robotik, Fintech…" autocomplete="off">
-            <button type="submit" class="lab-submit" id="labSubmit">Senden →</button>
+            <span class="prompt-sym"><span class="i18n-de">Eure Domäne:</span><span class="i18n-en">Your domain:</span></span>
+            <input type="text" id="labInput" maxlength="40" autocomplete="off"
+              data-ph-de="z. B. Logistik, Robotik, Fintech…" data-ph-en="e.g. logistics, robotics, fintech…">
+            <button type="submit" class="lab-submit" id="labSubmit"><span class="i18n-de">Senden →</span><span class="i18n-en">Send →</span></button>
           </form>
           <div class="lab-output" id="labOutput"></div>
         </div>
@@ -370,54 +426,72 @@
   <!-- ================= WIE WIR ARBEITEN ================= -->
   <section class="how" id="how-we-work">
     <div class="wrap section-top">
-      <span class="eyebrow">§01 · WIE WIR ARBEITEN</span>
-      <h2 class="section-h2">Vier Schritte. Kein Blindflug.</h2>
+      <span class="eyebrow"><span class="i18n-de">§01 · WIE WIR ARBEITEN</span><span class="i18n-en">§01 · HOW WE WORK</span></span>
+      <h2 class="section-h2"><span class="i18n-de">Vier Schritte. Kein Blindflug.</span><span class="i18n-en">Four steps. No flying blind.</span></h2>
       <p class="how-intro">
-        Kein großes Commitment ins Ungewisse. Kleine, klar abgegrenzte Schritte — nach jeder Phase entscheidet ihr
-        neu, ob's weitergeht.
+        <span class="i18n-de">Kein großes Commitment ins Ungewisse. Kleine, klar abgegrenzte Schritte — nach jeder Phase entscheidet ihr
+        neu, ob's weitergeht.</span>
+        <span class="i18n-en">No big commitment into the unknown. Small, clearly defined steps — after every phase, you decide
+        fresh whether to continue.</span>
       </p>
       <div class="steps">
         <div class="step">
           <div class="step-marker">0</div>
           <div>
             <div class="step-title">Discovery</div>
-            <div class="step-desc">Gemeinsames Zielbild, Use Cases sammeln und priorisieren, Scope für den Sprint festlegen.</div>
-            <div class="step-result">→ Klarer Scope + grobe Aufwandsschätzung</div>
+            <div class="step-desc">
+              <span class="i18n-de">Gemeinsames Zielbild, Use Cases sammeln und priorisieren, Scope für den Sprint festlegen.</span>
+              <span class="i18n-en">Shared vision, gathering and prioritizing use cases, defining scope for the sprint.</span>
+            </div>
+            <div class="step-result"><span class="i18n-de">→ Klarer Scope + grobe Aufwandsschätzung</span><span class="i18n-en">→ Clear scope + rough effort estimate</span></div>
           </div>
         </div>
         <div class="step">
           <div class="step-marker">1</div>
           <div>
-            <div class="step-title">Sprint — 2 Wochen, fix</div>
-            <div class="step-desc">Erster funktionierender Prototyp — auf echten Daten oder Prozessen.</div>
-            <div class="step-result">→ Funktionierender Nachweis + verbindliches Angebot für den nächsten Schritt</div>
+            <div class="step-title"><span class="i18n-de">Sprint — 2 Wochen, fix</span><span class="i18n-en">Sprint — 2 weeks, fixed</span></div>
+            <div class="step-desc">
+              <span class="i18n-de">Erster funktionierender Prototyp — auf echten Daten oder Prozessen.</span>
+              <span class="i18n-en">First working prototype — on real data or processes.</span>
+            </div>
+            <div class="step-result"><span class="i18n-de">→ Funktionierender Nachweis + verbindliches Angebot für den nächsten Schritt</span><span class="i18n-en">→ Working proof + binding offer for the next step</span></div>
           </div>
         </div>
         <div class="step">
           <div class="step-marker gate">G</div>
           <div>
-            <div class="step-title">Go / Stopp</div>
-            <div class="step-desc">Ihr entscheidet auf Basis von etwas Echtem — nicht auf Basis eines Pitches.</div>
-            <div class="step-result">→ Volle Kontrolle, keine automatische Verlängerung</div>
+            <div class="step-title"><span class="i18n-de">Go / Stopp</span><span class="i18n-en">Go / Stop</span></div>
+            <div class="step-desc">
+              <span class="i18n-de">Ihr entscheidet auf Basis von etwas Echtem — nicht auf Basis eines Pitches.</span>
+              <span class="i18n-en">You decide based on something real — not on a pitch.</span>
+            </div>
+            <div class="step-result"><span class="i18n-de">→ Volle Kontrolle, keine automatische Verlängerung</span><span class="i18n-en">→ Full control, no automatic extension</span></div>
           </div>
         </div>
         <div class="step">
           <div class="step-marker">2</div>
           <div>
             <div class="step-title">MVP</div>
-            <div class="step-desc">Vollständiger, pilotfähiger Build der priorisierten Use Cases.</div>
-            <div class="step-result">→ Pilotfähiges Produkt, Übergabe</div>
+            <div class="step-desc">
+              <span class="i18n-de">Vollständiger, pilotfähiger Build der priorisierten Use Cases.</span>
+              <span class="i18n-en">Full, pilot-ready build of the prioritized use cases.</span>
+            </div>
+            <div class="step-result"><span class="i18n-de">→ Pilotfähiges Produkt, Übergabe</span><span class="i18n-en">→ Pilot-ready product, handover</span></div>
           </div>
         </div>
       </div>
       <div class="trust-grid">
         <div class="trust-note">
-          <b>Datenschutz &amp; Zertifizierung</b> sind nicht unsere Kernkompetenz — und wir tun nicht so, als wären
-          sie es. Wenn's gebraucht wird, übernimmt das unser zertifizierter Partner.
+          <span class="i18n-de"><b>Datenschutz &amp; Zertifizierung</b> sind nicht unsere Kernkompetenz — und wir tun nicht so, als wären
+          sie es. Wenn's gebraucht wird, übernimmt das unser zertifizierter Partner.</span>
+          <span class="i18n-en"><b>Data protection &amp; certification</b> aren't our core competency — and we don't pretend they are.
+          When it's needed, our certified partner takes over.</span>
         </div>
         <div class="trust-note">
-          <b>Vertraulichkeit ist Standard</b>, nicht Verhandlungssache: NDA vor dem ersten Gespräch, Referenzen nur
-          mit eurer Freigabe — auf Wunsch anonymisiert.
+          <span class="i18n-de"><b>Vertraulichkeit ist Standard</b>, nicht Verhandlungssache: NDA vor dem ersten Gespräch, Referenzen nur
+          mit eurer Freigabe — auf Wunsch anonymisiert.</span>
+          <span class="i18n-en"><b>Confidentiality is standard</b>, not negotiable: NDA before the first conversation, references only
+          with your approval — anonymized on request.</span>
         </div>
       </div>
     </div>
@@ -426,26 +500,30 @@
   <!-- ================= WARUM JETZT ================= -->
   <section class="whynow inverted" id="why-now">
     <div class="wrap section-top">
-      <span class="eyebrow">§02 · WARUM JETZT</span>
-      <h2 class="section-h2">Tempo ist die neue Währung.</h2>
+      <span class="eyebrow"><span class="i18n-de">§02 · WARUM JETZT</span><span class="i18n-en">§02 · WHY NOW</span></span>
+      <h2 class="section-h2"><span class="i18n-de">Tempo ist die neue Währung.</span><span class="i18n-en">Speed is the new currency.</span></h2>
       <p class="whynow-text">
-        Die Branche treibt ihr eigenes Tempo hoch: neue Innovationszentren, beschleunigte Vergabeverfahren,
-        Partnerschaften mit externen Teams — alles, um schneller von der Idee zum Nachweis zu kommen.
+        <span class="i18n-de">Die Branche treibt ihr eigenes Tempo hoch: neue Innovationszentren, beschleunigte Vergabeverfahren,
+        Partnerschaften mit externen Teams — alles, um schneller von der Idee zum Nachweis zu kommen.</span>
+        <span class="i18n-en">The industry is raising its own pace: new innovation centers, accelerated procurement processes,
+        partnerships with external teams — all to get from idea to proof faster.</span>
       </p>
       <p class="whynow-punch">
-        Wir sind kein Wettbewerber. Wir sind <span class="accent">das Tempo</span>, das ihr bei Bedarf dazuschalten
-        könnt — ohne eure Organisation umzubauen.
+        <span class="i18n-de">Wir sind kein Wettbewerber. Wir sind <span class="accent">das Tempo</span>, das ihr bei Bedarf dazuschalten
+        könnt — ohne eure Organisation umzubauen.</span>
+        <span class="i18n-en">We're not a competitor. We're <span class="accent">the speed</span> you can plug in when you need it —
+        without restructuring your organization.</span>
       </p>
       <div class="tempo">
         <div class="tempo-row">
-          <div class="tempo-label">TRADITIONELLER ZYKLUS</div>
+          <div class="tempo-label"><span class="i18n-de">TRADITIONELLER ZYKLUS</span><span class="i18n-en">TRADITIONAL CYCLE</span></div>
           <div class="tempo-track"><div class="tempo-fill" data-w="92"></div></div>
-          <div class="tempo-value">Monate</div>
+          <div class="tempo-value"><span class="i18n-de">Monate</span><span class="i18n-en">Months</span></div>
         </div>
         <div class="tempo-row">
-          <div class="tempo-label">UNSER SPRINT</div>
+          <div class="tempo-label"><span class="i18n-de">UNSER SPRINT</span><span class="i18n-en">OUR SPRINT</span></div>
           <div class="tempo-track"><div class="tempo-fill signal" data-w="12"></div></div>
-          <div class="tempo-value">2 Wochen</div>
+          <div class="tempo-value"><span class="i18n-de">2 Wochen</span><span class="i18n-en">2 weeks</span></div>
         </div>
       </div>
     </div>
@@ -454,26 +532,29 @@
   <!-- ================= PASST DAS ZU EUCH ================= -->
   <section class="fit" id="fit">
     <div class="wrap section-top">
-      <span class="eyebrow">§03 · PASST DAS ZU EUCH?</span>
-      <h2 class="section-h2">Bucht uns, wenn — nicht, wenn.</h2>
-      <p class="fit-intro">Damit sich niemand die Zeit verschwendet: hier ist die ehrliche Antwort.</p>
+      <span class="eyebrow"><span class="i18n-de">§03 · PASST DAS ZU EUCH?</span><span class="i18n-en">§03 · IS THIS A FIT?</span></span>
+      <h2 class="section-h2"><span class="i18n-de">Bucht uns, wenn — nicht, wenn.</span><span class="i18n-en">Book us when — not when.</span></h2>
+      <p class="fit-intro">
+        <span class="i18n-de">Damit sich niemand die Zeit verschwendet: hier ist die ehrliche Antwort.</span>
+        <span class="i18n-en">So nobody wastes their time: here's the honest answer.</span>
+      </p>
       <div class="fit-grid">
         <div class="fit-col yes">
-          <div class="fit-col-head">✓ BUCHT UNS, WENN</div>
+          <div class="fit-col-head"><span class="i18n-de">✓ BUCHT UNS, WENN</span><span class="i18n-en">✓ BOOK US WHEN</span></div>
           <ul class="fit-list">
-            <li><span class="mark">→</span> Ihr eine Idee habt, aber nicht wisst, ob sie technisch trägt</li>
-            <li><span class="mark">→</span> Ihr in Wochen einen Beweis braucht, nicht in Quartalen</li>
-            <li><span class="mark">→</span> Euer Team keine Kapazität hat, ohne dass die Roadmap leidet</li>
-            <li><span class="mark">→</span> Ihr in einer Domäne arbeitet, für die es keine Standardlösung gibt</li>
+            <li><span class="mark">→</span> <span class="i18n-de">Ihr eine Idee habt, aber nicht wisst, ob sie technisch trägt</span><span class="i18n-en">You have an idea but don't know if it holds up technically</span></li>
+            <li><span class="mark">→</span> <span class="i18n-de">Ihr in Wochen einen Beweis braucht, nicht in Quartalen</span><span class="i18n-en">You need proof in weeks, not quarters</span></li>
+            <li><span class="mark">→</span> <span class="i18n-de">Euer Team keine Kapazität hat, ohne dass die Roadmap leidet</span><span class="i18n-en">Your team has no spare capacity without the roadmap suffering</span></li>
+            <li><span class="mark">→</span> <span class="i18n-de">Ihr in einer Domäne arbeitet, für die es keine Standardlösung gibt</span><span class="i18n-en">You're working in a domain with no standard solution</span></li>
           </ul>
         </div>
         <div class="fit-col no">
-          <div class="fit-col-head">✕ NICHT, WENN</div>
+          <div class="fit-col-head"><span class="i18n-de">✕ NICHT, WENN</span><span class="i18n-en">✕ NOT WHEN</span></div>
           <ul class="fit-list">
-            <li><span class="mark">→</span> Ihr langfristige Inhouse-Erweiterung / Staff Augmentation sucht</li>
-            <li><span class="mark">→</span> Ihr eine zertifizierte, produktionsreife Lösung ab Tag 1 braucht</li>
-            <li><span class="mark">→</span> Datenschutz/Zertifizierung euer Kernbedarf ist</li>
-            <li><span class="mark">→</span> Ihr Strategiepapiere statt funktionierender Software sucht</li>
+            <li><span class="mark">→</span> <span class="i18n-de">Ihr langfristige Inhouse-Erweiterung / Staff Augmentation sucht</span><span class="i18n-en">You're looking for long-term in-house extension / staff augmentation</span></li>
+            <li><span class="mark">→</span> <span class="i18n-de">Ihr eine zertifizierte, produktionsreife Lösung ab Tag 1 braucht</span><span class="i18n-en">You need a certified, production-ready solution from day one</span></li>
+            <li><span class="mark">→</span> <span class="i18n-de">Datenschutz/Zertifizierung euer Kernbedarf ist</span><span class="i18n-en">Data protection/certification is your core need</span></li>
+            <li><span class="mark">→</span> <span class="i18n-de">Ihr Strategiepapiere statt funktionierender Software sucht</span><span class="i18n-en">You're looking for strategy papers instead of working software</span></li>
           </ul>
         </div>
       </div>
@@ -482,8 +563,8 @@
 
   <!-- ================= CLOSING ================= -->
   <section class="closing" id="contact">
-    <h2>Bereit für den Beweis?</h2>
-    <p>Ein Klick, kurze Auswahl, fertig.</p>
+    <h2><span class="i18n-de">Bereit für den Beweis?</span><span class="i18n-en">Ready for proof?</span></h2>
+    <p><span class="i18n-de">Ein Klick, kurze Auswahl, fertig.</span><span class="i18n-en">One click, a quick choice, done.</span></p>
     <div class="cta-row"><a href="kontakt.html" class="cta-primary">Book a Call →</a></div>
   </section>
 
@@ -515,6 +596,31 @@
   const labOutput = document.getElementById('labOutput');
   const labSubmit = document.getElementById('labSubmit');
 
+  const LAB_T = {
+    de: {
+      defaultDomain: 'eure Idee',
+      cta: 'Jetzt Termin sichern →',
+      lines: (domain) => [
+        {t:`> Domäne erkannt: ${domain}`, c:'hit'},
+        {t:'> Standardlösung verfügbar: NEIN', c:'dim'},
+        {t:'> Sprintfähig: JA', c:'hit'},
+        {t:'> Geschätzter erster Prototyp: 2 Wochen', c:'hit'},
+        {t:'> Nächster Schritt: Discovery-Gespräch', c:'dim'}
+      ]
+    },
+    en: {
+      defaultDomain: 'your idea',
+      cta: 'Book your slot now →',
+      lines: (domain) => [
+        {t:`> Domain detected: ${domain}`, c:'hit'},
+        {t:'> Standard solution available: NO', c:'dim'},
+        {t:'> Sprint-ready: YES', c:'hit'},
+        {t:'> Estimated first prototype: 2 weeks', c:'hit'},
+        {t:'> Next step: discovery call', c:'dim'}
+      ]
+    }
+  };
+
   async function typeLine(container, text, cls){
     const div = document.createElement('div');
     div.className = 'line' + (cls ? ' ' + cls : '');
@@ -528,18 +634,14 @@
 
   labForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
+    const lang = currentLang();
+    const t = LAB_T[lang];
     const raw = labInput.value.trim();
-    const domain = raw.length ? raw.slice(0,40) : 'eure Idee';
+    const domain = raw.length ? raw.slice(0,40) : t.defaultDomain;
     labSubmit.disabled = true;
     labOutput.innerHTML = '';
 
-    const sequence = [
-      {t:`> Domäne erkannt: ${domain}`, c:'hit'},
-      {t:'> Standardlösung verfügbar: NEIN', c:'dim'},
-      {t:'> Sprintfähig: JA', c:'hit'},
-      {t:'> Geschätzter erster Prototyp: 2 Wochen', c:'hit'},
-      {t:'> Nächster Schritt: Discovery-Gespräch', c:'dim'}
-    ];
+    const sequence = t.lines(domain);
 
     for(const line of sequence){
       await typeLine(labOutput, line.t, line.c);
@@ -553,21 +655,57 @@
     const cta = document.createElement('a');
     cta.href = 'kontakt.html';
     cta.className = 'cta-primary lab-cta';
-    cta.textContent = 'Jetzt Termin sichern →';
+    cta.textContent = t.cta;
     labOutput.appendChild(document.createElement('br'));
     labOutput.appendChild(cta);
     requestAnimationFrame(()=> cta.classList.add('show'));
 
     labSubmit.disabled = false;
   });
+
+  /* ============== LANGUAGE TOGGLE ============== */
+  const PAGE_TITLES = {
+    de: 'ToBeDefined.ai — Euer Software-Labor',
+    en: 'ToBeDefined.ai — Your Software Lab'
+  };
+
+  function currentLang(){
+    return document.documentElement.getAttribute('data-lang') || 'de';
+  }
+
+  function applyPlaceholders(lang){
+    document.querySelectorAll('[data-ph-de]').forEach(el=>{
+      el.placeholder = lang === 'de' ? el.dataset.phDe : el.dataset.phEn;
+    });
+    document.querySelectorAll('[data-aria-de]').forEach(el=>{
+      el.setAttribute('aria-label', lang === 'de' ? el.dataset.ariaDe : el.dataset.ariaEn);
+    });
+  }
+
+  function setLang(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+    try{ localStorage.setItem('tbd_lang', lang); }catch(e){}
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.setLang === lang);
+    });
+    document.title = PAGE_TITLES[lang];
+    applyPlaceholders(lang);
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> setLang(btn.dataset.setLang));
+  });
+
+  setLang(currentLang());
 </script>
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <div class="footer-brand">TOBEDEFINED<span>.AI</span></div>
       <div class="footer-links">
-        <a href="impressum.html">Impressum</a>
-        <a href="privacy.html">Datenschutz</a>
+        <a href="impressum.html"><span class="i18n-de">Impressum</span><span class="i18n-en">Imprint</span></a>
+        <a href="privacy.html"><span class="i18n-de">Datenschutz</span><span class="i18n-en">Privacy</span></a>
       </div>
     </div>
   </footer>
