@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Die Geschichte — ToBeDefined.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#000000;
+    --panel:#070a07;
+    --panel-2:#0c130c;
+    --paper:#ffffff;
+    --dim:rgba(255,255,255,0.62);
+    --dim-2:rgba(255,255,255,0.36);
+    --signal:#00ff00;
+    --signal-dim:rgba(0,255,0,0.18);
+    --signal-faint:rgba(0,255,0,0.035);
+    --display:'Space Grotesk', var(--sans);
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', system-ui, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--paper);font-family:var(--sans);position:relative;overflow-x:hidden;min-height:100vh;}
+  body::before{
+    content:'';position:fixed;inset:0;
+    background-image:linear-gradient(var(--signal-faint) 1px, transparent 1px),linear-gradient(90deg, var(--signal-faint) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 50% at 55% 5%, black 25%, transparent 80%);
+    mask-image:radial-gradient(ellipse 70% 50% at 55% 5%, black 25%, transparent 80%);
+    pointer-events:none;z-index:0;
+  }
+  a{color:inherit;text-decoration:none;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--signal);outline-offset:3px;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;color:var(--signal);display:block;margin-bottom:16px;}
+  .section-h2{font-family:var(--display);font-weight:700;font-size:clamp(24px, 3vw, 34px);line-height:1.2;letter-spacing:-0.01em;max-width:28ch;}
+  section{position:relative;z-index:2;}
+  .section-top{border-top:1px solid var(--signal-dim);padding-top:56px;}
+  p.body-text{margin-top:16px;max-width:66ch;font-size:15.5px;line-height:1.75;color:var(--dim);}
+  p.body-text strong{color:var(--paper);font-weight:600;}
+  p.body-text + p.body-text{margin-top:14px;}
+
+  /* readout + nav */
+  .readout{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:11px 28px;border-bottom:1px solid var(--signal-dim);font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--dim);flex-wrap:wrap;position:relative;z-index:2;}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal);animation:pulse 2.4s ease-in-out infinite;flex-shrink:0;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .readout .proof{color:var(--dim-2);}
+  nav{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:22px 28px;}
+  .logo{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:0.02em;}
+  .logo span{color:var(--signal);}
+  .back-link{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--dim);}
+  .back-link:hover{color:var(--paper);}
+
+  /* story hero */
+  .story-hero{padding:64px 28px 40px;max-width:1000px;margin:0 auto;}
+  .story-headline{font-family:var(--display);font-weight:700;font-size:clamp(32px, 5vw, 56px);line-height:1.1;letter-spacing:-0.015em;max-width:18ch;}
+  .story-headline .accent{color:var(--signal);}
+  .story-lede{margin-top:18px;max-width:58ch;font-size:16.5px;line-height:1.7;color:var(--dim);}
+
+  /* photo placeholders */
+  .photo-ph{
+    border:1px dashed var(--signal-dim);border-radius:3px;background:var(--panel);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:var(--mono);font-size:11px;letter-spacing:0.04em;color:var(--dim-2);
+    padding:20px;
+  }
+  .photo-ph.wide{aspect-ratio:16/7;margin-top:36px;max-width:1000px;}
+  .photo-ph.square{aspect-ratio:1/1;}
+
+  /* stats row */
+  .stats-row{display:flex;flex-wrap:wrap;gap:36px;margin:40px 0;padding:28px 0;border-top:1px solid var(--signal-faint);border-bottom:1px solid var(--signal-faint);}
+  .stat{min-width:110px;}
+  .stat-num{font-family:var(--display);font-weight:700;font-size:32px;color:var(--paper);}
+  .stat-cap{font-family:var(--mono);font-size:10.5px;letter-spacing:0.05em;color:var(--dim-2);margin-top:6px;text-transform:uppercase;line-height:1.4;}
+
+  .tech-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px;}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:0.02em;color:var(--dim);border:1px solid var(--signal-faint);padding:7px 12px;border-radius:2px;}
+
+  /* callout (Jaeger reframe) */
+  .callout{border-left:3px solid var(--signal);background:var(--panel);padding:26px 28px;margin:36px 0;border-radius:0 3px 3px 0;max-width:66ch;}
+  .callout-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:var(--dim-2);margin-bottom:12px;}
+  .callout-quote{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--paper);}
+  .callout-attrib{margin-top:14px;font-family:var(--mono);font-size:11.5px;color:var(--dim);}
+
+  /* voices */
+  .voice-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:30px;}
+  @media(min-width:700px){ .voice-grid{grid-template-columns:1fr 1fr;} }
+  .voice-card{border:1px solid var(--signal-dim);border-radius:3px;padding:22px 24px;background:var(--panel);}
+  .voice-quote{font-family:var(--sans);font-size:14.5px;line-height:1.6;color:var(--paper);}
+  .voice-attrib{margin-top:12px;font-family:var(--mono);font-size:10.5px;color:var(--dim-2);letter-spacing:0.03em;}
+
+  /* since-then list */
+  .since-list{margin-top:28px;display:flex;flex-direction:column;gap:16px;max-width:66ch;}
+  .since-item{display:flex;gap:14px;font-size:15px;line-height:1.6;color:var(--dim);}
+  .since-item .mark{color:var(--signal);font-family:var(--mono);flex-shrink:0;}
+  .since-item em{color:var(--dim-2);font-style:normal;}
+
+  .photo-caption{font-family:var(--mono);font-size:10.5px;letter-spacing:0.04em;color:var(--dim-2);margin-top:10px;text-align:center;}
+
+  /* team grid */
+  .team-photo{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:3px;border:1px solid var(--signal-dim);background:var(--panel);display:block;}
+  .team-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.05em;color:var(--dim-2);margin-top:10px;}
+  .team-tagline{font-family:var(--sans);font-size:12px;font-style:italic;color:var(--dim);line-height:1.5;margin-top:2px;}
+  .team-grid{display:grid;grid-template-columns:1fr;gap:28px;margin-top:36px;}
+  @media(min-width:640px){ .team-grid{grid-template-columns:1fr 1fr;} }
+  @media(min-width:960px){ .team-grid{grid-template-columns:repeat(5,1fr);} }
+  .team-card{display:flex;flex-direction:column;gap:12px;}
+  .team-name{font-family:var(--display);font-weight:600;font-size:16px;color:var(--paper);margin-top:4px;}
+  .team-role{font-family:var(--sans);font-size:12.5px;color:var(--dim);}
+  .team-callsign{font-family:var(--mono);font-size:11px;color:var(--dim-2);}
+  .team-linkedin{font-family:var(--mono);font-size:11px;color:var(--signal);margin-top:2px;}
+  .team-linkedin:hover{text-decoration:underline;}
+  .team-linkedin.pending{color:var(--dim-2);}
+
+  /* closing */
+  .closing{border-top:1px solid var(--signal-dim);padding:80px 28px;text-align:center;margin-top:40px;}
+  .closing h2{font-family:var(--display);font-weight:700;font-size:clamp(24px,3.6vw,34px);margin-bottom:14px;}
+  .closing p{font-family:var(--sans);color:var(--dim);font-size:15px;margin-bottom:28px;max-width:44ch;margin-left:auto;margin-right:auto;}
+  .cta-row{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;}
+  .cta-primary{font-family:var(--sans);font-size:15px;font-weight:600;background:var(--signal);color:#000;padding:14px 24px;border-radius:2px;display:inline-flex;align-items:center;gap:8px;}
+  .cta-secondary{font-family:var(--sans);font-size:15px;font-weight:500;color:var(--dim);border-bottom:1px solid var(--signal-dim);}
+
+  @media (prefers-reduced-motion:reduce){ .dot{animation:none;} }
+
+  /* footer */
+  .site-footer{border-top:1px solid var(--signal-dim);padding:32px 28px;position:relative;z-index:2;}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-brand{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--dim);}
+  .footer-brand span{color:var(--signal);}
+  .footer-links{display:flex;gap:24px;font-family:var(--sans);font-size:13px;color:var(--dim);}
+  .footer-links a:hover{color:var(--paper);}
+</style>
+</head>
+<body>
+
+  <div class="readout">
+    <div class="status"><span class="dot"></span> DIE GESCHICHTE</div>
+    <div class="proof">SWARM DRONE CHALLENGE 2026 · ILA BERLIN</div>
+  </div>
+
+  <nav>
+    <div class="logo">TOBEDEFINED<span>.AI</span></div>
+    <a href="index.html" class="back-link">← Zurück zu tobedefined.ai</a>
+  </nav>
+
+  <!-- ================= STORY HERO ================= -->
+  <header class="story-hero">
+    <span class="eyebrow">DIE GESCHICHTE</span>
+    <h1 class="story-headline">Null Erfahrung. 14 Wochen. <span class="accent">2. Platz von 22 Teams.</span></h1>
+    <p class="story-lede">
+      Wie fünf Software-Ingenieure aus Bayern in ihrer Freizeit ein System für autonome Drohnenschwärme bauten —
+      und sich unter 22 Teams aus 11 Ländern den zweiten Platz insgesamt sicherten.
+    </p>
+    <img class="photo-ph wide" src="https://www.tobedefined.ai/team-group.jpeg" alt="Team ToBeDefined.ai" style="width:100%;object-fit:cover;display:block;">
+    <div class="photo-caption">Team ToBeDefined.ai — SDC26, ILA Berlin 2026</div>
+  </header>
+
+  <!-- ================= AUSGANGSPUNKT ================= -->
+  <section>
+    <div class="wrap section-top">
+      <span class="eyebrow">§01 · DER AUSGANGSPUNKT</span>
+      <h2 class="section-h2">Alle reden über KI. Wir wollten echte Erfahrung.</h2>
+      <p class="body-text">
+        Fünf Software-Ingenieure aus Bayern, nebenberuflich. Keine Drohnenerfahrung, kein Budget, keine
+        Testflächen, keine eigene Infrastruktur. Statt eines weiteren Gesprächs über KI-Trends: Anmeldung zur
+        <strong>MBDA &amp; brigkAIR Swarm Drone Challenge 2026 (SDC26)</strong> — einem internationalen Wettbewerb
+        für autonome Drohnenschwärme, Defence Track, Finale bei der ILA Berlin.
+      </p>
+      <p class="body-text">
+        Der Gedanke dahinter war einfach: Wer wissen will, ob man in einer neuen Domäne schnell etwas Funktionierendes
+        bauen kann, sollte es an einem Ort testen, an dem man nicht ausweichen kann.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= DIE CHALLENGE ================= -->
+  <section>
+    <div class="wrap section-top">
+      <span class="eyebrow">§02 · DIE CHALLENGE</span>
+      <h2 class="section-h2">22 Teams. 11 Länder. Unveränderte Hardware.</h2>
+      <p class="body-text">
+        Format: 22 Teams aus 11 Ländern traten an, 12 davon erreichten die Qualifying-Runde. Wir kamen bis ins
+        Finale bei der ILA Berlin am 11. Juni 2026. Entwicklungszeit: 14 Wochen, komplett nebenberuflich. Auflage:
+        keine Hardware-Modifikationen — nur handelsübliche Parrot Anafi und DJI Tello Drohnen, unverändert.
+      </p>
+
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num">22</div><div class="stat-cap">Teams aus 11 Ländern</div></div>
+        <div class="stat"><div class="stat-num">14</div><div class="stat-cap">Wochen Entwicklungszeit</div></div>
+        <div class="stat"><div class="stat-num">0</div><div class="stat-cap">Hardware-Modifikationen</div></div>
+        <div class="stat"><div class="stat-num">95K+</div><div class="stat-cap">Lines of Code</div></div>
+      </div>
+
+      <p class="body-text">Technisch gebaut mit:</p>
+      <div class="tech-tags">
+        <span class="tag">Python 3.11+</span>
+        <span class="tag">FastAPI</span>
+        <span class="tag">Flask</span>
+        <span class="tag">OpenCV 4.13</span>
+        <span class="tag">ArUco</span>
+        <span class="tag">solvePnP</span>
+        <span class="tag">Kalman Filter</span>
+        <span class="tag">YOLO11n</span>
+        <span class="tag">Claude Code</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DAS ERGEBNIS ================= -->
+  <section>
+    <div class="wrap section-top">
+      <span class="eyebrow">§03 · DAS ERGEBNIS</span>
+      <h2 class="section-h2">2. Platz insgesamt, unter 22 internationalen Teams.</h2>
+      <p class="body-text">
+        Verloren haben wir nur gegen ein Team, das seit sechs Jahren an genau diesem Thema arbeitet — unter 22
+        Teams aus 11 Ländern reichte es für den zweiten Platz insgesamt. Für ein Team, das 14 Wochen zuvor noch
+        keine Drohne geflogen hatte, war das ein Ergebnis, das viele der Beteiligten selbst überrascht hat.
+      </p>
+
+      <div class="callout">
+        <div class="callout-eyebrow">EIN INVESTOR SIEHT DAS ANDERS</div>
+        <div class="callout-quote">
+          „Je länger ich darüber nachdenke, desto weniger interessiert mich der zweite Platz. Viel spannender finde
+          ich die Frage, was hier eigentlich entstanden ist. Ein kleines Team. Keine große Organisation im
+          Hintergrund. Keine eigenen Testflächen. Keine Infrastruktur. Keine Logistik. Keine Millionenbudgets.
+          Dafür Menschen, die neben ihrem eigentlichen Beruf, in ihrer Freizeit und oft auf eigene Kosten etwas
+          aufgebaut haben. Und dann tritt man gegen Teams an, die über Jahre entwickeln konnten. Mein Respekt gilt
+          deshalb nicht dem Ergebnis, sondern den Menschen dahinter. Starke Leistung. Chapeau.“
+        </div>
+        <div class="callout-attrib">Henry Jaeger · Founder &amp; CEO, Hunter Holding</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STIMMEN ================= -->
+  <section>
+    <div class="wrap section-top">
+      <span class="eyebrow">§04 · WAS DIE BRANCHE SAGTE</span>
+      <h2 class="section-h2">Reaktionen aus Industrie, Investment und Politik.</h2>
+      <div class="voice-grid">
+        <div class="voice-card">
+          <div class="voice-quote">„Gratulation zu einer großartigen Leistung! Das MBDA-Team war beeindruckt von der technischen Reife, die ToBeDefined.ai an den Tag gelegt hat — und das mit so kurzer Entwicklungszeit. Euer Eifer, euer Teamgeist und Zusammenhalt haben die Challenge für alle Beteiligten zu einem Spektakel gemacht.“</div>
+          <div class="voice-attrib">BERKAY INAN · PORTFOLIO MANAGER FUTURE BUSINESS, MBDA DEUTSCHLAND</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-quote">„Respekt! Wir ziehen unseren Hut vor eurem Team.“</div>
+          <div class="voice-attrib">MEINRAD POHL · AIRBUS</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-quote">„Finalteilnehmer in einem internationalen harten Wettbewerb, zweiter Platz, bestes deutsches Team. Und aus Ingolstadt. Wenn das nichts ist. Danke fürs Mitmachen und weiter so!“</div>
+          <div class="voice-attrib">GEORG ROSENFELD · WIRTSCHAFTSREFERENT INGOLSTADT</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-quote">„Ihr habt den Beweis geliefert, wie AI-Kompetenz die Welt und Wirtschaft nachhaltig verändern wird — als Team, das keinerlei Erfahrung in dem Sektor hat.“</div>
+          <div class="voice-attrib">JOHN BALUMUENA · GESCHÄFTSFÜHRER</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SEITDEM ================= -->
+  <section>
+    <div class="wrap section-top">
+      <span class="eyebrow">§05 · WAS SEITDEM PASSIERT IST</span>
+      <h2 class="section-h2">Aus dem Wettbewerb wurde ein Angebot.</h2>
+      <div class="since-list">
+        <div class="since-item"><span class="mark">→</span> Konkrete Gespräche mit Unternehmen über schnelle MVP-Lösungen in neuen technischen Domänen</div>
+        <div class="since-item"><span class="mark">→</span> Mehrere angefragte Impulsvorträge auf regionalen Bühnen</div>
+        <div class="since-item"><span class="mark">→</span> Ein Feature bei der Deutschen Welle <em>(Titel/Link folgt)</em></div>
+        <div class="since-item"><span class="mark">→</span> Ein wiederholbarer Prozess, der sicherstellt, dass wir "jede Domäne, schnelle Software" tatsächlich einhalten können — <a href="index.html#how-we-work" style="color:var(--signal);">siehe "Wie wir arbeiten" →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEAM ================= -->
+  <section id="team">
+    <div class="wrap section-top">
+      <span class="eyebrow">§06 · DAS TEAM</span>
+      <h2 class="section-h2">Fünf Menschen, ein Labor.</h2>
+      <p class="body-text">Das Team, das die Challenge gebaut hat — und das auch euren Sprint bauen wird.</p>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <img class="team-photo" src="https://www.tobedefined.ai/rene.png" alt="René Melzer">
+          <div class="team-tag">T-01 · BAVARIA, DE</div>
+          <div class="team-name">René Melzer</div>
+          <div class="team-role">Embedded Software Developer · Regler Spezialist</div>
+          <div class="team-tagline">„Der, der nachfragt. Und nichts als gegeben hinnimmt.“</div>
+          <a class="team-linkedin" href="https://www.linkedin.com/in/ren%C3%A9-melzer-404877158/">LinkedIn →</a>
+        </div>
+        <div class="team-card">
+          <img class="team-photo" src="https://www.tobedefined.ai/thomas.png" alt="Thomas Letze">
+          <div class="team-tag">T-02 · BAVARIA, DE</div>
+          <div class="team-name">Thomas Letze</div>
+          <div class="team-role">Software Developer · Teamware Gruppe</div>
+          <div class="team-tagline">„Ausgeliehen vom Nachbarn. Mit Jahren Erfahrung im Gepäck.“</div>
+          <a class="team-linkedin" href="https://www.linkedin.com/in/thomas-letze-197046414/">LinkedIn →</a>
+        </div>
+        <div class="team-card">
+          <img class="team-photo" src="https://www.tobedefined.ai/sascha.png" alt="Sascha Dirbach">
+          <div class="team-tag">T-03 · BAVARIA, DE</div>
+          <div class="team-name">Sascha Dirbach</div>
+          <div class="team-role">IT Expert · Software Developer</div>
+          <div class="team-tagline">„Hackathon-erfahren. Er kennt dieses Eindenken.“</div>
+          <a class="team-linkedin" href="https://www.linkedin.com/in/sdirbach/">LinkedIn →</a>
+        </div>
+        <div class="team-card">
+          <img class="team-photo" src="https://www.tobedefined.ai/oliver.png" alt="Oliver Tiedemann">
+          <div class="team-tag">T-04 · BAVARIA, DE</div>
+          <div class="team-name">Oliver Tiedemann</div>
+          <div class="team-role">AI Enthusiast · Automation</div>
+          <div class="team-tagline">„Hat die halbe Welt gesehen. Und trotzdem immer neugierig.“</div>
+          <a class="team-linkedin" href="https://www.linkedin.com/in/oliver-tiedemann/">LinkedIn →</a>
+        </div>
+        <div class="team-card">
+          <img class="team-photo" src="https://www.tobedefined.ai/vicki.png" alt="Vicki Lichtenegger">
+          <div class="team-tag">T-05 · BAVARIA, DE</div>
+          <div class="team-name">Vicki Lichtenegger</div>
+          <div class="team-role">Engineer · Founder · Project Lead</div>
+          <div class="team-tagline">„Hat den Coworking Space. Hat gefragt. Und nicht nein bekommen.“</div>
+          <a class="team-linkedin" href="https://www.linkedin.com/in/vicki-lichtenegger-195032226/">LinkedIn →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CLOSING ================= -->
+  <section class="closing" id="contact">
+    <h2>Das war der Beweis. Euer Sprint ist der nächste.</h2>
+    <p>Zurück zur Hauptseite oder direkt einen ersten Termin sichern.</p>
+    <div class="cta-row">
+      <a href="index.html#contact" class="cta-primary">Book a Call →</a>
+      <a href="index.html" class="cta-secondary">← Zurück zu tobedefined.ai</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div class="footer-brand">TOBEDEFINED<span>.AI</span></div>
+      <div class="footer-links">
+        <a href="impressum.html">Impressum</a>
+        <a href="privacy.html">Datenschutz</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
