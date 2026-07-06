@@ -48,6 +48,11 @@
   .logo span{color:var(--signal);}
   .back-link{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--dim);}
   .back-link:hover{color:var(--paper);}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .lang-switch{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:var(--dim-2);}
+  .lang-switch a{color:var(--dim-2);}
+  .lang-switch a.active{color:var(--signal);font-weight:700;}
+  .lang-switch a:hover{color:var(--paper);}
 
   /* header */
   .kontakt-hero{padding:56px 28px 8px;max-width:720px;margin:0 auto;}
@@ -106,7 +111,10 @@
 
   <nav>
     <a href="index.html" class="logo">TOBEDEFINED<span>.AI</span></a>
-    <a href="index.html" class="back-link">← Zurück zu tobedefined.ai</a>
+    <div class="nav-right">
+      <div class="lang-switch"><a href="kontakt.html" class="active">DE</a><span>/</span><a href="kontakt-en.html">EN</a></div>
+      <a href="index.html" class="back-link">← Zurück zu tobedefined.ai</a>
+    </div>
   </nav>
 
   <header class="kontakt-hero">
