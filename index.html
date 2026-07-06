@@ -245,7 +245,7 @@
       <a href="#how-we-work">Wie wir arbeiten</a>
       <a href="story.html">Die Story</a>
     </div>
-    <a href="#contact" class="nav-cta">Book a Call</a>
+    <a href="kontakt.html" class="nav-cta">Book a Call</a>
   </nav>
 
   <!-- ================= HERO ================= -->
@@ -264,7 +264,7 @@
         <strong>Manchmal braucht sie zuerst einen belastbaren Nachweis.</strong>
       </p>
       <div class="cta-row">
-        <a href="#contact" class="cta-primary">Book a Call →</a>
+        <a href="kontakt.html" class="cta-primary">Book a Call →</a>
         <a href="#klartext" class="cta-secondary">Sechs Fragen, direkt beantwortet ↓</a>
       </div>
     </div>
@@ -483,38 +483,9 @@
   <!-- ================= CLOSING ================= -->
   <section class="closing" id="contact">
     <h2>Bereit für den Beweis?</h2>
-    <p>Kurz Kontakt aufnehmen — wir melden uns zeitnah für ein erstes Gespräch.</p>
-    <form class="contact-form" id="contactForm">
-      <div class="form-row">
-        <input type="text" id="cName" placeholder="Name" required>
-        <input type="email" id="cEmail" placeholder="E-Mail" required>
-      </div>
-      <input type="text" id="cCompany" placeholder="Firma (optional)">
-      <textarea id="cMessage" rows="4" placeholder="Worum geht's? Kurz reicht." required></textarea>
-      <button type="submit" class="cta-primary">Nachricht senden →</button>
-      <div class="form-note">Öffnet euer E-Mail-Programm mit vorausgefüllter Nachricht an hello@tobedefined.ai.</div>
-      <div class="form-success" id="formSuccess">Danke! Euer E-Mail-Programm sollte sich gerade öffnen.</div>
-    </form>
+    <p>Ein Klick, kurze Auswahl, fertig.</p>
+    <div class="cta-row"><a href="kontakt.html" class="cta-primary">Book a Call →</a></div>
   </section>
-
-<script>
-  const contactForm = document.getElementById('contactForm');
-  if(contactForm){
-    contactForm.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const name = document.getElementById('cName').value.trim();
-      const email = document.getElementById('cEmail').value.trim();
-      const company = document.getElementById('cCompany').value.trim();
-      const message = document.getElementById('cMessage').value.trim();
-      const subject = encodeURIComponent(`Anfrage von ${name}${company ? ' · ' + company : ''}`);
-      const body = encodeURIComponent(
-        `Name: ${name}\nE-Mail: ${email}\nFirma: ${company || '-'}\n\nNachricht:\n${message}`
-      );
-      window.location.href = `mailto:hello@tobedefined.ai?subject=${subject}&body=${body}`;
-      document.getElementById('formSuccess').style.display = 'block';
-    });
-  }
-</script>
 
 <script>
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -580,7 +551,7 @@
     labOutput.appendChild(cursor);
 
     const cta = document.createElement('a');
-    cta.href = '#contact';
+    cta.href = 'kontakt.html';
     cta.className = 'cta-primary lab-cta';
     cta.textContent = 'Jetzt Termin sichern →';
     labOutput.appendChild(document.createElement('br'));
