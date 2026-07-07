@@ -2,6 +2,8 @@
 <html lang="de" data-lang="de">
 <head>
 <meta charset="UTF-8">
+<!-- Umami Analytics (cookie-free) — replace data-website-id once your Umami site is created -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="57842edd-35f6-4365-b7c8-0f3ed13ef9f0"></script>
 <script>
   (function(){
     try{
@@ -130,7 +132,7 @@
       <div class="lang-switch">
         <button type="button" class="lang-btn" data-set-lang="de">DE</button><span>/</span><button type="button" class="lang-btn" data-set-lang="en">EN</button>
       </div>
-      <a href="index.html" class="back-link"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
+      <a href="index.html" class="back-link" data-umami-event="back-to-home-kontakt-nav"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
     </div>
   </nav>
 
@@ -151,21 +153,21 @@
       <div class="options">
         <div class="option">
           <input type="radio" name="mode" id="modeCall" value="call">
-          <label for="modeCall">
+          <label for="modeCall" data-umami-event="contact-option-call">
             <span class="option-title"><span class="radio"></span> <span class="i18n-de">Kurz telefonieren</span><span class="i18n-en">Quick call</span></span>
             <span class="option-desc"><span class="i18n-de">15 Minuten, unverbindlich.</span><span class="i18n-en">15 minutes, no obligation.</span></span>
           </label>
         </div>
         <div class="option">
           <input type="radio" name="mode" id="modeVideo" value="video">
-          <label for="modeVideo">
+          <label for="modeVideo" data-umami-event="contact-option-video">
             <span class="option-title"><span class="radio"></span> <span class="i18n-de">Per Video kennenlernen</span><span class="i18n-en">Meet over video</span></span>
             <span class="option-desc"><span class="i18n-de">Gesicht zu Gesicht, genauso kurz.</span><span class="i18n-en">Face to face, just as short.</span></span>
           </label>
         </div>
         <div class="option">
           <input type="radio" name="mode" id="modeQuestion" value="question">
-          <label for="modeQuestion">
+          <label for="modeQuestion" data-umami-event="contact-option-question">
             <span class="option-title"><span class="radio"></span> <span class="i18n-de">Eine Frage stellen</span><span class="i18n-en">Ask a question</span></span>
             <span class="option-desc"><span class="i18n-de">Kein Call nötig — schreibt uns direkt.</span><span class="i18n-en">No call needed — just write to us directly.</span></span>
           </label>
@@ -180,7 +182,7 @@
         <div id="questionField">
           <textarea id="kQuestion" rows="4" data-ph-de="Eure Frage — kurz reicht." data-ph-en="Your question — short is fine." placeholder="Eure Frage — kurz reicht."></textarea>
         </div>
-        <button type="submit" class="cta-primary" id="kSubmit"><span class="i18n-de">Absenden →</span><span class="i18n-en">Submit →</span></button>
+        <button type="submit" class="cta-primary" id="kSubmit" data-umami-event="contact-form-submit"><span class="i18n-de">Absenden →</span><span class="i18n-en">Submit →</span></button>
         <div class="form-note"><span class="i18n-de">Wird direkt an uns gesendet — kein E-Mail-Programm nötig.</span><span class="i18n-en">Sent straight to us — no email client needed.</span></div>
         <div class="form-success i18n-de" id="kSuccessDe">Danke! Eure Nachricht ist bei uns angekommen — wir melden uns zeitnah.</div>
         <div class="form-success i18n-en" id="kSuccessEn">Thanks! Your message has reached us — we'll get back to you soon.</div>
@@ -191,7 +193,7 @@
   </section>
 
   <div class="kontakt-footer">
-    <a href="index.html" class="back-link"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
+    <a href="index.html" class="back-link" data-umami-event="back-to-home-kontakt-footer"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
   </div>
 
 <script>
