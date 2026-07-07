@@ -2,13 +2,8 @@
 <html lang="de" data-lang="de">
 <head>
 <meta charset="UTF-8">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-W3D2XHWX');</script>
-<!-- End Google Tag Manager -->
+<!-- Umami Analytics (cookie-free) — replace data-website-id once your Umami site is created -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="57842edd-35f6-4365-b7c8-0f3ed13ef9f0"></script>
 <script>
   (function(){
     try{
@@ -244,10 +239,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </style>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3D2XHWX"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
   <div class="readout">
     <div class="status"><span class="dot"></span>
@@ -270,7 +261,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="lang-switch">
         <button type="button" class="lang-btn" data-set-lang="de">DE</button><span>/</span><button type="button" class="lang-btn" data-set-lang="en">EN</button>
       </div>
-      <a href="kontakt.html" class="nav-cta">Book a Call</a>
+      <a href="kontakt.html" class="nav-cta" data-umami-event="book-call-nav">Book a Call</a>
     </div>
   </nav>
 
@@ -301,8 +292,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <strong>Sometimes it just needs solid proof first.</strong></span>
       </p>
       <div class="cta-row">
-        <a href="kontakt.html" class="cta-primary">Book a Call →</a>
-        <a href="#klartext" class="cta-secondary">
+        <a href="kontakt.html" class="cta-primary" data-umami-event="book-call-hero">Book a Call →</a>
+        <a href="#klartext" class="cta-secondary" data-umami-event="hero-scroll-klartext">
           <span class="i18n-de">Sechs Fragen, direkt beantwortet ↓</span><span class="i18n-en">Six questions, answered straight ↓</span>
         </a>
       </div>
@@ -334,8 +325,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <div style="text-align:center;margin-top:32px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap;">
-      <a href="story.html" class="cta-primary"><span class="i18n-de">Volle Story lesen →</span><span class="i18n-en">Read the full story →</span></a>
-      <a href="story.html#team" class="cta-primary" style="background:transparent;color:var(--signal);border:1px solid var(--signal);"><span class="i18n-de">Zum Team →</span><span class="i18n-en">Meet the team →</span></a>
+      <a href="story.html" class="cta-primary" data-umami-event="read-story"><span class="i18n-de">Volle Story lesen →</span><span class="i18n-en">Read the full story →</span></a>
+      <a href="story.html#team" class="cta-primary" data-umami-event="meet-team" style="background:transparent;color:var(--signal);border:1px solid var(--signal);"><span class="i18n-de">Zum Team →</span><span class="i18n-en">Meet the team →</span></a>
     </div>
   </section>
 
@@ -412,7 +403,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <span class="prompt-sym"><span class="i18n-de">Eure Domäne:</span><span class="i18n-en">Your domain:</span></span>
             <input type="text" id="labInput" maxlength="40" autocomplete="off"
               data-ph-de="z. B. Logistik, Robotik, Fintech…" data-ph-en="e.g. logistics, robotics, fintech…">
-            <button type="submit" class="lab-submit" id="labSubmit"><span class="i18n-de">Senden →</span><span class="i18n-en">Send →</span></button>
+            <button type="submit" class="lab-submit" id="labSubmit" data-umami-event="lab-demo-submit"><span class="i18n-de">Senden →</span><span class="i18n-en">Send →</span></button>
           </form>
           <div class="lab-output" id="labOutput"></div>
         </div>
@@ -576,7 +567,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="closing" id="contact">
     <h2><span class="i18n-de">Bereit für den Beweis?</span><span class="i18n-en">Ready for proof?</span></h2>
     <p><span class="i18n-de">Ein Klick, kurze Auswahl, fertig.</span><span class="i18n-en">One click, a quick choice, done.</span></p>
-    <div class="cta-row"><a href="kontakt.html" class="cta-primary">Book a Call →</a></div>
+    <div class="cta-row"><a href="kontakt.html" class="cta-primary" data-umami-event="book-call-closing">Book a Call →</a></div>
   </section>
 
 <script>
@@ -666,6 +657,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const cta = document.createElement('a');
     cta.href = 'kontakt.html';
     cta.className = 'cta-primary lab-cta';
+    cta.setAttribute('data-umami-event', 'lab-demo-cta');
     cta.textContent = t.cta;
     labOutput.appendChild(document.createElement('br'));
     labOutput.appendChild(cta);
