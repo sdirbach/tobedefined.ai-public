@@ -1,438 +1,348 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" data-lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Privacy Policy — ToBeDefined.ai</title>
+<meta charset="UTF-8">
+<script>
+  (function(){
+    try{
+      var l = localStorage.getItem('tbd_lang');
+      if(l === 'de' || l === 'en'){
+        document.documentElement.setAttribute('data-lang', l);
+        document.documentElement.lang = l;
+      }
+    }catch(e){}
+  })();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutz — ToBeDefined.ai</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Share+Tech+Mono&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:           #0d2a4f;
-    --bg-2:         #0a2244;
-    --bg-3:         #061a39;
-    --ink:          #f4f1e4;
-    --ink-dim:      #a8c4e8;
-    --ink-faint:    #4a6c96;
-    --line-soft:    rgba(216, 233, 255, 0.45);
-    --accent:       #ffd84a;
-    --accent-warm:  #ff7a3c;
-    --hairline:     rgba(244, 241, 228, 0.16);
+  :root{
+    --void:#000000;
+    --panel:#070a07;
+    --panel-2:#0c130c;
+    --paper:#ffffff;
+    --dim:rgba(255,255,255,0.62);
+    --dim-2:rgba(255,255,255,0.36);
+    --signal:#00ff00;
+    --signal-dim:rgba(0,255,0,0.18);
+    --signal-faint:rgba(0,255,0,0.035);
+    --display:'Space Grotesk', var(--sans);
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', system-ui, sans-serif;
   }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--paper);font-family:var(--sans);position:relative;overflow-x:hidden;min-height:100vh;}
+  body::before{
+    content:'';position:fixed;inset:0;
+    background-image:linear-gradient(var(--signal-faint) 1px, transparent 1px),linear-gradient(90deg, var(--signal-faint) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 50% at 55% 5%, black 25%, transparent 80%);
+    mask-image:radial-gradient(ellipse 70% 50% at 55% 5%, black 25%, transparent 80%);
+    pointer-events:none;z-index:0;
+  }
+  a{color:inherit;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--signal);outline-offset:3px;}
+  .wrap{max-width:800px;margin:0 auto;padding:0 28px;}
+  section{position:relative;z-index:2;}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* i18n toggle */
+  [data-lang="de"] .i18n-en{display:none !important;}
+  [data-lang="en"] .i18n-de{display:none !important;}
 
-  html, body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
+  /* readout + nav */
+  .readout{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:11px 28px;border-bottom:1px solid var(--signal-dim);font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--dim);flex-wrap:wrap;position:relative;z-index:2;}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal);animation:pulse 2.4s ease-in-out infinite;flex-shrink:0;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  nav{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:22px 28px;}
+  .logo{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:0.02em;text-decoration:none;}
+  .logo span{color:var(--signal);}
+  .back-link{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--dim);text-decoration:none;}
+  .back-link:hover{color:var(--paper);}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .lang-switch{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:var(--dim-2);}
+  .lang-btn{background:none;border:none;padding:0;margin:0;font:inherit;font-family:var(--mono);font-size:12px;color:var(--dim-2);cursor:pointer;}
+  .lang-btn.active{color:var(--signal);font-weight:700;}
+  .lang-btn:hover{color:var(--paper);}
 
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(216, 233, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(216, 233, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(rgba(216, 233, 255, 0.12) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(216, 233, 255, 0.12) 1px, transparent 1px);
-    background-size: 16px 16px, 16px 16px, 80px 80px, 80px 80px;
-    pointer-events: none;
-    z-index: 0;
-  }
+  /* header */
+  .doc-hero{padding:56px 28px 8px;max-width:800px;margin:0 auto;}
+  .doc-meta{display:flex;flex-wrap:wrap;gap:0;margin-bottom:28px;border:1px solid var(--signal-dim);width:fit-content;background:var(--panel);}
+  .doc-meta > div{padding:8px 14px;font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;border-right:1px solid var(--signal-dim);color:var(--dim);}
+  .doc-meta > div:last-child{border-right:none;}
+  .doc-meta b{color:var(--paper);font-weight:600;margin-left:4px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;color:var(--signal);display:block;margin-bottom:16px;}
+  .doc-h1{font-family:var(--display);font-weight:700;font-size:clamp(30px, 4.6vw, 46px);line-height:1.1;letter-spacing:-0.01em;margin-bottom:16px;}
+  .doc-lede{max-width:56ch;font-size:15.5px;line-height:1.68;color:var(--dim);margin-bottom:32px;}
 
-  .topstripe {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 28px;
-    background: var(--bg-3);
-    border-bottom: 1px solid var(--line-soft);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    padding: 0 32px;
-    gap: 32px;
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-  }
-  .topstripe span b { color: var(--ink); font-weight: 500; margin-left: 6px; }
-  .topstripe .stripe-right { margin-left: auto; display: flex; gap: 24px; }
+  /* summary callout */
+  .callout{border-left:3px solid var(--signal);background:var(--panel);padding:22px 24px;margin-bottom:12px;border-radius:0 3px 3px 0;max-width:66ch;}
+  .callout-label{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;color:var(--dim-2);text-transform:uppercase;margin-bottom:10px;}
+  .callout strong{color:var(--paper);font-weight:600;}
+  .callout{color:var(--dim);font-size:14.5px;line-height:1.65;}
 
-  header {
-    position: sticky;
-    top: 28px;
-    padding: 16px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-    border-bottom: 1px solid var(--line-soft);
-    background: rgba(13, 42, 79, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
+  /* sections */
+  .doc-section{padding:36px 0;border-top:1px solid var(--signal-faint);}
+  .doc-section:last-of-type{border-bottom:1px solid var(--signal-faint);}
+  .doc-h2{font-family:var(--display);font-weight:600;font-size:19px;color:var(--paper);margin-bottom:14px;display:flex;align-items:baseline;gap:12px;}
+  .doc-h2 .num{font-family:var(--mono);font-size:11px;color:var(--signal);letter-spacing:0.1em;}
+  .doc-section p{font-size:14.5px;line-height:1.7;color:var(--dim);margin-bottom:14px;max-width:66ch;}
+  .doc-section p:last-child{margin-bottom:0;}
+  .doc-section strong{color:var(--paper);font-weight:600;}
+  .doc-section a{color:var(--signal);text-decoration:none;border-bottom:1px dashed var(--signal-dim);}
+  .doc-section a:hover{border-bottom-color:var(--signal);}
+  .doc-list{list-style:none;margin:8px 0 14px;max-width:66ch;}
+  .doc-list li{padding-left:20px;position:relative;margin-bottom:9px;font-size:14.5px;line-height:1.65;color:var(--dim);}
+  .doc-list li::before{content:'→';color:var(--signal);position:absolute;left:0;top:0;font-family:var(--mono);}
+  .doc-list li strong{color:var(--paper);}
+  .quiet{color:var(--dim-2) !important;font-size:13px !important;}
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 17px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .logo-mark {
-    width: 24px; height: 24px;
-    border: 1.5px solid var(--ink);
-    border-radius: 50%;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .logo-mark::before, .logo-mark::after {
-    content: "";
-    position: absolute;
-    background: var(--ink);
-  }
-  .logo-mark::before {
-    top: 50%; left: -5px; right: -5px; height: 1px;
-    transform: translateY(-50%);
-  }
-  .logo-mark::after {
-    left: 50%; top: -5px; bottom: -5px; width: 1px;
-    transform: translateX(-50%);
-  }
-  .logo .dot { color: var(--accent); }
+  /* contact block */
+  .contact-block{border:1px solid var(--signal-dim);background:rgba(0,255,0,0.03);padding:22px 24px;margin:20px 0;font-family:var(--mono);font-size:13px;line-height:2;max-width:66ch;}
+  .contact-block .key{color:var(--dim-2);}
+  .contact-block .val{color:var(--paper);}
+  .contact-block a{color:var(--signal);}
 
-  .back-link {
-    color: var(--ink-dim);
-    text-decoration: none;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    transition: color 0.15s ease;
-  }
-  .back-link:hover { color: var(--accent); }
-  .back-link::before { content: "← "; }
+  .doc-footnote{margin-top:56px;padding-top:24px;border-top:1px solid var(--signal-faint);font-size:13px;color:var(--dim-2);max-width:66ch;}
 
-  main {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 80px 32px 100px;
-    position: relative;
-    z-index: 2;
-  }
+  /* footer */
+  .site-footer{border-top:1px solid var(--signal-dim);padding:32px 28px;position:relative;z-index:2;margin-top:40px;}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;max-width:800px;margin:0 auto;}
+  .footer-brand{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--dim);}
+  .footer-brand span{color:var(--signal);}
+  .footer-links{display:flex;gap:24px;font-family:var(--sans);font-size:13px;color:var(--dim);}
+  .footer-links a{text-decoration:none;}
+  .footer-links a:hover{color:var(--paper);}
 
-  .doc-meta {
-    display: flex;
-    margin-bottom: 32px;
-    border: 1px solid var(--line-soft);
-    width: fit-content;
-    flex-wrap: wrap;
-    background: rgba(6, 26, 57, 0.5);
-  }
-  .doc-meta > div {
-    padding: 8px 14px;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    border-right: 1px solid var(--line-soft);
-    color: var(--ink-dim);
-  }
-  .doc-meta > div:last-child { border-right: none; }
-  .doc-meta b { color: var(--ink); font-weight: 500; margin-left: 4px; }
-
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(36px, 6vw, 64px);
-    line-height: 0.95;
-    letter-spacing: -0.025em;
-    color: var(--ink);
-    margin-bottom: 16px;
-  }
-
-  .subtitle {
-    color: var(--ink-dim);
-    font-size: 13px;
-    margin-bottom: 48px;
-    max-width: 600px;
-    line-height: 1.7;
-  }
-
-  h2 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    color: var(--ink);
-    margin-top: 56px;
-    margin-bottom: 18px;
-    letter-spacing: -0.01em;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--hairline);
-  }
-  h2 .num {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    color: var(--accent);
-    margin-right: 12px;
-    letter-spacing: 0.15em;
-  }
-
-  p {
-    margin-bottom: 16px;
-    color: var(--ink);
-  }
-
-  p .quiet { color: var(--ink-dim); }
-
-  ul {
-    list-style: none;
-    margin-bottom: 16px;
-    padding-left: 0;
-  }
-  ul li {
-    padding-left: 20px;
-    position: relative;
-    margin-bottom: 8px;
-  }
-  ul li::before {
-    content: "▸";
-    color: var(--accent);
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-
-  a {
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px dashed var(--accent);
-    transition: color 0.15s ease, border-color 0.15s ease;
-  }
-  a:hover {
-    color: var(--ink);
-    border-bottom-color: var(--ink);
-  }
-
-  strong {
-    color: var(--ink);
-    font-weight: 500;
-  }
-
-  .callout {
-    border: 1px solid var(--line-soft);
-    background: var(--bg-2);
-    padding: 20px 24px;
-    margin: 24px 0;
-    font-size: 13px;
-    color: var(--ink-dim);
-  }
-  .callout strong { color: var(--ink); }
-  .callout .label {
-    display: block;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-
-  .contact-block {
-    border: 1px solid var(--accent);
-    background: rgba(255, 216, 74, 0.04);
-    padding: 24px;
-    margin: 32px 0;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    line-height: 1.8;
-  }
-  .contact-block .key { color: var(--ink-dim); }
-  .contact-block .val { color: var(--ink); }
-  .contact-block a { font-family: 'Share Tech Mono', monospace; }
-
-  footer {
-    border-top: 1px solid var(--line-soft);
-    margin-top: 80px;
-    padding: 32px;
-    text-align: center;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-    position: relative;
-    z-index: 2;
-    background: var(--bg-3);
-  }
-  footer .coords {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--accent);
-  }
-
-  @media (max-width: 600px) {
-    .topstripe .stripe-right { display: none; }
-    main { padding: 48px 20px 80px; }
-    h1 { font-size: 36px; }
-    h2 { font-size: 18px; }
-  }
+  @media (prefers-reduced-motion:reduce){ .dot{animation:none;} }
 </style>
 </head>
 <body>
 
-<div class="topstripe">
-  <span>DOC / <b>PRIVACY-01</b></span>
-  <span>SHEET / <b>1 OF 1</b></span>
-  <div class="stripe-right">
-    <span>REV / <b>1.0</b></span>
-    <span>EFFECTIVE / <b>2026-05-01</b></span>
-  </div>
-</div>
-
-<header>
-  <a class="logo" href="/">
-    <div class="logo-mark"></div>
-    <span>ToBeDefined<span class="dot">·</span>ai</span>
-  </a>
-  <a class="back-link" href="/">Back to launch page</a>
-</header>
-
-<main>
-  <div class="doc-meta">
-    <div>DOC <b>PRIVACY-01</b></div>
-    <div>EFFECTIVE <b>01.05.2026</b></div>
-    <div>VERSION <b>1.0</b></div>
+  <div class="readout">
+    <div class="status"><span class="dot"></span> <span class="i18n-de">RECHTLICHES DOKUMENT</span><span class="i18n-en">LEGAL DOCUMENT</span></div>
   </div>
 
-  <h1>Privacy Policy</h1>
-  <p class="subtitle">
-    Plain-English summary of what we collect when you request a briefing pass, why we collect it, where it's stored, how long we keep it, and how to ask us to delete it.
-  </p>
+  <nav>
+    <a href="index.html" class="logo">TOBEDEFINED<span>.AI</span></a>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button type="button" class="lang-btn" data-set-lang="de">DE</button><span>/</span><button type="button" class="lang-btn" data-set-lang="en">EN</button>
+      </div>
+      <a href="index.html" class="back-link"><span class="i18n-de">← Zurück zu tobedefined.ai</span><span class="i18n-en">← Back to tobedefined.ai</span></a>
+    </div>
+  </nav>
 
-  <div class="callout">
-    <span class="label">In one sentence</span>
-    <strong>We collect your email address only when you ask for a briefing pass, store it in the EU via Formspark, use it solely to send you SDC2026 briefing materials, and delete everything by 11 December 2026 — earlier on request.</strong>
-  </div>
+  <header class="doc-hero">
+    <div class="doc-meta">
+      <div><span class="i18n-de">DOK</span><span class="i18n-en">DOC</span> <b>PRIVACY-01</b></div>
+      <div><span class="i18n-de">GÜLTIG AB</span><span class="i18n-en">EFFECTIVE</span> <b>07.07.2026</b></div>
+      <div><span class="i18n-de">VERSION</span><span class="i18n-en">VERSION</span> <b>2.0</b></div>
+    </div>
+    <span class="eyebrow"><span class="i18n-de">DATENSCHUTZ</span><span class="i18n-en">PRIVACY</span></span>
+    <h1 class="doc-h1"><span class="i18n-de">Datenschutzerklärung</span><span class="i18n-en">Privacy Policy</span></h1>
+    <p class="doc-lede">
+      <span class="i18n-de">Klartext dazu, was wir erheben, wenn ihr uns über das Kontaktformular schreibt oder unsere Seite besucht, warum, wo es liegt, wie lange, und wie ihr die Löschung verlangen könnt.</span>
+      <span class="i18n-en">Plain talk about what we collect when you write to us via the contact form or visit our site, why, where it's stored, how long, and how to ask us to delete it.</span>
+    </p>
 
-  <h2><span class="num">§ 01</span>Who we are</h2>
-  <p>
-    <strong>ToBeDefined.ai</strong> is a team of five tech &amp; AI enthusiasts competing in the <a href="https://swarmdronechallenge.digital/" target="_blank" rel="noopener">MBDA &amp; brigkAIR Swarm Drone Challenge 2026</a>. We are the data controller responsible for the personal data described in this policy.
-  </p>
-  <p>
-    For all questions about this policy or about your data, contact us at the address in section 09 below.
-  </p>
+    <div class="callout">
+      <div class="callout-label"><span class="i18n-de">IN EINEM SATZ</span><span class="i18n-en">IN ONE SENTENCE</span></div>
+      <strong>
+        <span class="i18n-de">Wir erheben Name und E-Mail nur, wenn ihr uns über das Kontaktformular schreibt (verarbeitet über Formspree), zählen Besuche cookiefrei und anonymisiert über Umami, und geben eure Daten nie an Dritte für Marketingzwecke weiter.</span>
+        <span class="i18n-en">We collect name and email only when you write to us via the contact form (processed via Formspree), count visits cookie-free and anonymized via Umami, and never pass your data on to third parties for marketing purposes.</span>
+      </strong>
+    </div>
+  </header>
 
-  <h2><span class="num">§ 02</span>What we collect</h2>
-  <p>When you submit the briefing-pass form on our launch page, we collect:</p>
-  <ul>
-    <li><strong>Your email address</strong> — the one you typed into the form.</li>
-    <li><strong>Your consent</strong> — the fact that you ticked the consent checkbox, with the date and time you did so.</li>
-  </ul>
-  <p>
-    Additionally, when you visit our launch page, our self-hosted analytics tool (<strong>Umami</strong>) records anonymized aggregate statistics:
-  </p>
-  <ul>
-    <li>The pages you view and the referring URL (e.g. which site you came from).</li>
-    <li>Your browser type, operating system, device type, screen resolution, and language.</li>
-    <li>An approximate country derived from your IP address — your IP itself is <strong>not</strong> stored.</li>
-  </ul>
-  <p>
-    Umami is <strong>cookieless</strong> and does <strong>not</strong> create a persistent identifier for you. The data cannot be linked back to you as an individual and is never combined with the email you submit via the form.
-  </p>
-  <p>
-    We do <strong>not</strong> collect your name, IP address, precise location, browser fingerprint, cookies, or any cross-site tracking identifiers.
-  </p>
+  <section class="wrap">
 
-  <h2><span class="num">§ 03</span>Why we collect it</h2>
-  <p>
-    We use your email address for one purpose only: to send you briefing materials about our participation in the Swarm Drone Challenge 2026 and our appearance at the Defence Track of ILA Berlin on 11 June 2026.
-  </p>
-  <p>
-    We will not use it for marketing, share it with sponsors or partners, sell it, profile you, or send you anything unrelated to the SDC2026 briefing.
-  </p>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 01</span><span class="i18n-de">Wer wir sind</span><span class="i18n-en">Who we are</span></h2>
+      <p>
+        <span class="i18n-de"><strong>ToBeDefined.ai</strong> ist ein fünfköpfiges Softwareentwicklungs-Labor aus Bayern (Ingolstadt), bekannt als Finalist der MBDA &amp; brigkAIR Swarm Drone Challenge 2026 bei der ILA Berlin. Wir sind die verantwortliche Stelle für die personenbezogenen Daten, die in dieser Erklärung beschrieben werden.</span>
+        <span class="i18n-en"><strong>ToBeDefined.ai</strong> is a five-person software development lab based in Bavaria, Germany (Ingolstadt), known as a finalist of the MBDA &amp; brigkAIR Swarm Drone Challenge 2026 at ILA Berlin. We are the data controller responsible for the personal data described in this policy.</span>
+      </p>
+      <p>
+        <span class="i18n-de">Für alle Fragen zu dieser Erklärung oder euren Daten erreicht ihr uns über die Kontaktdaten in §09.</span>
+        <span class="i18n-en">For all questions about this policy or your data, contact us using the details in §09 below.</span>
+      </p>
+    </div>
 
-  <h2><span class="num">§ 04</span>Legal basis</h2>
-  <p>
-    Our legal basis for processing your data is <strong>your consent</strong> under Article 6(1)(a) GDPR — the affirmative tick of the consent checkbox at submission time.
-  </p>
-  <p>
-    You can withdraw consent at any time (see section 08) without affecting the lawfulness of processing carried out before withdrawal.
-  </p>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 02</span><span class="i18n-de">Was wir erheben</span><span class="i18n-en">What we collect</span></h2>
+      <p><span class="i18n-de">Wenn ihr das Kontaktformular auf <code>kontakt.html</code> ausfüllt, erheben wir:</span><span class="i18n-en">When you fill out the contact form on <code>kontakt.html</code>, we collect:</span></p>
+      <ul class="doc-list">
+        <li><span class="i18n-de"><strong>Euren Namen</strong> — wie ins Formular eingetragen.</span><span class="i18n-en"><strong>Your name</strong> — as entered into the form.</span></li>
+        <li><span class="i18n-de"><strong>Eure E-Mail-Adresse</strong> — damit wir antworten können.</span><span class="i18n-en"><strong>Your email address</strong> — so we can reply.</span></li>
+        <li><span class="i18n-de"><strong>Eure gewählte Option</strong> — Anruf, Videocall oder Frage — sowie euren Freitext, falls ihr eine Frage stellt.</span><span class="i18n-en"><strong>Your selected option</strong> — call, video call, or question — plus your free-text message if you ask a question.</span></li>
+      </ul>
+      <p><span class="i18n-de">Zusätzlich erhebt unser cookiefreies Analyse-Tool <strong>Umami</strong> beim Besuch unserer Seiten anonymisierte, aggregierte Statistiken:</span><span class="i18n-en">Additionally, when you visit our pages, our cookie-free analytics tool <strong>Umami</strong> records anonymized, aggregate statistics:</span></p>
+      <ul class="doc-list">
+        <li><span class="i18n-de">Aufgerufene Seiten, verweisende URL (z. B. von welcher Seite ihr kommt) und angeklickte Buttons (z. B. „Book a Call")</span><span class="i18n-en">Pages viewed, referring URL (e.g. which site you came from), and clicked buttons (e.g. "Book a Call")</span></li>
+        <li><span class="i18n-de">Browsertyp, Betriebssystem, Gerätetyp und Sprache</span><span class="i18n-en">Browser type, operating system, device type, and language</span></li>
+        <li><span class="i18n-de">Ein ungefähres Land, abgeleitet aus eurer IP-Adresse — die IP selbst wird <strong>nicht</strong> gespeichert, sondern gehasht</span><span class="i18n-en">An approximate country derived from your IP address — your IP itself is <strong>not</strong> stored, it's hashed</span></li>
+      </ul>
+      <p>
+        <span class="i18n-de">Umami ist <strong>cookiefrei</strong> und erstellt keinen dauerhaften Identifikator für euch. Die Daten lassen sich nicht auf euch als Person zurückführen und werden nie mit den Formulardaten kombiniert.</span>
+        <span class="i18n-en">Umami is <strong>cookie-free</strong> and does not create a persistent identifier for you. This data cannot be traced back to you as an individual and is never combined with the data you submit via the form.</span>
+      </p>
+      <p>
+        <span class="i18n-de">Wir erheben <strong>nicht</strong>: eure Postanschrift, präzise Standortdaten, Browser-Fingerprints, Cookies oder seitenübergreifende Tracking-Kennungen.</span>
+        <span class="i18n-en">We do <strong>not</strong> collect: your postal address, precise location, browser fingerprints, cookies, or cross-site tracking identifiers.</span>
+      </p>
+    </div>
 
-  <h2><span class="num">§ 05</span>Where it's stored</h2>
-  <p>
-    Form submissions are processed and stored by <strong>Formspark</strong>, our form-backend processor. Formspark operates from the EU and we have a signed Data Processing Agreement (DPA) with them.
-  </p>
-  <p>
-    For more on Formspark's data handling, see their <a href="https://formspark.io/legal/gdpr/" target="_blank" rel="noopener">GDPR statement</a>.
-  </p>
-  <p>
-    Analytics data (the anonymized statistics described in section 02) is stored on our <strong>self-hosted Umami instance</strong> running on our own infrastructure in the EU. No third-party analytics provider receives the data.
-  </p>
-  <p class="quiet">
-    The launch page itself is hosted on GitHub Pages. GitHub does not receive form data — submissions go directly from your browser to Formspark.
-  </p>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 03</span><span class="i18n-de">Warum wir es erheben</span><span class="i18n-en">Why we collect it</span></h2>
+      <p>
+        <span class="i18n-de">Name, E-Mail und Nachricht nutzen wir ausschließlich, um auf eure Anfrage zu antworten — sei es ein Rückruf, ein Videocall oder eine Antwort auf eure Frage.</span>
+        <span class="i18n-en">We use your name, email, and message solely to respond to your inquiry — whether that's a call back, a video call, or an answer to your question.</span>
+      </p>
+      <p>
+        <span class="i18n-de">Die anonymisierten Umami-Statistiken nutzen wir, um zu verstehen, welche Inhalte und Buttons auf unserer Seite ankommen — nicht, um einzelne Besucher zu identifizieren oder zu profilieren.</span>
+        <span class="i18n-en">We use the anonymized Umami statistics to understand which content and buttons on our site resonate — not to identify or profile individual visitors.</span>
+      </p>
+      <p>
+        <span class="i18n-de">Wir nutzen eure Daten <strong>nicht</strong> für Marketing, geben sie nicht an Sponsoren oder Partner weiter, verkaufen sie nicht und erstellen keine Nutzerprofile.</span>
+        <span class="i18n-en">We do <strong>not</strong> use your data for marketing, share it with sponsors or partners, sell it, or build user profiles from it.</span>
+      </p>
+    </div>
 
-  <h2><span class="num">§ 06</span>How long we keep it</h2>
-  <p>
-    All collected data will be deleted <strong>by 11 December 2026</strong> — 180 days after the ILA Berlin event concludes. This window covers post-event follow-up and any retrospectives. You can ask us to delete your data sooner at any time (see section 08).
-  </p>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 04</span><span class="i18n-de">Rechtsgrundlage</span><span class="i18n-en">Legal basis</span></h2>
+      <p>
+        <span class="i18n-de">Für das Kontaktformular: <strong>Art. 6 Abs. 1 lit. b DSGVO</strong> (Erfüllung vorvertraglicher Maßnahmen auf eure Anfrage hin) — ihr kontaktiert uns aktiv, um eine mögliche Zusammenarbeit zu besprechen.</span>
+        <span class="i18n-en">For the contact form: <strong>Art. 6(1)(b) GDPR</strong> (pre-contractual measures taken at your request) — you're actively reaching out to discuss a potential collaboration.</span>
+      </p>
+      <p>
+        <span class="i18n-de">Für die Umami-Statistiken: <strong>Art. 6 Abs. 1 lit. f DSGVO</strong> (berechtigtes Interesse) — da cookiefrei, anonymisiert und ohne Personenbezug, ist keine Einwilligung erforderlich.</span>
+        <span class="i18n-en">For the Umami statistics: <strong>Art. 6(1)(f) GDPR</strong> (legitimate interest) — since it's cookie-free, anonymized, and involves no personal identification, consent is not required.</span>
+      </p>
+    </div>
 
-  <h2><span class="num">§ 07</span>Who has access</h2>
-  <p>The only parties who can see your email address are:</p>
-  <ul>
-    <li>The five members of the ToBeDefined.ai team.</li>
-    <li>Formspark, in their capacity as data processor (technical access to the storage infrastructure).</li>
-  </ul>
-  <p>
-    No third parties — including the SDC2026 sponsors (MBDA, brigkAIR), competition partners, advertising networks, or analytics providers — have access to your data.
-  </p>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 05</span><span class="i18n-de">Wo es gespeichert wird</span><span class="i18n-en">Where it's stored</span></h2>
+      <p>
+        <span class="i18n-de">Formular-Einsendungen werden verarbeitet und gespeichert von <strong>Formspree, Inc.</strong> (USA). Formspree ist SOC-2-Type-2-geprüft und nutzt EU-Standardvertragsklauseln (SCCs) als Rechtsgrundlage für die Datenübermittlung in die USA. Mehr dazu in <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">Formspree's Datenschutzerklärung</a>.</span>
+        <span class="i18n-en">Form submissions are processed and stored by <strong>Formspree, Inc.</strong> (USA). Formspree is SOC 2 Type 2 audited and relies on EU Standard Contractual Clauses (SCCs) as the legal basis for the transfer of data to the US. More in <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">Formspree's privacy policy</a>.</span>
+      </p>
+      <p>
+        <span class="i18n-de">Analyse-Daten (die anonymisierten Statistiken aus §02) laufen über <strong>Umami Cloud</strong> (Umami Software, Inc.). Da keine Cookies gesetzt und keine personenbezogenen Daten im herkömmlichen Sinn verarbeitet werden, ist der Drittlandbezug hier rechtlich unkritischer als bei klassischen Tracking-Tools wie Google Analytics.</span>
+        <span class="i18n-en">Analytics data (the anonymized statistics from §02) runs through <strong>Umami Cloud</strong> (Umami Software, Inc.). Since no cookies are set and no personal data is processed in the conventional sense, the third-country aspect here is legally less critical than with conventional tracking tools like Google Analytics.</span>
+      </p>
+      <p class="quiet">
+        <span class="i18n-de">Unsere Seite selbst wird über <strong>GitHub Pages</strong> (GitHub, Inc., USA) gehostet. GitHub erhält keine Formulardaten — Einsendungen gehen direkt von eurem Browser an Formspree.</span>
+        <span class="i18n-en">Our site itself is hosted via <strong>GitHub Pages</strong> (GitHub, Inc., USA). GitHub does not receive form data — submissions go directly from your browser to Formspree.</span>
+      </p>
+    </div>
 
-  <h2><span class="num">§ 08</span>Your rights</h2>
-  <p>Under GDPR, you have the right to:</p>
-  <ul>
-    <li><strong>Access</strong> — ask us what data we hold about you.</li>
-    <li><strong>Rectification</strong> — ask us to correct it if it's wrong.</li>
-    <li><strong>Erasure</strong> — ask us to delete it.</li>
-    <li><strong>Restriction</strong> — ask us to stop processing it.</li>
-    <li><strong>Portability</strong> — ask us for a copy in a machine-readable format.</li>
-    <li><strong>Objection</strong> — object to processing based on our legitimate interests (we don't currently rely on legitimate interests, but the right exists).</li>
-    <li><strong>Withdraw consent</strong> — withdraw the consent you gave when submitting the form, at any time.</li>
-    <li><strong>Lodge a complaint</strong> — with your local data protection authority. In Germany, this is the <a href="https://www.bfdi.bund.de/" target="_blank" rel="noopener">Federal Commissioner for Data Protection and Freedom of Information (BfDI)</a> or your state-level authority.</li>
-  </ul>
-  <p>
-    To exercise any of these rights, email us at the address below. We'll respond within 30 days, usually within 48 hours.
-  </p>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 06</span><span class="i18n-de">Wie lange wir es aufbewahren</span><span class="i18n-en">How long we keep it</span></h2>
+      <p>
+        <span class="i18n-de">Anfragen über das Kontaktformular löschen wir, sobald sie bearbeitet sind und keine weitere Kommunikation mehr ansteht — in der Regel innerhalb von 12 Monaten nach eurem letzten Kontakt mit uns. Ihr könnt jederzeit eine frühere Löschung verlangen (siehe §08).</span>
+        <span class="i18n-en">We delete contact form inquiries once they're resolved and no further communication is expected — typically within 12 months of your last contact with us. You can request earlier deletion at any time (see §08).</span>
+      </p>
+      <p class="quiet">
+        <span class="i18n-de">Hinweis: Dieser Zeitraum ist unser aktueller interner Standard, keine gesetzlich fixierte Frist — bei Bedarf passen wir ihn an.</span>
+        <span class="i18n-en">Note: this timeframe is our current internal standard, not a legally fixed period — we adjust it as needed.</span>
+      </p>
+    </div>
 
-  <h2><span class="num">§ 09</span>Contact</h2>
-  <div class="contact-block">
-    <div><span class="key">Data controller</span> <span class="val">ToBeDefined.ai</span></div>
-    <div><span class="key">Data privacy contact</span> <a href="mailto:privacy@tobedefined.ai">privacy@tobedefined.ai</a></div>
-    <div><span class="key">Response time</span> <span class="val">within 30 days · usually within 48h</span></div>
-  </div>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 07</span><span class="i18n-de">Wer Zugriff hat</span><span class="i18n-en">Who has access</span></h2>
+      <p><span class="i18n-de">Zugriff auf eure Kontaktdaten haben ausschließlich:</span><span class="i18n-en">The only parties with access to your contact data are:</span></p>
+      <ul class="doc-list">
+        <li><span class="i18n-de">Die fünf Mitglieder des ToBeDefined.ai-Teams</span><span class="i18n-en">The five members of the ToBeDefined.ai team</span></li>
+        <li><span class="i18n-de"><strong>Formspree</strong>, als Auftragsverarbeiter (technischer Zugriff auf die Speicherinfrastruktur)</span><span class="i18n-en"><strong>Formspree</strong>, in their capacity as data processor (technical access to the storage infrastructure)</span></li>
+      </ul>
+      <p>
+        <span class="i18n-de">Keine Dritten — einschließlich Sponsoren, Wettbewerbspartner, Werbenetzwerke oder andere Analyse-Anbieter — erhalten Zugriff auf eure Daten.</span>
+        <span class="i18n-en">No third parties — including sponsors, competition partners, advertising networks, or other analytics providers — have access to your data.</span>
+      </p>
+    </div>
 
-  <h2><span class="num">§ 10</span>Changes to this policy</h2>
-  <p>
-    If we change this policy, we'll update the version number and effective date at the top of the page. Material changes (anything affecting what we collect, why, or who has access) will be communicated to anyone whose data we still hold via the email address you submitted.
-  </p>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 08</span><span class="i18n-de">Eure Rechte</span><span class="i18n-en">Your rights</span></h2>
+      <p><span class="i18n-de">Nach der DSGVO habt ihr das Recht auf:</span><span class="i18n-en">Under GDPR, you have the right to:</span></p>
+      <ul class="doc-list">
+        <li><span class="i18n-de"><strong>Auskunft</strong> — welche Daten wir über euch gespeichert haben</span><span class="i18n-en"><strong>Access</strong> — what data we hold about you</span></li>
+        <li><span class="i18n-de"><strong>Berichtigung</strong> — Korrektur falscher Daten</span><span class="i18n-en"><strong>Rectification</strong> — correction of inaccurate data</span></li>
+        <li><span class="i18n-de"><strong>Löschung</strong> — Löschung eurer Daten</span><span class="i18n-en"><strong>Erasure</strong> — deletion of your data</span></li>
+        <li><span class="i18n-de"><strong>Einschränkung</strong> — Einschränkung der Verarbeitung</span><span class="i18n-en"><strong>Restriction</strong> — restriction of processing</span></li>
+        <li><span class="i18n-de"><strong>Datenübertragbarkeit</strong> — eine Kopie in maschinenlesbarem Format</span><span class="i18n-en"><strong>Portability</strong> — a copy in a machine-readable format</span></li>
+        <li><span class="i18n-de"><strong>Widerspruch</strong> — gegen Verarbeitung auf Basis berechtigter Interessen</span><span class="i18n-en"><strong>Objection</strong> — to processing based on legitimate interests</span></li>
+        <li><span class="i18n-de"><strong>Beschwerde</strong> — bei eurer zuständigen Datenschutzaufsichtsbehörde. Für Bayern ist das das <a href="https://www.lda.bayern.de/" target="_blank" rel="noopener">Bayerische Landesamt für Datenschutzaufsicht (BayLDA)</a>.</span><span class="i18n-en"><strong>Lodge a complaint</strong> — with your local data protection authority. For Bavaria, this is the <a href="https://www.lda.bayern.de/" target="_blank" rel="noopener">Bavarian Data Protection Authority (BayLDA)</a>.</span></li>
+      </ul>
+      <p>
+        <span class="i18n-de">Um eines dieser Rechte auszuüben, schreibt uns an die E-Mail unten. Wir antworten innerhalb von 30 Tagen, meist deutlich schneller.</span>
+        <span class="i18n-en">To exercise any of these rights, email us at the address below. We'll respond within 30 days, usually much sooner.</span>
+      </p>
+    </div>
 
-  <p class="quiet" style="margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--hairline); font-size: 12px;">
-    This policy is written in plain English on purpose. If anything in it is unclear, that's a bug — please email us and we'll fix the wording.
-  </p>
-</main>
+    <div class="doc-section">
+      <h2 class="doc-h2"><span class="num">§ 09</span><span class="i18n-de">Kontakt</span><span class="i18n-en">Contact</span></h2>
+      <div class="contact-block">
+        <div><span class="key"><span class="i18n-de">Verantwortliche Stelle</span><span class="i18n-en">Data controller</span></span> <span class="val">ToBeDefined.ai</span></div>
+        <div><span class="key"><span class="i18n-de">Datenschutz-Kontakt</span><span class="i18n-en">Privacy contact</span></span> <a href="mailto:hello@tobedefined.ai">hello@tobedefined.ai</a></div>
+        <div><span class="key"><span class="i18n-de">Antwortzeit</span><span class="i18n-en">Response time</span></span> <span class="val"><span class="i18n-de">innerhalb von 30 Tagen · meist innerhalb von 48h</span><span class="i18n-en">within 30 days · usually within 48h</span></span></div>
+      </div>
+    </div>
 
-<footer>
-  <div>© ToBeDefined.ai — Privacy Policy v1.0 · Effective 01.05.2026</div>
-</footer>
+    <div class="doc-section" style="border-bottom:1px solid var(--signal-faint);">
+      <h2 class="doc-h2"><span class="num">§ 10</span><span class="i18n-de">Änderungen dieser Erklärung</span><span class="i18n-en">Changes to this policy</span></h2>
+      <p>
+        <span class="i18n-de">Wenn wir diese Erklärung ändern, aktualisieren wir Versionsnummer und Gültigkeitsdatum oben auf der Seite. Über wesentliche Änderungen (was wir erheben, warum, wer Zugriff hat) informieren wir per E-Mail, sofern wir eure Daten noch haben.</span>
+        <span class="i18n-en">If we change this policy, we'll update the version number and effective date at the top of the page. We'll notify anyone whose data we still hold via email about material changes (what we collect, why, or who has access).</span>
+      </p>
+    </div>
+
+    <p class="doc-footnote">
+      <span class="i18n-de">Diese Erklärung ist bewusst in Klartext geschrieben. Falls etwas unklar ist, ist das ein Fehler unsererseits — schreibt uns, wir korrigieren die Formulierung.</span>
+      <span class="i18n-en">This policy is written in plain language on purpose. If anything in it is unclear, that's a mistake on our part — email us and we'll fix the wording.</span>
+    </p>
+
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">TOBEDEFINED<span>.AI</span></div>
+      <div class="footer-links">
+        <a href="impressum.html"><span class="i18n-de">Impressum</span><span class="i18n-en">Imprint</span></a>
+        <a href="index.html"><span class="i18n-de">← Startseite</span><span class="i18n-en">← Home</span></a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  const PAGE_TITLES = {
+    de: 'Datenschutz — ToBeDefined.ai',
+    en: 'Privacy Policy — ToBeDefined.ai'
+  };
+
+  function currentLang(){
+    return document.documentElement.getAttribute('data-lang') || 'de';
+  }
+
+  function setLang(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+    try{ localStorage.setItem('tbd_lang', lang); }catch(e){}
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.setLang === lang);
+    });
+    document.title = PAGE_TITLES[lang];
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> setLang(btn.dataset.setLang));
+  });
+
+  setLang(currentLang());
+</script>
 
 </body>
 </html>
