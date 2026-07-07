@@ -1,0 +1,19 @@
+# ToBeDefined.ai
+
+> ToBeDefined.ai is a five-person software development lab based in Ingolstadt, Bavaria, Germany. We build rapid feasibility studies, MVPs, and AI/autonomy prototypes for organizations working in complex, unfamiliar technical domains — primarily defence, aerospace, and automotive-to-defence pivots. Our proof point: 2nd place out of 22 international teams (11 countries) at the MBDA & brigkAIR Swarm Drone Challenge 2026 (SDC26), Defence Track finale at ILA Berlin, built in 14 weeks with zero prior drone experience.
+
+## Company
+- [Home](https://www.tobedefined.ai/): Positioning, what we offer, how a typical engagement works (Discovery → 2-week Sprint → Go/Stop → MVP), and an honest fit-check for who should (and shouldn't) book us.
+- [The Story](https://www.tobedefined.ai/story.html): Full account of the Swarm Drone Challenge 2026 project — the challenge, the tech stack (Python, FastAPI, OpenCV, ArUco, Kalman filtering, YOLO11n), the result, industry reactions, and team profiles.
+
+## Contact
+- [Contact](https://www.tobedefined.ai/kontakt.html): Book a short call, request a video meeting, or ask a question directly.
+- Email: hello@tobedefined.ai
+
+## Legal
+- [Privacy Policy](https://www.tobedefined.ai/privacy.html)
+- [Imprint](https://www.tobedefined.ai/impressum.html)
+
+## Notes
+- The site is bilingual (German / English). Language is toggled client-side via JavaScript; both languages are served at the same URLs, so there is only one canonical URL per page.
+- Legal entity behind the ToBeDefined.ai brand: ToBe work&care GmbH, Ingolstadt, Germany.
