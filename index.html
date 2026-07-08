@@ -83,7 +83,6 @@
   .hero{padding:76px 28px 56px;max-width:1180px;margin:0 auto;}
   .hero-grid{display:grid;grid-template-columns:1fr;gap:44px;align-items:center;}
   @media(min-width:960px){ .hero-grid{grid-template-columns:1.15fr 1fr;} }
-  .hero-photo{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px;border:1px solid var(--signal-dim);display:block;}
   .hero-photo-cap{margin-top:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.04em;color:var(--dim-2);}
   .hero-inner{max-width:48ch;}
   .headline{font-family:var(--display);font-weight:700;font-size:clamp(38px, 6vw, 72px);line-height:1.08;letter-spacing:-0.015em;color:var(--paper);}
@@ -96,6 +95,32 @@
   .cta-primary:hover{transform:translateY(-1px);box-shadow:0 0 20px rgba(0,255,0,0.35);}
   .cta-secondary{font-family:var(--sans);font-size:15px;font-weight:500;color:var(--dim);border-bottom:1px solid transparent;}
   .cta-secondary:hover{color:var(--paper);border-bottom-color:var(--signal-dim);}
+
+  /* hero swarm visualization — replaces the static team photo */
+  .hero-swarm{
+    position:relative;width:100%;aspect-ratio:4/3;
+    border-radius:3px;border:1px solid var(--signal-dim);
+    background:var(--panel);overflow:hidden;
+  }
+  .hero-swarm::before{
+    content:'';position:absolute;inset:0;z-index:0;
+    background-image:linear-gradient(var(--signal-faint) 1px, transparent 1px),linear-gradient(90deg, var(--signal-faint) 1px, transparent 1px);
+    background-size:26px 26px;pointer-events:none;
+  }
+  .hero-swarm::after{
+    content:'';position:absolute;left:0;right:0;height:120px;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg, transparent, rgba(0,255,0,0.05), transparent);
+    animation:sweep 5.5s linear infinite;
+  }
+  @keyframes sweep{0%{top:-120px;}100%{top:100%;}}
+  .hero-swarm canvas{position:relative;z-index:1;width:100%;height:100%;display:block;}
+  .hero-swarm-hud{
+    position:absolute;top:12px;left:14px;z-index:2;
+    display:flex;align-items:center;gap:7px;
+    font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dim);
+  }
+  .hero-swarm-hud.br{top:auto;left:auto;bottom:12px;right:14px;color:var(--dim-2);}
+  .hud-dot{width:6px;height:6px;border-radius:50%;background:var(--signal);box-shadow:0 0 6px var(--signal);animation:pulse 2.4s ease-in-out infinite;flex-shrink:0;}
 
   /* mega proof — kept simple, no glitch */
   .megaproof{padding:64px 0;text-align:center;border-top:1px solid var(--signal-dim);border-bottom:1px solid var(--signal-dim);overflow:hidden;}
@@ -227,6 +252,8 @@
     .ticker-track{animation:none;}
     .megaproof-item{opacity:1;transform:none;transition:none;}
     .lab-cursor{animation:none;}
+    .hero-swarm::after{animation:none;display:none;}
+    .hud-dot{animation:none;}
   }
 
   /* footer */
@@ -299,8 +326,17 @@
       </div>
     </div>
     <div>
-      <img class="hero-photo" src="https://www.tobedefined.ai/team-group.jpeg" alt="Team ToBeDefined.ai">
-      <div class="hero-photo-cap">TEAM TOBEDEFINED.AI · SWARM DRONE CHALLENGE, ILA BERLIN 2026</div>
+      <div class="hero-swarm" id="heroSwarm" aria-hidden="true">
+        <div class="hero-swarm-hud"><span class="hud-dot"></span><span>SWARM_SIM · LIVE</span></div>
+        <div class="hero-swarm-hud br">
+          <span class="i18n-de">GPS: AUS · VISION: AN</span><span class="i18n-en">GPS: OFF · VISION: ON</span>
+        </div>
+        <canvas id="swarmCanvas"></canvas>
+      </div>
+      <div class="hero-photo-cap">
+        <span class="i18n-de">LIVE-SIMULATION · 7 DROHNEN, AUTONOM IM RAUM KOORDINIERT, GPS-FREI — WIE BEI ILA BERLIN 2026</span>
+        <span class="i18n-en">LIVE SIMULATION · 7 DRONES, AUTONOMOUSLY COORDINATED IN 3D SPACE, GPS-FREE — AS FLOWN AT ILA BERLIN 2026</span>
+      </div>
     </div>
     </div>
   </header>
@@ -701,6 +737,273 @@
   });
 
   setLang(currentLang());
+
+  /* ============== HERO SWARM VISUALIZATION — 3D ==============
+     Live 3D drone swarm, deliberately kept sparse and readable:
+     7 quadcopters flying in loose formation inside an invisible volume,
+     camera slowly orbiting, true perspective depth. Boids flocking with
+     strong separation so the swarm never collapses into a knot. Mesh
+     links + traveling data pulses stand in for the GPS-free coordination
+     the team actually flew at ILA Berlin. */
+  (function(){
+    const canvas = document.getElementById('swarmCanvas');
+    if(!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext('2d');
+
+    /* ---------- config ---------- */
+    const N = 7;
+    const ROOM = 1.0;           // half-size of the (invisible) flight volume
+    const ROOM_Y = 0.72;        // vertical half-size — frame is wider than tall
+    const LINK_DIST = 1.5;      // mesh link range (normalized units)
+    const TILT = -0.38;         // camera tilt — looking slightly down
+    const ROT_SPEED = 0.00012;  // camera orbit, radians/ms
+
+    // boids (per-frame, ~60fps) — tuned for a LOOSE formation
+    const MAX_SPEED = 0.0042;
+    const MIN_SPEED = 0.0016;
+    const NEIGHBOR_R = 1.2;
+    const SEP_R = 0.6;          // large personal space → no clumping
+    const W_COHESION = 0.00012; // weak pull together
+    const W_ALIGN = 0.018;
+    const W_SEP = 0.0035;       // strong push apart
+    const W_WALL = 0.0011;
+    const WALL_SOFT = 0.86;    // drones use nearly the full volume before steering back
+
+    const ARM = 0.085;          // drone arm length in normalized world units
+    const R_BODY = 9.5;         // px base body size (scaled by perspective)
+    const R_BODY_LEADER = 13;
+
+    /* ---------- state ---------- */
+    let cssW = 0, cssH = 0, dpr = 1;
+    let FL = 300, CAM = 480, worldR = 100;
+
+    // start well spread out: seeded on a loose ring, not random clump
+    const drones = [];
+    for(let i=0;i<N;i++){
+      const ringA = (i/N)*Math.PI*2;
+      const sp = MIN_SPEED + Math.random()*(MAX_SPEED-MIN_SPEED);
+      const a1 = Math.random()*Math.PI*2, a2 = (Math.random()-0.5)*1.0;
+      drones.push({
+        x: Math.cos(ringA)*0.8 + (Math.random()-0.5)*0.2,
+        y: (Math.random()*2-1)*0.6,
+        z: Math.sin(ringA)*0.8 + (Math.random()-0.5)*0.2,
+        vx: Math.cos(a1)*Math.cos(a2)*sp,
+        vy: Math.sin(a2)*sp*0.5,
+        vz: Math.sin(a1)*Math.cos(a2)*sp,
+        leader: i===0,
+        rotorPhase: Math.random()*Math.PI*2
+      });
+    }
+
+    /* ---------- sizing ---------- */
+    function resize(){
+      const rect = canvas.getBoundingClientRect();
+      cssW = Math.max(1, rect.width);
+      cssH = Math.max(1, rect.height);
+      dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+      canvas.width = Math.round(cssW*dpr);
+      canvas.height = Math.round(cssH*dpr);
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      const ref = Math.min(cssW, cssH);
+      worldR = ref*0.66;
+      FL = ref*1.5;
+      CAM = ref*1.15;
+    }
+    if(window.ResizeObserver){ new ResizeObserver(resize).observe(canvas); }
+    else { window.addEventListener('resize', resize); }
+    resize();
+
+    /* ---------- camera ---------- */
+    const cosT = Math.cos(TILT), sinT = Math.sin(TILT);
+    function project(x, y, z, cosR, sinR){
+      // orbit around Y axis
+      const rx = x*cosR + z*sinR;
+      const rz = -x*sinR + z*cosR;
+      // tilt around X axis
+      const ty = y*cosT - rz*sinT;
+      const tz = y*sinT + rz*cosT;
+
+      const wx = rx*worldR, wy = ty*worldR, wz = tz*worldR;
+      const denom = FL + wz + CAM;
+      const s = FL/denom;
+      return { sx: cssW/2 + wx*s, sy: cssH/2 + wy*s, scale: s, depth: wz };
+    }
+
+    /* ---------- boids ---------- */
+    function flock(){
+      for(let i=0;i<N;i++){
+        const d = drones[i];
+        let cx=0, cy=0, cz=0, ax=0, ay=0, az=0, sx=0, sy=0, sz=0, count=0;
+
+        for(let j=0;j<N;j++){
+          if(j===i) continue;
+          const o = drones[j];
+          const dx=o.x-d.x, dy=o.y-d.y, dz=o.z-d.z;
+          const dist = Math.sqrt(dx*dx+dy*dy+dz*dz);
+          if(dist < NEIGHBOR_R){
+            count++;
+            cx+=o.x; cy+=o.y; cz+=o.z;
+            ax+=o.vx; ay+=o.vy; az+=o.vz;
+            if(dist < SEP_R && dist > 0.0001){
+              const push = (SEP_R-dist)/SEP_R/dist;
+              sx -= dx*push; sy -= dy*push; sz -= dz*push;
+            }
+          }
+        }
+
+        if(count>0){
+          d.vx += ((cx/count)-d.x)*W_COHESION + ((ax/count)-d.vx)*W_ALIGN + sx*W_SEP;
+          d.vy += ((cy/count)-d.y)*W_COHESION + ((ay/count)-d.vy)*W_ALIGN + sy*W_SEP;
+          d.vz += ((cz/count)-d.z)*W_COHESION + ((az/count)-d.vz)*W_ALIGN + sz*W_SEP;
+        }
+
+        // soft walls — steer back toward the middle of the volume
+        if(Math.abs(d.x) > WALL_SOFT) d.vx -= Math.sign(d.x)*W_WALL*(Math.abs(d.x)-WALL_SOFT)/(ROOM-WALL_SOFT);
+        if(Math.abs(d.y) > WALL_SOFT*ROOM_Y) d.vy -= Math.sign(d.y)*W_WALL*1.4*(Math.abs(d.y)-WALL_SOFT*ROOM_Y)/(ROOM_Y-WALL_SOFT*ROOM_Y);
+        if(Math.abs(d.z) > WALL_SOFT) d.vz -= Math.sign(d.z)*W_WALL*(Math.abs(d.z)-WALL_SOFT)/(ROOM-WALL_SOFT);
+
+        // speed clamp
+        const sp = Math.sqrt(d.vx*d.vx + d.vy*d.vy + d.vz*d.vz);
+        if(sp > MAX_SPEED){ const k=MAX_SPEED/sp; d.vx*=k; d.vy*=k; d.vz*=k; }
+        else if(sp < MIN_SPEED && sp > 0.00001){ const k=MIN_SPEED/sp; d.vx*=k; d.vy*=k; d.vz*=k; }
+
+        d.x += d.vx; d.y += d.vy; d.z += d.vz;
+
+        // hard clamp inside the volume
+        d.x = Math.max(-ROOM+0.03, Math.min(ROOM-0.03, d.x));
+        d.y = Math.max(-ROOM_Y+0.03, Math.min(ROOM_Y-0.03, d.y));
+        d.z = Math.max(-ROOM+0.03, Math.min(ROOM-0.03, d.z));
+      }
+    }
+
+    /* ---------- drone rendering (true 3D orientation) ---------- */
+    function drawDrone(d, cosR, sinR, ts){
+      const c = project(d.x, d.y, d.z, cosR, sinR);
+      const yaw = Math.atan2(d.vz, d.vx);
+
+      // 4 arm tips + nose in world space (drone-local horizontal plane)
+      const angles = [Math.PI/4, 3*Math.PI/4, 5*Math.PI/4, 7*Math.PI/4];
+      const tips = angles.map(function(a){
+        const wa = yaw + a;
+        return project(d.x + Math.cos(wa)*ARM, d.y, d.z + Math.sin(wa)*ARM, cosR, sinR);
+      });
+      const nose = project(d.x + Math.cos(yaw)*ARM*1.45, d.y, d.z + Math.sin(yaw)*ARM*1.45, cosR, sinR);
+
+      const fogA = d._fog;
+      const bodyR = Math.max(2.6, (d.leader ? R_BODY_LEADER : R_BODY) * c.scale);
+      const rotorR = bodyR * 0.85;
+
+      ctx.strokeStyle = 'rgba(0,255,0,' + (fogA*0.9).toFixed(3) + ')';
+      ctx.lineWidth = Math.max(0.9, bodyR*0.22);
+
+      // arms
+      tips.forEach(function(t){
+        ctx.beginPath(); ctx.moveTo(c.sx, c.sy); ctx.lineTo(t.sx, t.sy); ctx.stroke();
+      });
+
+      // nose tick (heading)
+      ctx.beginPath(); ctx.moveTo(c.sx, c.sy); ctx.lineTo(nose.sx, nose.sy); ctx.stroke();
+
+      // rotors: perspective-flattened discs + spinning blade
+      const blade = ts*0.02 + d.rotorPhase;
+      tips.forEach(function(t, k){
+        ctx.beginPath();
+        ctx.ellipse(t.sx, t.sy, rotorR, rotorR*0.42, 0, 0, Math.PI*2);
+        ctx.stroke();
+        const ba = blade + k*1.3;
+        ctx.beginPath();
+        ctx.moveTo(t.sx - Math.cos(ba)*rotorR, t.sy - Math.sin(ba)*rotorR*0.42);
+        ctx.lineTo(t.sx + Math.cos(ba)*rotorR, t.sy + Math.sin(ba)*rotorR*0.42);
+        ctx.stroke();
+      });
+
+      // body / beacon
+      ctx.beginPath();
+      ctx.arc(c.sx, c.sy, bodyR*0.5, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(0,255,0,' + fogA.toFixed(3) + ')';
+      ctx.shadowColor = 'rgba(0,255,0,0.9)';
+      ctx.shadowBlur = (d.leader ? 16 : 10) * fogA;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      if(d.leader){
+        ctx.beginPath();
+        ctx.arc(c.sx, c.sy, bodyR*1.15, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(0,255,0,' + (fogA*0.5).toFixed(3) + ')';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+
+    /* ---------- main loop ---------- */
+    function tick(ts){
+      const theta = ts*ROT_SPEED;
+      const cosR = Math.cos(theta), sinR = Math.sin(theta);
+
+      if(!reduce) flock();
+
+      drones.forEach(function(d){
+        const p = project(d.x, d.y, d.z, cosR, sinR);
+        d._sx = p.sx; d._sy = p.sy; d._depth = p.depth; d._scale = p.scale;
+      });
+
+      // fog from perspective scale
+      const scales = drones.map(function(d){ return d._scale; });
+      const sMin = Math.min.apply(null, scales), sMax = Math.max.apply(null, scales);
+      const range = Math.max(0.0001, sMax - sMin);
+      drones.forEach(function(d){ d._fog = 0.42 + 0.58*((d._scale - sMin)/range); });
+
+      ctx.clearRect(0, 0, cssW, cssH);
+
+      // mesh links (3D distance) — far first
+      const links = [];
+      for(let i=0;i<N;i++){
+        for(let j=i+1;j<N;j++){
+          const a = drones[i], b = drones[j];
+          const dx=a.x-b.x, dy=a.y-b.y, dz=a.z-b.z;
+          const dist = Math.sqrt(dx*dx+dy*dy+dz*dz);
+          if(dist < LINK_DIST){
+            links.push({
+              a:a, b:b, ai:i, bj:j,
+              alpha: (1 - dist/LINK_DIST)*0.45*((a._fog+b._fog)/2),
+              depth: (a._depth+b._depth)/2
+            });
+          }
+        }
+      }
+      links.sort(function(p,q){ return q.depth - p.depth; });
+      links.forEach(function(l){
+        ctx.beginPath();
+        ctx.moveTo(l.a._sx, l.a._sy);
+        ctx.lineTo(l.b._sx, l.b._sy);
+        ctx.strokeStyle = 'rgba(0,255,0,' + l.alpha.toFixed(3) + ')';
+        ctx.lineWidth = Math.max(0.6, 1.3*((l.a._fog+l.b._fog)/2));
+        ctx.stroke();
+      });
+
+      // data pulses along links
+      links.forEach(function(l){
+        if(l.alpha < 0.06) return;
+        const phase = ((l.ai*41 + l.bj*23)%97)/97;
+        const t = reduce ? phase : ((ts*0.00065 + phase)%1);
+        const px = l.a._sx + (l.b._sx - l.a._sx)*t;
+        const py = l.a._sy + (l.b._sy - l.a._sy)*t;
+        ctx.beginPath();
+        ctx.arc(px, py, 1.6, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(170,255,170,' + Math.min(1, l.alpha*2.4).toFixed(3) + ')';
+        ctx.fill();
+      });
+
+      // drones — far first, near on top
+      drones.slice().sort(function(p,q){ return q._depth - p._depth; })
+        .forEach(function(d){ drawDrone(d, cosR, sinR, ts); });
+
+      if(!reduce) requestAnimationFrame(tick);
+    }
+
+    if(reduce){ tick(0); }
+    else { requestAnimationFrame(tick); }
+  })();
 </script>
 
   <footer class="site-footer">
