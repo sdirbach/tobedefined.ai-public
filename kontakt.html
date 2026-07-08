@@ -178,7 +178,7 @@
         <div class="form-row">
           <input type="text" id="kName" required data-ph-de="Name" data-ph-en="Name" placeholder="Name">
           <input type="email" id="kEmail" required data-ph-de="E-Mail" data-ph-en="Email" placeholder="E-Mail">
-          <input type="email" id="kmobil" required data-ph-de="Mobil" data-ph-en="Email" placeholder="Mobil">
+          <input type="tel" id="kmobil" required data-ph-de="Mobilnummer" data-ph-en="Email" placeholder="Mobile phone">
         </div>
         <div id="questionField">
           <textarea id="kQuestion" rows="4" data-ph-de="Eure Frage — kurz reicht." data-ph-en="Your question — short is fine." placeholder="Eure Frage — kurz reicht."></textarea>
@@ -247,6 +247,7 @@
     const name = document.getElementById('kName').value.trim();
     const email = document.getElementById('kEmail').value.trim();
     const question = questionInput.value.trim();
+    const phone = document.getElementById('kmobil').value.trim();
 
     const successEls = [document.getElementById('kSuccessDe'), document.getElementById('kSuccessEn')];
     const errorEls = [document.getElementById('kErrorDe'), document.getElementById('kErrorEn')];
@@ -254,7 +255,7 @@
     errorEls.forEach(el=>el.style.display = 'none');
     submitBtn.disabled = true;
 
-    const payload = { name, email, anliegen: modeLabel };
+    const payload = { name, email, phone, anliegen: modeLabel };
     if(selected.value === 'question' && question) payload.frage = question;
 
     try{
@@ -280,9 +281,15 @@
       const subject = lang === 'de'
         ? `${modeLabel} — Anfrage von ${name}`
         : `${modeLabel} — Request from ${name}`;
-      let bodyText = lang === 'de'
-        ? `Name: ${name}\nE-Mail: ${email}\nGewünscht: ${modeLabel}`
-        : `Name: ${name}\nEmail: ${email}\nRequested: ${modeLabel}`;
+let bodyText = lang === 'de'
+  ? `Name: ${name}
+E-Mail: ${email}
+Telefon: ${phone}
+Gewünscht: ${modeLabel}`
+  : `Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Requested: ${modeLabel}`;
       if(selected.value === 'question' && question){
         bodyText += lang === 'de' ? `\n\nFrage:\n${question}` : `\n\nQuestion:\n${question}`;
       }
